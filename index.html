@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leonard Zirk | Creative Strategist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            background-color: #000;
+            user-select: none;
+        }
+        #video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        .menu-bar {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        .dock {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 1.5rem;
+            padding: 8px;
+            display: flex;
+            gap: 12px;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .dock-item {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease, margin-bottom 0.2s ease;
+            cursor: pointer;
+        }
+        .dock-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 1rem;
+        }
+        .dock-item:hover {
+            transform: scale(1.2);
+            margin-bottom: 10px;
+        }
+
+        /* --- Desktop-Only Icon Styles --- */
+        .desktop-icon {
+            color: white;
+            text-align: center;
+            width: 90px;
+            position: absolute;
+            cursor: grab;
+            z-index: 100;
+        }
+        .desktop-icon img, .desktop-icon .folder-icon-svg {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto;
+        }
+        .desktop-icon p {
+            margin-top: 5px;
+            font-size: 13px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+            word-wrap: break-word;
+        }
+        
+        /* --- Mobile-First Window Styles --- */
+        .window {
+            position: fixed; /* Fullscreen on mobile */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(30, 30, 30, 0.8);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            z-index: 500;
+            display: flex;
+            flex-direction: column;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* --- Desktop Window Overrides (using Tailwind's lg prefix) --- */
+        .lg\:window-desktop {
+            position: absolute !important;
+            top: 100px !important;
+            left: 100px !important;
+            width: 600px !important;
+            height: 70vh !important;
+            border-radius: 12px !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .window-header {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            background-color: rgba(60, 60, 60, 0.8);
+            cursor: default; /* Default cursor */
+            color: white;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .lg\:window-desktop .window-header {
+            cursor: move; /* Draggable cursor on desktop */
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+        .traffic-lights { display: flex; gap: 8px; margin-right: 8px; }
+        .traffic-light { width: 12px; height: 12px; border-radius: 50%; cursor: pointer; }
+        .close { background-color: #ff5f56; }
+        .minimize { background-color: #ffbd2e; }
+        .maximize { background-color: #27c93f; }
+        .window-body { padding: 20px; color: #e0e0e0; overflow-y: auto; flex-grow: 1; }
+        .window-body h2 { font-size: 1.2rem; font-weight: 600; color: white; margin-top: 1.5rem; margin-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 0.25rem; }
+        .window-body p { margin-bottom: 0.75rem; line-height: 1.6; }
+        .cv-header { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1rem; margin-bottom: 2rem; }
+        @media (min-width: 640px) { /* sm breakpoint */
+            .cv-header { flex-direction: row; text-align: left; }
+        }
+        .cv-header img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; }
+        .cv-header-info h1 { font-size: 2rem; font-weight: 700; color: white; }
+        
+        /* --- Mobile Icon Grid & Pages --- */
+        #mobile-view-wrapper {
+            padding-top: 5rem;
+            height: calc(100% - 90px); /* Full height minus menubar and dock allowance */
+            display: flex;
+            flex-direction: column;
+        }
+        #mobile-icons-container {
+            flex-grow: 1;
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            /* Hide scrollbar */
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        #mobile-icons-container::-webkit-scrollbar {
+            display: none; /* Safari and Chrome */
+        }
+        .mobile-page {
+            flex: 0 0 100%;
+            scroll-snap-align: start;
+            padding: 0 1.25rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem 1rem;
+            align-content: start;
+        }
+        @media (min-width: 640px) { /* sm breakpoint */
+            .mobile-page { grid-template-columns: repeat(4, 1fr); }
+        }
+        .mobile-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+        }
+        .mobile-icon .icon-bg {
+            width: 64px;
+            height: 64px;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255,255,255,0.1);
+        }
+        .mobile-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 1rem;
+        }
+        .mobile-icon .fa-folder, .mobile-icon .fa-file-lines {
+            font-size: 32px;
+            color: #60a5fa;
+        }
+        .mobile-icon p {
+            font-size: 12px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+            word-wrap: break-word;
+            width: 80px;
+        }
+        #pagination-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 1rem 0;
+        }
+        .pagination-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.4);
+            transition: background-color 0.3s ease;
+        }
+        .pagination-dot.active {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+    </style>
+</head>
+<body class="bg-black">
+
+    <video id="video-bg" autoplay loop muted playsinline>
+        <source src="https://ik.imagekit.io/ex6ksvxsvk/website%20background%20vid.mp4?updatedAt=1752664266524" type="video/mp4">
+    </video>
+
+    <!-- Menu Bar -->
+    <div class="menu-bar px-4 py-1 text-sm">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-apple" viewBox="0 0 16 16"><path d="M11.182.008C10.148-.03 9.923.023 8.857 1.18c-1.066 1.156-.902 2.482-.878 2.516s.579.09 1.672-.93c1.092-1.02 1.869-2.059 2.354-2.468C12.433.056 12.318 0 11.182.007Zm.622 1.422a3.48 3.48 0 0 0-2.233 2.233c.213.01.426.01.639.01.213 0 .426 0 .64-.01A3.48 3.48 0 0 0 11.804 1.43Z"/><path d="M8 1a2.5 2.5 0 0 1 2.5 2.5A2.5 2.5 0 0 1 8 6a2.5 2.5 0 0 1-2.5-2.5A2.5 2.5 0 0 1 8 1Zm0 9.5A2.5 2.5 0 0 1 5.5 13a2.5 2.5 0 0 1 2.5 2.5A2.5 2.5 0 0 1 8 13a2.5 2.5 0 0 1 2.5-2.5A2.5 2.5 0 0 1 8 10.5Z"/><path d="M4.176 5.633A6.5 6.5 0 0 0 8 15a6.5 6.5 0 0 0 3.824-9.367c.213.01.426.01.64.01.213 0 .426 0 .639-.01A6.5 6.5 0 0 0 16 8a6.5 6.5 0 0 0-6.5-6.5A6.5 6.5 0 0 0 3.176 8c0 .213.01.426.01.64 0 .213 0 .426-.01.639A6.5 6.5 0 0 0 4.176 5.633Z"/></svg>
+                <span class="font-bold hidden sm:inline">Finder</span>
+                <span class="hidden sm:inline">File</span>
+                <span class="hidden sm:inline">Edit</span>
+                <span class="hidden sm:inline">View</span>
+            </div>
+            <div id="time" class="font-medium"></div>
+        </div>
+    </div>
+
+    <!-- Desktop Icons (Hidden on mobile) -->
+    <div id="desktop-icons-container" class="p-5 hidden lg:block">
+        <div id="cv-icon-desktop" class="desktop-icon" style="top: 40px; right: 20px;">
+             <img src="https://ik.imagekit.io/ex6ksvxsvk/mailicon.png?updatedAt=1752667698506" alt="CV Icon" class="rounded-lg">
+             <p>CV Leonard Zirk Juni.pdf</p>
+        </div>
+        <div data-url="https://www.linkedin.com/in/leonard-zirk-9687ba223/" class="desktop-icon link-icon" style="top: 140px; right: 20px;">
+            <img src="https://ik.imagekit.io/ex6ksvxsvk/linkedin.png?updatedAt=1752678709680" alt="LinkedIn Icon" class="rounded-md">
+            <p>LinkedIn.url</p>
+        </div>
+        <div data-url="https://github.com/Devilthatwearsprada" class="desktop-icon link-icon" style="top: 240px; right: 20px;">
+            <img src="https://ik.imagekit.io/ex6ksvxsvk/github.png?updatedAt=1752679143531" alt="GitHub Icon" class="rounded-full">
+            <p>GitHub.url</p>
+        </div>
+        <div id="projects-icon-desktop" class="desktop-icon" style="top: 40px; left: 20px;">
+            <i class="fas fa-folder fa-3x" style="color: #60a5fa;"></i>
+            <p>Projects</p>
+        </div>
+    </div>
+
+    <!-- Mobile View Wrapper (Hidden on desktop) -->
+    <div id="mobile-view-wrapper" class="lg:hidden">
+        <div id="mobile-icons-container">
+            <!-- Page 1 -->
+            <div class="mobile-page">
+                <div id="cv-icon-mobile" class="mobile-icon">
+                    <div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/mailicon.png?updatedAt=1752667698506" alt="CV Icon"></div>
+                    <p>CV Leonard Zirk</p>
+                </div>
+                <div id="projects-icon-mobile" class="mobile-icon">
+                    <div class="icon-bg"><i class="fas fa-folder"></i></div>
+                    <p>Projects</p>
+                </div>
+                <div data-url="https://www.linkedin.com/in/leonard-zirk-9687ba223/" class="mobile-icon link-icon">
+                    <div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/linkedin.png?updatedAt=1752678709680" alt="LinkedIn Icon"></div>
+                    <p>LinkedIn</p>
+                </div>
+                <div data-url="https://github.com/Devilthatwearsprada" class="mobile-icon link-icon">
+                    <div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/github.png?updatedAt=1752679143531" alt="GitHub Icon" class="rounded-full"></div>
+                    <p>GitHub</p>
+                </div>
+                <div data-url="https://www.instagram.com/your-username" class="mobile-icon link-icon">
+                    <div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/instagramicon.webp?updatedAt=1752678971026" alt="Instagram Icon"></div>
+                    <p>Instagram</p>
+                </div>
+                <div data-url="https://www.tiktok.com/@leonardzirk" class="mobile-icon link-icon">
+                    <div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/tik%20tok%20icon.png?updatedAt=1752678704069" alt="TikTok Icon"></div>
+                    <p>TikTok</p>
+                </div>
+            </div>
+            <!-- Page 2 -->
+            <div class="mobile-page">
+                <!-- Add more icons here for the second page -->
+                 <div data-url="https://your-username.substack.com" class="mobile-icon link-icon">
+                    <div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/substack.png?updatedAt=1752679004979" class="rounded-md" alt="Substack Icon"></div>
+                    <p>Substack</p>
+                </div>
+                 <div data-url="https://klipp-linding.science/index.php/en/" class="mobile-icon link-icon">
+                    <div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/klipplindinglab_256.png?updatedAt=1752678845945" class="rounded-md" alt="Klipp Linding Lab Icon"></div>
+                    <p>Klipp Linding Lab</p>
+                </div>
+            </div>
+        </div>
+        <div id="pagination-dots"></div>
+    </div>
+
+    <!-- Windows -->
+    <div id="cv-window" class="window hidden"><div class="window-content"><!-- Content Injected by JS --></div></div>
+    <div id="contact-window" class="window hidden"><div class="window-content"><!-- Content Injected by JS --></div></div>
+    <div id="projects-window" class="window hidden"><div class="window-content"><!-- Content Injected by JS --></div></div>
+    <div id="story-window" class="window hidden"><div class="window-content"><!-- Content Injected by JS --></div></div>
+
+    <!-- Dock -->
+    <div class="dock">
+        <div id="cv-dock-icon" class="dock-item"><img src="https://placehold.co/48x48/7c3aed/ffffff?text=CV" alt="CV" class="rounded-lg"></div>
+        <div id="contact-dock-icon" class="dock-item"><img src="https://ik.imagekit.io/ex6ksvxsvk/mailicon.png?updatedAt=1752667698506" alt="Mail"></div>
+        <div class="dock-item"><img src="https://placehold.co/48x48/db2777/ffffff?text=P" alt="Photos" class="rounded-lg"></div>
+        <div class="dock-item"><img src="https://placehold.co/48x48/16a34a/ffffff?text=S" alt="Safari" class="rounded-lg"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const timeEl = document.getElementById('time');
+            let isDesktop = window.innerWidth >= 1024;
+
+            // --- Clock ---
+            function updateTime() {
+                const now = new Date();
+                const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+                timeEl.textContent = now.toLocaleDateString('en-US', options).replace(',', '');
+            }
+            updateTime();
+            setInterval(updateTime, 1000 * 60);
+
+            // --- Window Management ---
+            const windows = document.querySelectorAll('.window');
+            
+            function openWindow(windowEl) {
+                windows.forEach(w => w.style.zIndex = 500);
+                windowEl.classList.remove('hidden');
+                windowEl.style.zIndex = 501;
+                if (isDesktop) {
+                    windowEl.classList.add('lg:window-desktop');
+                } else {
+                    windowEl.classList.remove('lg:window-desktop');
+                }
+            }
+
+            function closeWindow(windowEl) {
+                windowEl.classList.add('hidden');
+            }
+
+            // --- Draggable Logic (Desktop Only) ---
+            function makeWindowDraggable(windowEl) {
+                const header = windowEl.querySelector('.window-header');
+                if (!header) return;
+                let isDragging = false, offsetX, offsetY;
+
+                const onMouseDown = (e) => {
+                    if (!isDesktop) return;
+                    isDragging = true;
+                    const rect = windowEl.getBoundingClientRect();
+                    offsetX = e.clientX - rect.left;
+                    offsetY = e.clientY - rect.top;
+                    header.style.cursor = 'grabbing';
+                    openWindow(windowEl); // Bring to front
+                };
+
+                const onMouseMove = (e) => {
+                    if (!isDragging || !isDesktop) return;
+                    windowEl.style.left = `${e.clientX - offsetX}px`;
+                    windowEl.style.top = `${e.clientY - offsetY}px`;
+                };
+
+                const onMouseUp = () => {
+                    isDragging = false;
+                    if (header) header.style.cursor = 'move';
+                };
+                
+                header.addEventListener('mousedown', onMouseDown);
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('mouseup', onMouseUp);
+            }
+
+            function makeIconDraggable(iconEl) {
+                let isDragging = false, hasDragged = false, offsetX, offsetY;
+                
+                iconEl.addEventListener('mousedown', (e) => {
+                    if (!isDesktop) return;
+                    isDragging = true;
+                    hasDragged = false;
+                    offsetX = e.clientX - iconEl.getBoundingClientRect().left;
+                    offsetY = e.clientY - iconEl.getBoundingClientRect().top;
+                    iconEl.style.cursor = 'grabbing';
+                    iconEl.style.zIndex = 101;
+                });
+
+                document.addEventListener('mousemove', (e) => {
+                    if (!isDragging || !isDesktop) return;
+                    hasDragged = true;
+                    iconEl.style.left = `${e.clientX - offsetX}px`;
+                    iconEl.style.top = `${e.clientY - offsetY}px`;
+                });
+
+                document.addEventListener('mouseup', () => {
+                    if (!isDesktop) return;
+                    isDragging = false;
+                    iconEl.style.cursor = 'grab';
+                    iconEl.style.zIndex = 100;
+                    setTimeout(() => { hasDragged = false; }, 0);
+                });
+                
+                return () => hasDragged;
+            }
+
+            // --- Content Injection ---
+            function injectContent() {
+                // CV Window
+                document.getElementById('cv-window').querySelector('.window-content').innerHTML = `
+                    <div class="window-header"><div class="traffic-lights"><div class="traffic-light close"></div></div><span class="flex-grow text-center">CV Leonard Zirk Juni.pdf</span></div>
+                    <div class="window-body">
+                        <div class="cv-header"><img src="https://i.imgur.com/3f5tJ1e.png" alt="Leonard Zirk"><div class="cv-header-info"><h1>LEONARD ZIRK</h1><p>+49 1637150123 | leonard.zirk@gmail.com</p></div></div>
+                        <p class="italic">"A creative strategist with a scientific background developing pitches and social media campaigns for global brands. Seeking to leverage a unique blend of creative marketing and scientific expertise in a Science Communication / Product Management role."</p>
+                        <h2>Work Experience</h2><p><strong>Guest Scientist</strong> | Klipp Linding Lab (1.4.2025 - 1.2.2025)<br>Development of Hybrid Modeling of Cell Cycle Protein and mRNA.</p>
+                        <p><strong>Creative Strategist</strong> | OZMOZE GMBH (1.6.2024 - 1.1.2025)<br>Project strategies in Social Media, PR-Events for Telekom, Tinder, Duolingo. Preparing Pitch Decks for: Funk, Huawei, Telekom, Spotify.</p>
+                        <h2>Education</h2><p><strong>BACHELOR BIOLOGY</strong> | HUMBOLDT UNIVERSITÄT (16.10.2020 - 1.6.2025)</p>
+                    </div>`;
+
+                // Contact Window
+                document.getElementById('contact-window').querySelector('.window-content').innerHTML = `
+                    <div class="window-header"><div class="traffic-lights"><div class="traffic-light close"></div></div><span class="flex-grow text-center">Contact Me</span></div>
+                    <div class="window-body"><form><div class="mb-4"><label class="block mb-2 text-ccc" for="name">Name</label><input class="w-full bg-black/30 border border-white/20 rounded-lg p-2 text-white" type="text" id="name" required></div><div class="mb-4"><label class="block mb-2 text-ccc" for="email">Your Email</label><input class="w-full bg-black/30 border border-white/20 rounded-lg p-2 text-white" type="email" id="email" required></div><div class="mb-4"><label class="block mb-2 text-ccc" for="message">Message</label><textarea class="w-full bg-black/30 border border-white/20 rounded-lg p-2 text-white" id="message" rows="4" required></textarea></div><button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg font-medium">Send</button></form></div>`;
+
+                // Projects Window
+                document.getElementById('projects-window').querySelector('.window-content').innerHTML = `
+                    <div class="window-header"><div class="traffic-lights"><div class="traffic-light close"></div></div><span class="flex-grow text-center">Projects</span></div>
+                    <div class="window-body p-4 flex gap-4 items-start">
+                        <div id="story-file-icon" class="mobile-icon"><div class="icon-bg"><i class="fas fa-file-lines"></i></div><p>My Story.txt</p></div>
+                    </div>`;
+                
+                // Story Window
+                document.getElementById('story-window').querySelector('.window-content').innerHTML = `
+                    <div class="window-header"><div class="traffic-lights"><div class="traffic-light close"></div></div><span class="flex-grow text-center">My Story.txt</span></div>
+                    <div class="window-body">
+                        <h2 class="text-white font-bold text-xl mb-4">My Journey</h2>
+                        <p>This is where the story of my projects begins. It's a tale of curiosity, late-night coding sessions, and the thrill of bringing ideas to life.</p>
+                        <p>From a simple "Hello, World!" to complex applications, every project has been a stepping stone, teaching me valuable lessons in persistence and problem-solving. This space will document that evolution.</p>
+                    </div>`;
+            }
+
+            // --- Mobile Pagination ---
+            function setupPagination() {
+                const container = document.getElementById('mobile-icons-container');
+                const dotsContainer = document.getElementById('pagination-dots');
+                const pages = container.querySelectorAll('.mobile-page');
+                if (pages.length <= 1) return;
+
+                dotsContainer.innerHTML = '';
+                pages.forEach(() => {
+                    dotsContainer.innerHTML += `<div class="pagination-dot"></div>`;
+                });
+
+                const dots = dotsContainer.querySelectorAll('.pagination-dot');
+                const updateDots = () => {
+                    const pageIndex = Math.round(container.scrollLeft / container.clientWidth);
+                    dots.forEach((dot, index) => {
+                        dot.classList.toggle('active', index === pageIndex);
+                    });
+                };
+                
+                container.addEventListener('scroll', updateDots, { passive: true });
+                updateDots(); // Initial call
+            }
+
+            // --- Event Listeners Setup ---
+            function setupEventListeners() {
+                // Close buttons
+                windows.forEach(w => {
+                    w.querySelector('.close').addEventListener('click', () => closeWindow(w));
+                });
+
+                // Window-opening icons
+                const cvWindow = document.getElementById('cv-window');
+                document.getElementById('cv-icon-desktop')?.addEventListener('click', () => openWindow(cvWindow));
+                document.getElementById('cv-icon-mobile')?.addEventListener('click', () => openWindow(cvWindow));
+                document.getElementById('cv-dock-icon')?.addEventListener('click', () => openWindow(cvWindow));
+
+                const contactWindow = document.getElementById('contact-window');
+                document.getElementById('contact-dock-icon')?.addEventListener('click', () => openWindow(contactWindow));
+                
+                const projectsWindow = document.getElementById('projects-window');
+                document.getElementById('projects-icon-desktop')?.addEventListener('click', () => openWindow(projectsWindow));
+                document.getElementById('projects-icon-mobile')?.addEventListener('click', () => openWindow(projectsWindow));
+                
+                const storyWindow = document.getElementById('story-window');
+                document.getElementById('projects-window').querySelector('#story-file-icon')?.addEventListener('click', () => openWindow(storyWindow));
+
+                // Link icons (mobile and desktop)
+                document.querySelectorAll('.link-icon').forEach(icon => {
+                    const wasDragged = isDesktop ? makeIconDraggable(icon) : () => false;
+                    icon.addEventListener('click', () => {
+                        if (!wasDragged()) {
+                            window.open(icon.dataset.url, '_blank');
+                        }
+                    });
+                });
+
+                // Make desktop icons draggable
+                if (isDesktop) {
+                    makeIconDraggable(document.getElementById('cv-icon-desktop'));
+                    makeIconDraggable(document.getElementById('projects-icon-desktop'));
+                    windows.forEach(makeWindowDraggable);
+                }
+
+                // Contact form submission
+                const contactForm = document.getElementById('contact-window').querySelector('form');
+                contactForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const name = contactForm.querySelector('#name').value;
+                    const email = contactForm.querySelector('#email').value;
+                    const message = contactForm.querySelector('#message').value;
+                    const mailtoLink = `mailto:leonard.zirk@gmail.com?subject=${encodeURIComponent(`Message from ${name}`)}&body=${encodeURIComponent(`From: ${name} <${email}>\n\n${message}`)}`;
+                    window.open(mailtoLink);
+                });
+            }
+
+            // --- Responsive Handler ---
+            function handleResize() {
+                isDesktop = window.innerWidth >= 1024;
+                windows.forEach(w => {
+                    if (!w.classList.contains('hidden')) {
+                        if (isDesktop) {
+                            w.classList.add('lg:window-desktop');
+                        } else {
+                            w.classList.remove('lg:window-desktop');
+                        }
+                    }
+                });
+            }
+
+            // --- Initialization ---
+            injectContent();
+            setupEventListeners();
+            setupPagination(); // New function call
+            window.addEventListener('resize', handleResize);
+            handleResize(); // Initial check
+        });
+    </script>
+
+</body>
+</html>
