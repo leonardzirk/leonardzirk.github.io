@@ -142,22 +142,6 @@
         .close { background-color: #ff5f56; }
         .minimize { background-color: #ffbd2e; }
         .maximize { background-color: #27c93f; }
-        
-        /* New Close Icon ("X") */
-        .header-close-icon {
-            position: absolute;
-            top: 50%;
-            right: 12px;
-            transform: translateY(-50%);
-            color: #ccc;
-            cursor: pointer;
-            padding: 4px;
-            font-size: 16px;
-            line-height: 1;
-        }
-        .lg\:window-desktop .header-close-icon {
-             display: none; /* Hide on desktop to avoid redundancy with traffic lights */
-        }
 
         /* CSS to ensure window content flex layout is correct for scrolling */
         .window-content {
@@ -284,8 +268,8 @@
     </video>
 
     <!-- Menu Bar -->
-    <div class="menu-bar px-4 py-1 text-sm">
-        <div class="flex justify-between items-center">
+    <div class="menu-bar px-4 py-1 text-sm hidden lg:flex">
+        <div class="flex justify-between items-center w-full">
             <div class="flex items-center gap-4">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-apple" viewBox="0 0 16 16"><path d="M11.182.008C10.148-.03 9.923.023 8.857 1.18c-1.066 1.156-.902 2.482-.878 2.516s.579.09 1.672-.93c1.092-1.02 1.869-2.059 2.354-2.468C12.433.056 12.318 0 11.182.007Zm.622 1.422a3.48 3.48 0 0 0-2.233 2.233c.213.01.426.01.639.01.213 0 .426 0 .64-.01A3.48 3.48 0 0 0 11.804 1.43Z"/><path d="M8 1a2.5 2.5 0 0 1 2.5 2.5A2.5 2.5 0 0 1 8 6a2.5 2.5 0 0 1-2.5-2.5A2.5 2.5 0 0 1 8 1Zm0 9.5A2.5 2.5 0 0 1 5.5 13a2.5 2.5 0 0 1 2.5 2.5A2.5 2.5 0 0 1 8 13a2.5 2.5 0 0 1 2.5-2.5A2.5 2.5 0 0 1 8 10.5Z"/><path d="M4.176 5.633A6.5 6.5 0 0 0 8 15a6.5 6.5 0 0 0 3.824-9.367c.213.01.426.01.64.01.213 0 .426 0 .639-.01A6.5 6.5 0 0 0 16 8a6.5 6.5 0 0 0-6.5-6.5A6.5 6.5 0 0 0 3.176 8c0 .213.01.426.01.64 0 .213 0 .426-.01.639A6.5 6.5 0 0 0 4.176 5.633Z"/></svg>
                 <span class="font-bold hidden sm:inline">Finder</span>
@@ -297,40 +281,27 @@
         </div>
     </div>
 
-    <!-- Desktop Icons (Hidden on mobile) -->
-    <div id="desktop-icons-container" class="p-5 hidden lg:block">
-        <!-- Desktop CV Icon now opens a link -->
-        <div data-url="https://ik.imagekit.io/ex6ksvxsvk/CV%20Leonard%20ZIrk%20Juli.pdf?updatedAt=1753096371763" class="desktop-icon link-icon" style="top: 40px; right: 20px;">
-             <img src="https://ik.imagekit.io/ex6ksvxsvk/pdfdownload.png?updatedAt=1753096977321" alt="CV Icon" class="rounded-lg">
-             <p>CV Leonard Zirk Juli.pdf</p>
-        </div>
-        <div data-url="https://www.linkedin.com/in/leonard-zirk-9687ba223/" class="desktop-icon link-icon" style="top: 140px; right: 20px;">
-            <img src="https://ik.imagekit.io/ex6ksvxsvk/linkedin.png?updatedAt=1752678709680" alt="LinkedIn Icon" class="rounded-md">
-            <p>LinkedIn.url</p>
-        </div>
-        <div data-url="https://github.com/Devilthatwearsprada" class="desktop-icon link-icon" style="top: 240px; right: 20px;">
-            <img src="https://ik.imagekit.io/ex6ksvxsvk/github.png?updatedAt=1752679143531" alt="GitHub Icon" class="rounded-full">
-            <p>GitHub.url</p>
-        </div>
-        <div id="projects-icon-desktop" class="desktop-icon" style="top: 40px; left: 20px;">
-            <i class="fas fa-folder fa-3x" style="color: #60a5fa;"></i>
-            <p>Projects</p>
-        </div>
-    </div>
-
     <!-- Mobile View Wrapper (Hidden on desktop) -->
     <div id="mobile-view-wrapper" class="lg:hidden">
         <div id="mobile-icons-container">
             <!-- Page 1 -->
             <div class="mobile-page">
                 <!-- Mobile CV Icon opens a link -->
-                <div data-url="https://ik.imagekit.io/ex6ksvxsvk/CV%20Leonard%20ZIrk%20Juli.pdf?updatedAt=1753096371763" class="mobile-icon link-icon">
+                <div data-url="https://ik.imagekit.io/ex6ksvxsvk/CV%20Leonard%20Zirk%20Juli%202025.pdf?updatedAt=1753119910183" class="mobile-icon link-icon">
                     <div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/pdfdownload.png?updatedAt=1753096977321" alt="CV Icon"></div>
                     <p>CV Leonard Zirk</p>
                 </div>
                 <div id="projects-icon-mobile" class="mobile-icon">
                     <div class="icon-bg"><i class="fas fa-folder"></i></div>
-                    <p>Projects</p>
+                    <p>Media Projects</p>
+                </div>
+                <div id="physical-icon-mobile" class="mobile-icon">
+                    <div class="icon-bg"><i class="fas fa-folder"></i></div>
+                    <p>Physical Objects & Events</p>
+                </div>
+                <div id="koplin-icon-mobile" class="mobile-icon">
+                    <div class="icon-bg"><i class="fas fa-folder"></i></div>
+                    <p>Dr. Koplin</p>
                 </div>
                 <div data-url="https://www.linkedin.com/in/leonard-zirk-9687ba223/" class="mobile-icon link-icon">
                     <div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/linkedin.png?updatedAt=1752678709680" alt="LinkedIn Icon"></div>
@@ -340,7 +311,10 @@
                     <div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/github.png?updatedAt=1752679143531" alt="GitHub Icon" class="rounded-full"></div>
                     <p>GitHub</p>
                 </div>
-                <div data-url="https://www.instagram.com/your-username" class="mobile-icon link-icon">
+            </div>
+            <!-- Page 2 -->
+            <div class="mobile-page">
+                <div data-url="https://www.instagram.com/leonardzirk_unoffical" class="mobile-icon link-icon">
                     <div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/instagramicon.webp?updatedAt=1752678971026" alt="Instagram Icon"></div>
                     <p>Instagram</p>
                 </div>
@@ -348,10 +322,7 @@
                     <div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/tik%20tok%20icon.png?updatedAt=1752678704069" alt="TikTok Icon"></div>
                     <p>TikTok</p>
                 </div>
-            </div>
-            <!-- Page 2 -->
-            <div class="mobile-page">
-                <div data-url="https://your-username.substack.com" class="mobile-icon link-icon">
+                <div data-url="https://substack.com/@leonardzirk?utm_source=user-menu" class="mobile-icon link-icon">
                     <div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/substack.png?updatedAt=1752679004979" class="rounded-md" alt="Substack Icon"></div>
                     <p>Substack</p>
                 </div>
@@ -372,13 +343,16 @@
     <div id="cv-window" class="window hidden"><div class="window-content"><!-- Content Injected by JS --></div></div>
     <div id="contact-window" class="window hidden"><div class="window-content"><!-- Content Injected by JS --></div></div>
     <div id="projects-window" class="window hidden"><div class="window-content"><!-- Content Injected by JS --></div></div>
+    <div id="physical-window" class="window hidden"><div class="window-content"><!-- Content Injected by JS --></div></div>
+    <div id="koplin-window" class="window hidden"><div class="window-content"><!-- Content Injected by JS --></div></div>
+    <div id="readme-window" class="window hidden"><div class="window-content"><!-- Content Injected by JS --></div></div>
     <div id="story-window" class="window hidden"><div class="window-content"><!-- Content Injected by JS --></div></div>
 
     <!-- Dock -->
     <div class="dock">
         <!-- Dock CV Icon opens the pop-up window -->
         <div id="cv-dock-icon" class="dock-item">
-            <img src="https://ik.imagekit.io/ex6ksvxsvk/cv.png?updatedAt=1753115174549" alt="CV">
+            <img src="https://ik.imagekit.io/ex6ksvxsvk/resume.png?updatedAt=1753120155625" alt="CV">
         </div>
         <div id="contact-dock-icon" class="dock-item">
             <img src="https://ik.imagekit.io/ex6ksvxsvk/mailicon.png?updatedAt=1752667698506" alt="Mail">
@@ -486,7 +460,6 @@
                     <div class="window-header">
                         <div class="traffic-lights"><div class="traffic-light close"></div></div>
                         <span class="flex-grow text-center pr-8">${title}</span>
-                        <div class="header-close-icon close"><i class="fas fa-times"></i></div>
                     </div>`;
 
                 // CV Window with updated text content
@@ -532,20 +505,47 @@
                     ${windowHeaderHTML('Contact Me')}
                     <div class="window-body"><form><div class="mb-4"><label class="block mb-2 text-ccc" for="name">Name</label><input class="w-full bg-black/30 border border-white/20 rounded-lg p-2 text-white" type="text" id="name" required></div><div class="mb-4"><label class="block mb-2 text-ccc" for="email">Your Email</label><input class="w-full bg-black/30 border border-white/20 rounded-lg p-2 text-white" type="email" id="email" required></div><div class="mb-4"><label class="block mb-2 text-ccc" for="message">Message</label><textarea class="w-full bg-black/30 border border-white/20 rounded-lg p-2 text-white" id="message" rows="4" required></textarea></div><button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg font-medium">Send</button></form></div>`;
 
-                // Projects Window
+                // Media Projects Window
                 document.getElementById('projects-window').querySelector('.window-content').innerHTML = `
-                    ${windowHeaderHTML('Projects')}
+                    ${windowHeaderHTML('Media Projects')}
                     <div class="window-body p-4 flex gap-4 items-start">
                         <div id="story-file-icon" class="mobile-icon"><div class="icon-bg"><i class="fas fa-file-lines"></i></div><p>My Story.txt</p></div>
                     </div>`;
                 
+                // Physical Objects Window
+                document.getElementById('physical-window').querySelector('.window-content').innerHTML = `
+                    ${windowHeaderHTML('Physical Objects and Events')}
+                    <div class="window-body p-4">
+                        <!-- Content for this folder can be added here -->
+                    </div>`;
+
+                // Dr. Koplin Window
+                document.getElementById('koplin-window').querySelector('.window-content').innerHTML = `
+                    ${windowHeaderHTML('Dr. Koplin')}
+                    <div class="window-body p-4 flex gap-4 items-start">
+                        <div data-url="https://www.tiktok.com/@drkoplin" class="mobile-icon link-icon">
+                            <div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/tik%20tok%20icon.png?updatedAt=1752678704069" alt="TikTok Icon"></div>
+                            <p>Dr. Koplin TikTok</p>
+                        </div>
+                        <div id="readme-file-icon" class="mobile-icon">
+                            <div class="icon-bg"><i class="fas fa-file-lines"></i></div>
+                            <p>read me.txt</p>
+                        </div>
+                    </div>`;
+
+                // Read Me Window
+                document.getElementById('readme-window').querySelector('.window-content').innerHTML = `
+                    ${windowHeaderHTML('read me.txt')}
+                    <div class="window-body">
+                        <p>This is the read me file for Dr. Koplin.</p>
+                    </div>`;
+
                 // Story Window
                 document.getElementById('story-window').querySelector('.window-content').innerHTML = `
                     ${windowHeaderHTML('My Story.txt')}
                     <div class="window-body">
                         <h2 class="text-white font-bold text-xl mb-4">My Journey</h2>
-                        <p>This is where the story of my projects begins. It's a tale of curiosity, late-night coding sessions, and the thrill of bringing ideas to life.</p>
-                        <p>From a simple "Hello, World!" to complex applications, every project has been a stepping stone, teaching me valuable lessons in persistence and problem-solving. This space will document that evolution.</p>
+                        <p>Leonard is typing...</p>
                     </div>`;
             }
 
@@ -626,7 +626,7 @@
                 const contactWindow = document.getElementById('contact-window');
                 document.getElementById('contact-dock-icon')?.addEventListener('click', () => openWindow(contactWindow));
                 
-                // Projects Window
+                // Media Projects Window
                 const projectsWindow = document.getElementById('projects-window');
                 const projectsIconDesktop = document.getElementById('projects-icon-desktop');
                 if (projectsIconDesktop) {
@@ -639,7 +639,37 @@
                 }
                 document.getElementById('projects-icon-mobile')?.addEventListener('click', () => openWindow(projectsWindow));
                 
-                // Story Window (inside Projects)
+                // Physical Objects Window
+                const physicalWindow = document.getElementById('physical-window');
+                const physicalIconDesktop = document.getElementById('physical-icon-desktop');
+                if (physicalIconDesktop) {
+                    const wasPhysicalDragged = makeIconDraggable(physicalIconDesktop);
+                    physicalIconDesktop.addEventListener('click', () => {
+                        if (!wasPhysicalDragged()) {
+                            openWindow(physicalWindow);
+                        }
+                    });
+                }
+                document.getElementById('physical-icon-mobile')?.addEventListener('click', () => openWindow(physicalWindow));
+
+                // Dr. Koplin Window
+                const koplinWindow = document.getElementById('koplin-window');
+                const koplinIconDesktop = document.getElementById('koplin-icon-desktop');
+                if (koplinIconDesktop) {
+                    const wasKoplinDragged = makeIconDraggable(koplinIconDesktop);
+                    koplinIconDesktop.addEventListener('click', () => {
+                        if (!wasKoplinDragged()) {
+                            openWindow(koplinWindow);
+                        }
+                    });
+                }
+                document.getElementById('koplin-icon-mobile')?.addEventListener('click', () => openWindow(koplinWindow));
+
+                // Read Me Window (inside Dr. Koplin)
+                const readmeWindow = document.getElementById('readme-window');
+                document.getElementById('koplin-window').querySelector('#readme-file-icon')?.addEventListener('click', () => openWindow(readmeWindow));
+
+                // Story Window (inside Media Projects)
                 const storyWindow = document.getElementById('story-window');
                 document.getElementById('projects-window').querySelector('#story-file-icon')?.addEventListener('click', () => openWindow(storyWindow));
 
