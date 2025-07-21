@@ -130,6 +130,7 @@
             color: white;
             font-size: 14px;
             flex-shrink: 0;
+            position: relative;
         }
         .lg\:window-desktop .window-header {
             cursor: move; /* Draggable cursor on desktop */
@@ -141,15 +142,34 @@
         .close { background-color: #ff5f56; }
         .minimize { background-color: #ffbd2e; }
         .maximize { background-color: #27c93f; }
+        
+        /* New Close Icon ("X") */
+        .header-close-icon {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            color: #ccc;
+            cursor: pointer;
+            padding: 4px;
+            font-size: 16px;
+            line-height: 1;
+        }
+        .lg\:window-desktop .header-close-icon {
+             display: none; /* Hide on desktop to avoid redundancy with traffic lights */
+        }
+
+        /* CSS to ensure window content flex layout is correct for scrolling */
+        .window-content {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+        }
+
         .window-body { padding: 20px; color: #e0e0e0; overflow-y: auto; flex-grow: 1; }
         .window-body h2 { font-size: 1.2rem; font-weight: 600; color: white; margin-top: 1.5rem; margin-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 0.25rem; }
         .window-body p { margin-bottom: 0.75rem; line-height: 1.6; }
-        .cv-header { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1rem; margin-bottom: 2rem; }
-        @media (min-width: 640px) { /* sm breakpoint */
-            .cv-header { flex-direction: row; text-align: left; }
-        }
-        .cv-header img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; }
-        .cv-header-info h1 { font-size: 2rem; font-weight: 700; color: white; }
         
         /* --- Mobile Icon Grid & Pages --- */
         #mobile-view-wrapper {
@@ -163,6 +183,7 @@
             display: flex;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
             /* Hide scrollbar */
             -ms-overflow-style: none;  /* IE and Edge */
             scrollbar-width: none;  /* Firefox */
@@ -216,11 +237,17 @@
             word-wrap: break-word;
             width: 80px;
         }
+        #pagination-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem 0;
+        }
         #pagination-dots {
             display: flex;
             justify-content: center;
             gap: 8px;
-            padding: 1rem 0;
         }
         .pagination-dot {
             width: 8px;
@@ -231,6 +258,22 @@
         }
         .pagination-dot.active {
             background-color: rgba(255, 255, 255, 0.9);
+        }
+        .pagination-arrow {
+            color: white;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        .pagination-arrow:hover {
+            opacity: 1;
+        }
+        .pagination-arrow.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -254,14 +297,35 @@
         </div>
     </div>
 
-   
+    <!-- Desktop Icons (Hidden on mobile) -->
+    <div id="desktop-icons-container" class="p-5 hidden lg:block">
+        <!-- Desktop CV Icon now opens a link -->
+        <div data-url="https://ik.imagekit.io/ex6ksvxsvk/CV%20Leonard%20ZIrk%20Juli.pdf?updatedAt=1753096371763" class="desktop-icon link-icon" style="top: 40px; right: 20px;">
+             <img src="https://ik.imagekit.io/ex6ksvxsvk/pdfdownload.png?updatedAt=1753096977321" alt="CV Icon" class="rounded-lg">
+             <p>CV Leonard Zirk Juli.pdf</p>
+        </div>
+        <div data-url="https://www.linkedin.com/in/leonard-zirk-9687ba223/" class="desktop-icon link-icon" style="top: 140px; right: 20px;">
+            <img src="https://ik.imagekit.io/ex6ksvxsvk/linkedin.png?updatedAt=1752678709680" alt="LinkedIn Icon" class="rounded-md">
+            <p>LinkedIn.url</p>
+        </div>
+        <div data-url="https://github.com/Devilthatwearsprada" class="desktop-icon link-icon" style="top: 240px; right: 20px;">
+            <img src="https://ik.imagekit.io/ex6ksvxsvk/github.png?updatedAt=1752679143531" alt="GitHub Icon" class="rounded-full">
+            <p>GitHub.url</p>
+        </div>
+        <div id="projects-icon-desktop" class="desktop-icon" style="top: 40px; left: 20px;">
+            <i class="fas fa-folder fa-3x" style="color: #60a5fa;"></i>
+            <p>Projects</p>
+        </div>
+    </div>
+
     <!-- Mobile View Wrapper (Hidden on desktop) -->
     <div id="mobile-view-wrapper" class="lg:hidden">
         <div id="mobile-icons-container">
             <!-- Page 1 -->
             <div class="mobile-page">
+                <!-- Mobile CV Icon opens the pop-up window -->
                 <div id="cv-icon-mobile" class="mobile-icon">
-                    <div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/mailicon.png?updatedAt=1752667698506" alt="CV Icon"></div>
+                    <div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/pdfdownload.png?updatedAt=1753096977321" alt="CV Icon"></div>
                     <p>CV Leonard Zirk</p>
                 </div>
                 <div id="projects-icon-mobile" class="mobile-icon">
@@ -287,8 +351,7 @@
             </div>
             <!-- Page 2 -->
             <div class="mobile-page">
-                <!-- Add more icons here for the second page -->
-                 <div data-url="https://your-username.substack.com" class="mobile-icon link-icon">
+                <div data-url="https://your-username.substack.com" class="mobile-icon link-icon">
                     <div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/substack.png?updatedAt=1752679004979" class="rounded-md" alt="Substack Icon"></div>
                     <p>Substack</p>
                 </div>
@@ -298,7 +361,11 @@
                 </div>
             </div>
         </div>
-        <div id="pagination-dots"></div>
+        <div id="pagination-container">
+            <button id="prev-page" class="pagination-arrow hidden"><i class="fas fa-chevron-left"></i></button>
+            <div id="pagination-dots"></div>
+            <button id="next-page" class="pagination-arrow"><i class="fas fa-chevron-right"></i></button>
+        </div>
     </div>
 
     <!-- Windows -->
@@ -309,10 +376,13 @@
 
     <!-- Dock -->
     <div class="dock">
-        <div id="cv-dock-icon" class="dock-item"><img src="https://placehold.co/48x48/7c3aed/ffffff?text=CV" alt="CV" class="rounded-lg"></div>
-        <div id="contact-dock-icon" class="dock-item"><img src="https://ik.imagekit.io/ex6ksvxsvk/mailicon.png?updatedAt=1752667698506" alt="Mail"></div>
-        <div class="dock-item"><img src="https://placehold.co/48x48/db2777/ffffff?text=P" alt="Photos" class="rounded-lg"></div>
-        <div class="dock-item"><img src="https://placehold.co/48x48/16a34a/ffffff?text=S" alt="Safari" class="rounded-lg"></div>
+        <!-- Dock CV Icon opens the pop-up window -->
+        <div id="cv-dock-icon" class="dock-item">
+            <img src="https://ik.imagekit.io/ex6ksvxsvk/mailicon.png?updatedAt=1752667698506" alt="CV">
+        </div>
+        <div id="contact-dock-icon" class="dock-item">
+            <img src="https://ik.imagekit.io/ex6ksvxsvk/mailicon.png?updatedAt=1752667698506" alt="Mail">
+        </div>
     </div>
 
     <script>
@@ -412,32 +482,66 @@
 
             // --- Content Injection ---
             function injectContent() {
-                // CV Window
+                const windowHeaderHTML = (title) => `
+                    <div class="window-header">
+                        <div class="traffic-lights"><div class="traffic-light close"></div></div>
+                        <span class="flex-grow text-center">${title}</span>
+                        <div class="header-close-icon close"><i class="fas fa-times"></i></div>
+                    </div>`;
+
+                // CV Window with updated text content
                 document.getElementById('cv-window').querySelector('.window-content').innerHTML = `
-                    <div class="window-header"><div class="traffic-lights"><div class="traffic-light close"></div></div><span class="flex-grow text-center">CV Leonard Zirk Juni.pdf</span></div>
+                    ${windowHeaderHTML('CV - Leonard Zirk')}
                     <div class="window-body">
-                        <div class="cv-header"><img src="https://i.imgur.com/3f5tJ1e.png" alt="Leonard Zirk"><div class="cv-header-info"><h1>LEONARD ZIRK</h1><p>+49 1637150123 | leonard.zirk@gmail.com</p></div></div>
-                        <p class="italic">"A creative strategist with a scientific background developing pitches and social media campaigns for global brands. Seeking to leverage a unique blend of creative marketing and scientific expertise in a Science Communication / Product Management role."</p>
-                        <h2>Work Experience</h2><p><strong>Guest Scientist</strong> | Klipp Linding Lab (1.4.2025 - 1.2.2025)<br>Development of Hybrid Modeling of Cell Cycle Protein and mRNA.</p>
-                        <p><strong>Creative Strategist</strong> | OZMOZE GMBH (1.6.2024 - 1.1.2025)<br>Project strategies in Social Media, PR-Events for Telekom, Tinder, Duolingo. Preparing Pitch Decks for: Funk, Huawei, Telekom, Spotify.</p>
-                        <h2>Education</h2><p><strong>BACHELOR BIOLOGY</strong> | HUMBOLDT UNIVERSITÄT (16.10.2020 - 1.6.2025)</p>
+                        <div class="text-center mb-6">
+                            <h1 class="text-3xl font-bold text-white">Leonard Zirk</h1>
+                            <p class="text-xl text-gray-300">Creative Strategist & Technologist</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center text-sm mb-6">
+                            <div><strong class="block text-gray-400">PHONE</strong>+491637150123</div>
+                            <div><strong class="block text-gray-400">ADDRESS</strong>Transvaalstraße 6, 13351</div>
+                            <div><strong class="block text-gray-400">EMAIL</strong>leonard.zirk@gmail.com</div>
+                        </div>
+
+                        <h2>About</h2>
+                        <p class="italic">"I turn complex science into captivating stories. As a scientist, I'm trained in rigorous data analysis; as a creative marketer, I've built engaging social media campaigns for global brands. My passion is bridging the gap between the theoretical and the applicable, and I'm eager to bring my unique blend of analytical and creative skills to a dynamic team."</p>
+
+                        <h2>Work Experience</h2>
+                        <p><strong>Creative Strategist</strong> | Ozmoze Gmbh<br>Developed social media and event content strategies for clients including Telekom, Tinder, and Duolingo. Crafted pitch decks for potential clients like Funk, Huawei, and Spotify.</p>
+                        <p><strong>Social Media Marketer</strong> | Modulor Gmbh<br>Successfully oversaw and enhanced the comprehensive management of the organization's social media channels.</p>
+                        <p><strong>Researcher</strong> | Klipp Linding Science<br>Engineered a computational pipeline in Julia for system modeling in molecular science, integrating single-cell transcriptomic data with spatially-resolved validation from smFISH imaging.</p>
+
+                        <h2>Education</h2>
+                        <p><strong>Bachelor of Science - Biology</strong> (2020-2025)<br>Core coursework in molecular biology, genetics, and quantitative biophysics, with a focus on computational methods (R, Python).</p>
+                        <p><strong>Bachelor of Science - Psychology</strong> (2020 - 2024)<br>Specialized in cognitive psychology and behavioral neuroscience, with an emphasis on quantitative research design and statistical analysis (SPSS, R).</p>
+                        <p><strong>Thesis Project: Hybrid Model</strong><br>Developed a hybrid computational model integrating mechanistic differential equations with data-driven machine learning algorithms to predict cellular responses using Julia.</p>
+                        
+                        <h2>Skills</h2>
+                        <p>Adaptive, Communication, Teamwork, Responsibility, Creativity, Problem-solving</p>
+
+                        <h2>Highlights</h2>
+                        <p><strong>01</strong> Threw a Project X themed Party for 1500 People for Tinder.<br>
+                           <strong>02</strong> Supported a Campaign reaching half of Germany.<br>
+                           <strong>03</strong> Collaborated within 5 Research Groups.<br>
+                           <strong>04</strong> Enjoyed the moment.</p>
                     </div>`;
 
                 // Contact Window
                 document.getElementById('contact-window').querySelector('.window-content').innerHTML = `
-                    <div class="window-header"><div class="traffic-lights"><div class="traffic-light close"></div></div><span class="flex-grow text-center">Contact Me</span></div>
+                    ${windowHeaderHTML('Contact Me')}
                     <div class="window-body"><form><div class="mb-4"><label class="block mb-2 text-ccc" for="name">Name</label><input class="w-full bg-black/30 border border-white/20 rounded-lg p-2 text-white" type="text" id="name" required></div><div class="mb-4"><label class="block mb-2 text-ccc" for="email">Your Email</label><input class="w-full bg-black/30 border border-white/20 rounded-lg p-2 text-white" type="email" id="email" required></div><div class="mb-4"><label class="block mb-2 text-ccc" for="message">Message</label><textarea class="w-full bg-black/30 border border-white/20 rounded-lg p-2 text-white" id="message" rows="4" required></textarea></div><button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg font-medium">Send</button></form></div>`;
 
                 // Projects Window
                 document.getElementById('projects-window').querySelector('.window-content').innerHTML = `
-                    <div class="window-header"><div class="traffic-lights"><div class="traffic-light close"></div></div><span class="flex-grow text-center">Projects</span></div>
+                    ${windowHeaderHTML('Projects')}
                     <div class="window-body p-4 flex gap-4 items-start">
                         <div id="story-file-icon" class="mobile-icon"><div class="icon-bg"><i class="fas fa-file-lines"></i></div><p>My Story.txt</p></div>
                     </div>`;
                 
                 // Story Window
                 document.getElementById('story-window').querySelector('.window-content').innerHTML = `
-                    <div class="window-header"><div class="traffic-lights"><div class="traffic-light close"></div></div><span class="flex-grow text-center">My Story.txt</span></div>
+                    ${windowHeaderHTML('My Story.txt')}
                     <div class="window-body">
                         <h2 class="text-white font-bold text-xl mb-4">My Journey</h2>
                         <p>This is where the story of my projects begins. It's a tale of curiosity, late-night coding sessions, and the thrill of bringing ideas to life.</p>
@@ -449,8 +553,14 @@
             function setupPagination() {
                 const container = document.getElementById('mobile-icons-container');
                 const dotsContainer = document.getElementById('pagination-dots');
+                const prevBtn = document.getElementById('prev-page');
+                const nextBtn = document.getElementById('next-page');
                 const pages = container.querySelectorAll('.mobile-page');
-                if (pages.length <= 1) return;
+                
+                if (pages.length <= 1) {
+                    document.getElementById('pagination-container').style.display = 'none';
+                    return;
+                };
 
                 dotsContainer.innerHTML = '';
                 pages.forEach(() => {
@@ -458,54 +568,84 @@
                 });
 
                 const dots = dotsContainer.querySelectorAll('.pagination-dot');
-                const updateDots = () => {
+                
+                const updatePaginationControls = () => {
                     const pageIndex = Math.round(container.scrollLeft / container.clientWidth);
                     dots.forEach((dot, index) => {
                         dot.classList.toggle('active', index === pageIndex);
                     });
+
+                    const scrollLeft = container.scrollLeft;
+                    const scrollWidth = container.scrollWidth;
+                    const clientWidth = container.clientWidth;
+                    
+                    prevBtn.classList.toggle('hidden', scrollLeft < 10);
+                    nextBtn.classList.toggle('hidden', scrollLeft + clientWidth >= scrollWidth - 10);
                 };
                 
-                container.addEventListener('scroll', updateDots, { passive: true });
-                updateDots(); // Initial call
+                container.addEventListener('scroll', updatePaginationControls, { passive: true });
+                
+                prevBtn.addEventListener('click', () => {
+                    container.scrollBy({ left: -container.clientWidth });
+                });
+                nextBtn.addEventListener('click', () => {
+                    container.scrollBy({ left: container.clientWidth });
+                });
+
+                updatePaginationControls(); // Initial call
             }
 
             // --- Event Listeners Setup ---
             function setupEventListeners() {
                 // Close buttons
                 windows.forEach(w => {
-                    w.querySelector('.close').addEventListener('click', () => closeWindow(w));
+                    w.querySelectorAll('.close').forEach(btn => {
+                        btn.addEventListener('click', () => closeWindow(w));
+                    });
                 });
 
-                // Window-opening icons
-                const cvWindow = document.getElementById('cv-window');
-                document.getElementById('cv-icon-desktop')?.addEventListener('click', () => openWindow(cvWindow));
-                document.getElementById('cv-icon-mobile')?.addEventListener('click', () => openWindow(cvWindow));
-                document.getElementById('cv-dock-icon')?.addEventListener('click', () => openWindow(cvWindow));
-
-                const contactWindow = document.getElementById('contact-window');
-                document.getElementById('contact-dock-icon')?.addEventListener('click', () => openWindow(contactWindow));
-                
-                const projectsWindow = document.getElementById('projects-window');
-                document.getElementById('projects-icon-desktop')?.addEventListener('click', () => openWindow(projectsWindow));
-                document.getElementById('projects-icon-mobile')?.addEventListener('click', () => openWindow(projectsWindow));
-                
-                const storyWindow = document.getElementById('story-window');
-                document.getElementById('projects-window').querySelector('#story-file-icon')?.addEventListener('click', () => openWindow(storyWindow));
-
-                // Link icons (mobile and desktop)
+                // --- Handle icons that open links (Social Media & Desktop CV) ---
                 document.querySelectorAll('.link-icon').forEach(icon => {
-                    const wasDragged = isDesktop ? makeIconDraggable(icon) : () => false;
+                    const wasDragged = isDesktop && icon.classList.contains('desktop-icon') 
+                                    ? makeIconDraggable(icon) 
+                                    : () => false;
+                    
                     icon.addEventListener('click', () => {
                         if (!wasDragged()) {
                             window.open(icon.dataset.url, '_blank');
                         }
                     });
                 });
+                
+                // --- Handle all icons that open windows ---
+                // CV Window (Mobile and Dock only)
+                const cvWindow = document.getElementById('cv-window');
+                document.getElementById('cv-icon-mobile')?.addEventListener('click', () => openWindow(cvWindow));
+                document.getElementById('cv-dock-icon')?.addEventListener('click', () => openWindow(cvWindow));
 
-                // Make desktop icons draggable
+                // Contact Window
+                const contactWindow = document.getElementById('contact-window');
+                document.getElementById('contact-dock-icon')?.addEventListener('click', () => openWindow(contactWindow));
+                
+                // Projects Window
+                const projectsWindow = document.getElementById('projects-window');
+                const projectsIconDesktop = document.getElementById('projects-icon-desktop');
+                if (projectsIconDesktop) {
+                    const wasProjectsDragged = makeIconDraggable(projectsIconDesktop);
+                    projectsIconDesktop.addEventListener('click', () => {
+                        if (!wasProjectsDragged()) {
+                            openWindow(projectsWindow);
+                        }
+                    });
+                }
+                document.getElementById('projects-icon-mobile')?.addEventListener('click', () => openWindow(projectsWindow));
+                
+                // Story Window (inside Projects)
+                const storyWindow = document.getElementById('story-window');
+                document.getElementById('projects-window').querySelector('#story-file-icon')?.addEventListener('click', () => openWindow(storyWindow));
+
+                // Make windows draggable on desktop
                 if (isDesktop) {
-                    makeIconDraggable(document.getElementById('cv-icon-desktop'));
-                    makeIconDraggable(document.getElementById('projects-icon-desktop'));
                     windows.forEach(makeWindowDraggable);
                 }
 
@@ -538,7 +678,7 @@
             // --- Initialization ---
             injectContent();
             setupEventListeners();
-            setupPagination(); // New function call
+            setupPagination();
             window.addEventListener('resize', handleResize);
             handleResize(); // Initial check
         });
