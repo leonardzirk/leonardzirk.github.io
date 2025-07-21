@@ -297,13 +297,34 @@
         </div>
     </div>
 
+    <!-- Desktop Icons (Hidden on mobile) -->
+    <div id="desktop-icons-container" class="p-5 hidden lg:block">
+        <!-- Desktop CV Icon now opens a link -->
+        <div data-url="https://ik.imagekit.io/ex6ksvxsvk/CV%20Leonard%20ZIrk%20Juli.pdf?updatedAt=1753096371763" class="desktop-icon link-icon" style="top: 40px; right: 20px;">
+             <img src="https://ik.imagekit.io/ex6ksvxsvk/pdfdownload.png?updatedAt=1753096977321" alt="CV Icon" class="rounded-lg">
+             <p>CV Leonard Zirk Juli.pdf</p>
+        </div>
+        <div data-url="https://www.linkedin.com/in/leonard-zirk-9687ba223/" class="desktop-icon link-icon" style="top: 140px; right: 20px;">
+            <img src="https://ik.imagekit.io/ex6ksvxsvk/linkedin.png?updatedAt=1752678709680" alt="LinkedIn Icon" class="rounded-md">
+            <p>LinkedIn.url</p>
+        </div>
+        <div data-url="https://github.com/Devilthatwearsprada" class="desktop-icon link-icon" style="top: 240px; right: 20px;">
+            <img src="https://ik.imagekit.io/ex6ksvxsvk/github.png?updatedAt=1752679143531" alt="GitHub Icon" class="rounded-full">
+            <p>GitHub.url</p>
+        </div>
+        <div id="projects-icon-desktop" class="desktop-icon" style="top: 40px; left: 20px;">
+            <i class="fas fa-folder fa-3x" style="color: #60a5fa;"></i>
+            <p>Projects</p>
+        </div>
+    </div>
+
     <!-- Mobile View Wrapper (Hidden on desktop) -->
     <div id="mobile-view-wrapper" class="lg:hidden">
         <div id="mobile-icons-container">
             <!-- Page 1 -->
             <div class="mobile-page">
-                <!-- Mobile CV Icon opens the pop-up window -->
-                <div id="cv-icon-mobile" class="mobile-icon">
+                <!-- Mobile CV Icon opens a link -->
+                <div data-url="https://ik.imagekit.io/ex6ksvxsvk/CV%20Leonard%20ZIrk%20Juli.pdf?updatedAt=1753096371763" class="mobile-icon link-icon">
                     <div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/pdfdownload.png?updatedAt=1753096977321" alt="CV Icon"></div>
                     <p>CV Leonard Zirk</p>
                 </div>
@@ -464,7 +485,7 @@
                 const windowHeaderHTML = (title) => `
                     <div class="window-header">
                         <div class="traffic-lights"><div class="traffic-light close"></div></div>
-                        <span class="flex-grow text-center">${title}</span>
+                        <span class="flex-grow text-center pr-8">${title}</span>
                         <div class="header-close-icon close"><i class="fas fa-times"></i></div>
                     </div>`;
 
@@ -583,7 +604,7 @@
                     });
                 });
 
-                // --- Handle icons that open links (Social Media & Desktop CV) ---
+                // --- Handle icons that open links (Social Media & all screen CV icons) ---
                 document.querySelectorAll('.link-icon').forEach(icon => {
                     const wasDragged = isDesktop && icon.classList.contains('desktop-icon') 
                                     ? makeIconDraggable(icon) 
@@ -596,10 +617,9 @@
                     });
                 });
                 
-                // --- Handle all icons that open windows ---
-                // CV Window (Mobile and Dock only)
+                // --- Handle icons that open windows ---
+                // CV Window (Dock only)
                 const cvWindow = document.getElementById('cv-window');
-                document.getElementById('cv-icon-mobile')?.addEventListener('click', () => openWindow(cvWindow));
                 document.getElementById('cv-dock-icon')?.addEventListener('click', () => openWindow(cvWindow));
 
                 // Contact Window
