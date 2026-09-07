@@ -1,20 +1,162 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leonard Zirk | Creative Strategist</title>
+    <title>Leonard Zirk | Creative Strategist & Technologist</title>
+    <meta name="description"
+        content="Interactive OS-style portfolio of Leonard Zirk. Creative Strategist &amp; Technologist bridging science and storytelling. Berlin.">
+    <link rel="canonical" href="https://brazilhardcore.github.io/">
+    <meta name="theme-color" content="#000000">
+
+    <!-- Social sharing (Open Graph + Twitter) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Leonard Zirk | Creative Strategist & Technologist">
+    <meta property="og:description"
+        content="An interactive OS-style portfolio bridging science and storytelling. Slide to unlock.">
+    <meta property="og:url" content="https://brazilhardcore.github.io/">
+    <meta property="og:image" content="https://ik.imagekit.io/ex6ksvxsvk/d81839c1-024b-4f7a-b037-472795553a6a.JPG">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Leonard Zirk | Creative Strategist & Technologist">
+    <meta name="twitter:description"
+        content="An interactive OS-style portfolio bridging science and storytelling. Slide to unlock.">
+    <meta name="twitter:image" content="https://ik.imagekit.io/ex6ksvxsvk/d81839c1-024b-4f7a-b037-472795553a6a.JPG">
+
+    <!-- Favicon (inline, no extra request) -->
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111116'/%3E%3Ctext x='32' y='43' font-family='Inter,Arial,sans-serif' font-size='28' font-weight='700' fill='%23a5b4fc' text-anchor='middle'%3ELZ%3C/text%3E%3C/svg%3E">
+
+    <!-- Structured data for search engines -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Leonard Zirk",
+      "jobTitle": "Creative Strategist & Technologist",
+      "email": "mailto:leonard.zirk@gmail.com",
+      "address": { "@type": "PostalAddress", "addressLocality": "Berlin", "addressCountry": "DE" },
+      "url": "https://brazilhardcore.github.io/",
+      "sameAs": [
+        "https://www.linkedin.com/in/leonard-zirk-9687ba223/",
+        "https://github.com/leonardzirk",
+        "https://www.instagram.com/leonardzirk_unoffical",
+        "https://www.tiktok.com/@leonardzirk",
+        "https://substack.com/@leonardzirk"
+      ]
+    }
+    </script>
+
+    <!-- Faster asset loading -->
+    <link rel="preconnect" href="https://ik.imagekit.io" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             overflow: hidden;
             height: 100vh;
+            height: 100dvh;
             background-color: #000;
             user-select: none;
+            margin: 0;
         }
+
+        /* ====== BOOT SPLASH ====== */
+        #lock-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 8000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            overflow: hidden;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        #lock-screen.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #lock-screen.dismissing {
+            opacity: 0;
+            transform: scale(1.1);
+            pointer-events: none;
+        }
+
+        #boot-splash {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            transition: opacity 0.6s ease;
+        }
+
+        #boot-splash.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #boot-splash svg {
+            width: 56px;
+            height: 56px;
+            fill: #fff;
+            opacity: 0;
+            animation: bootLogoIn 0.5s ease 0.2s forwards;
+        }
+
+        .boot-progress-track {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 2px;
+            overflow: hidden;
+            opacity: 0;
+            animation: bootLogoIn 0.4s ease 0.5s forwards;
+        }
+
+        .boot-progress-fill {
+            width: 0%;
+            height: 100%;
+            background: #fff;
+            border-radius: 2px;
+            animation: bootProgress 2.6s cubic-bezier(0.5, 0.1, 0.3, 1) 0.55s forwards;
+        }
+
+        @keyframes bootLogoIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes bootProgress {
+            to {
+                width: 100%;
+            }
+        }
+
+        /* ====== VIDEO BACKGROUND ====== */
         #video-bg {
             position: fixed;
             top: 0;
@@ -22,157 +164,276 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            z-index: -2;
+        }
+
+        #video-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.1) 40%, rgba(0, 0, 0, 0.3) 100%);
             z-index: -1;
         }
+
+        /* ====== MENU BAR ====== */
         .menu-bar {
-            background-color: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background-color: rgba(30, 30, 30, 0.45);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
             color: white;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            opacity: 0;
+            transform: translateY(-100%);
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
+
+        .menu-bar.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .menu-bar-item {
+            opacity: 0.85;
+            cursor: default;
+            transition: opacity 0.15s;
+            font-size: 13.5px;
+            letter-spacing: -0.01em;
+        }
+
+        .menu-bar-item:hover {
+            opacity: 1;
+        }
+
+        .menu-bar-item.bold {
+            font-weight: 600;
+        }
+
+        .menu-status-icons {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        /* ====== DOCK ====== */
         .dock {
             position: fixed;
-            bottom: 10px;
+            bottom: 6px;
             left: 50%;
-            transform: translateX(-50%);
-            background-color: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 1.5rem;
-            padding: 8px;
+            transform: translateX(-50%) translateY(120px);
+            background-color: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-radius: 1.25rem;
+            padding: 6px 8px;
             display: flex;
-            gap: 12px;
+            align-items: flex-end;
+            gap: 4px;
             z-index: 1000;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .dock.hidden {
+
+        .dock.revealed {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .dock.hidden-mobile {
             opacity: 0;
             pointer-events: none;
-            transform: translateX(-50%) translateY(100px);
+            transform: translateX(-50%) translateY(120px);
         }
+
+        .dock-separator {
+            width: 1px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.15);
+            margin: 0 4px;
+            align-self: center;
+        }
+
+        .dock-item-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dock-tooltip {
+            position: absolute;
+            top: -32px;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 3px 10px;
+            border-radius: 4px;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(4px);
+            transition: opacity 0.15s, transform 0.15s;
+        }
+
+        .dock-item-wrapper:hover .dock-tooltip {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         .dock-item {
-            width: 60px;
-            height: 60px;
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 1rem;
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.2s ease, margin-bottom 0.2s ease;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), width 0.2s, height 0.2s;
             cursor: pointer;
+            overflow: hidden;
         }
+
         .dock-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 1rem;
-        }
-        .dock-item:hover {
-            transform: scale(1.2);
-            margin-bottom: 10px;
+            border-radius: 12px;
         }
 
-        /* --- Desktop-Only Icon Styles --- */
-        .desktop-icon {
-            color: white;
-            text-align: center;
-            width: 90px;
-            position: absolute;
-            cursor: grab;
-            z-index: 100;
+        @keyframes dockBounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            30% {
+                transform: translateY(-16px);
+            }
+
+            50% {
+                transform: translateY(-4px);
+            }
+
+            70% {
+                transform: translateY(-8px);
+            }
         }
-        .desktop-icon .icon-image {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto;
-            border-radius: 0.75rem;
+
+        .dock-item.bouncing {
+            animation: dockBounce 0.5s ease;
         }
-        .desktop-icon .fa-folder, .desktop-icon .fa-file-lines, .desktop-icon .fa-image {
-            font-size: 60px;
-            margin: 0 auto;
-            color: #60a5fa;
-        }
-        .desktop-icon p {
-            margin-top: 5px;
-            font-size: 13px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-            word-wrap: break-word;
-        }
-        
-        /* --- Mobile-First Window Styles --- */
-        .window {
-            position: fixed; /* Fullscreen on mobile */
+
+        /* ====== DESKTOP ICONS ====== */
+        #desktop-icons-container {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(30, 30, 30, 0.8);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            z-index: 500;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .desktop-icon {
+            position: absolute;
+            color: white;
+            text-align: center;
+            width: 90px;
+            cursor: grab;
             display: flex;
             flex-direction: column;
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 4px;
+            border-radius: 8px;
+            transition: background-color 0.15s;
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: auto;
         }
 
-        /* --- Desktop Window Overrides (using Tailwind's lg prefix) --- */
-        .lg\:window-desktop {
-            position: absolute !important;
-            top: 100px !important;
-            left: 100px !important;
-            width: 600px !important;
-            height: 70vh !important;
-            border-radius: 12px !important;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        .desktop-icon.revealed {
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 0.4s ease, transform 0.4s ease, background-color 0.15s;
         }
 
-        .window-header {
+        .desktop-icon:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .desktop-icon:active {
+            background: rgba(59, 130, 246, 0.35);
+        }
+
+        .desktop-icon:focus-visible {
+            outline: 2px solid #818cf8;
+            outline-offset: 2px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .desktop-icon .icon-image {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto;
+            border-radius: 12px;
             display: flex;
             align-items: center;
-            padding: 8px;
-            background-color: rgba(60, 60, 60, 0.8);
-            cursor: default; /* Default cursor */
-            color: white;
-            font-size: 14px;
-            flex-shrink: 0;
-            position: relative;
+            justify-content: center;
+            overflow: hidden;
         }
-        .lg\:window-desktop .window-header {
-            cursor: move; /* Draggable cursor on desktop */
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-        }
-        .traffic-lights { display: flex; gap: 8px; margin-right: 8px; }
-        .traffic-light { width: 12px; height: 12px; border-radius: 50%; cursor: pointer; }
-        .close { background-color: #ff5f56; }
-        .minimize { background-color: #ffbd2e; }
-        .maximize { background-color: #27c93f; }
 
-        .window-content {
-            display: flex;
-            flex-direction: column;
+        .desktop-icon .icon-image img {
             width: 100%;
             height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
         }
 
-        .window-body { padding: 20px; color: #e0e0e0; overflow-y: auto; flex-grow: 1; }
-        .window-body h2 { font-size: 1.2rem; font-weight: 600; color: white; margin-top: 1.5rem; margin-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 0.25rem; }
-        .window-body p { margin-bottom: 0.75rem; line-height: 1.6; }
-        
-        /* --- Mobile Icon Grid & Pages --- */
+        .desktop-icon .fa-folder {
+            font-size: 50px;
+            color: #3b9dff;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .desktop-icon .fa-file-lines {
+            font-size: 50px;
+            color: #a0aec0;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .desktop-icon p {
+            margin-top: 3px;
+            font-size: 11px;
+            font-weight: 500;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7), 0 0px 8px rgba(0, 0, 0, 0.4);
+            word-wrap: break-word;
+            line-height: 1.2;
+            max-width: 85px;
+        }
+
+        /* ====== MOBILE VIEW ====== */
         #mobile-view-wrapper {
             padding-top: 5rem;
-            height: calc(100% - 90px);
+            height: calc(100% - 80px);
             display: flex;
             flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.5s ease 0.3s;
         }
+
+        #mobile-view-wrapper.revealed {
+            opacity: 1;
+        }
+
         #mobile-icons-container {
             flex-grow: 1;
             display: flex;
@@ -182,463 +443,2893 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-        #mobile-icons-container::-webkit-scrollbar { display: none; }
+
+        #mobile-icons-container::-webkit-scrollbar {
+            display: none;
+        }
+
         .mobile-page {
             flex: 0 0 100%;
             scroll-snap-align: start;
             padding: 1.5rem 1.25rem;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-            gap: 1.5rem 1rem;
+            grid-auto-rows: min-content;
+            gap: 1.75rem 1rem;
             align-content: start;
         }
+
         @media (min-width: 640px) {
-            .mobile-page { grid-template-columns: repeat(4, 1fr); }
+            .mobile-page {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
+
         .mobile-icon {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             color: white;
             text-align: center;
             cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
         }
+
+        .mobile-icon:active .icon-bg {
+            transform: scale(0.9);
+        }
+
+        .mobile-icon:focus-visible .icon-bg {
+            outline: 2px solid #fff;
+            outline-offset: 2px;
+        }
+
         .mobile-icon .icon-bg {
-            width: 64px;
-            height: 64px;
-            border-radius: 1rem;
+            width: 62px;
+            height: 62px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: rgba(255,255,255,0.1);
+            background-color: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(8px);
+            transition: transform 0.15s;
+            overflow: hidden;
         }
+
         .mobile-icon img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 1rem;
+            border-radius: 14px;
         }
-        .mobile-icon .fa-folder, .mobile-icon .fa-file-lines, .mobile-icon .fa-image {
-            font-size: 32px;
+
+        .mobile-icon .fa-folder {
+            font-size: 30px;
+            color: #3b9dff;
+        }
+
+        .mobile-icon .fa-file-lines {
+            font-size: 30px;
+            color: #a0aec0;
+        }
+
+        .mobile-icon .fa-image {
+            font-size: 30px;
             color: #60a5fa;
         }
+
         .mobile-icon p {
-            font-size: 12px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+            font-size: 11.5px;
+            font-weight: 500;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
             word-wrap: break-word;
-            width: 80px;
+            width: 76px;
+            line-height: 1.25;
         }
+
+        /* Pagination */
         #pagination-container {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 1rem;
-            padding: 1rem 0;
+            padding: 0.75rem 0;
         }
-        #pagination-dots { display: flex; justify-content: center; gap: 8px; }
-        .pagination-dot {
-            width: 8px; height: 8px; border-radius: 50%;
-            background-color: rgba(255, 255, 255, 0.4);
-            transition: background-color 0.3s ease;
-        }
-        .pagination-dot.active { background-color: rgba(255, 255, 255, 0.9); }
-        .pagination-arrow {
-            color: white; background: none; border: none; font-size: 1rem;
-            cursor: pointer; opacity: 0.7; transition: opacity 0.2s;
-        }
-        .pagination-arrow:hover { opacity: 1; }
-        .pagination-arrow.hidden { opacity: 0; pointer-events: none; }
 
-        /* --- Duolingo Window Styles --- */
-        .duolingo-body { background-color: #ffffff; color: #4c4c4c; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; }
-        .duolingo-progress-bar { width: 100%; height: 16px; background-color: #e5e5e5; border-radius: 8px; overflow: hidden; border: 2px solid #e5e5e5; }
-        .duolingo-progress { width: 60%; height: 100%; background-color: #58cc02; border-radius: 6px; }
-        .duolingo-mascot-container { display: flex; align-items: center; gap: 1rem; margin-top: 2rem; width: 100%; }
-        .duolingo-speech-bubble { background-color: #ffffff; border: 2px solid #e5e5e5; border-radius: 1rem; padding: 1rem; font-weight: 700; font-size: 1.1rem; position: relative; }
-        .duolingo-speech-bubble::before { content: ''; position: absolute; left: -10px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-right: 10px solid #e5e5e5; }
-        .duolingo-options { width: 100%; margin-top: 2rem; display: flex; flex-direction: column; gap: 0.75rem; }
-        .duolingo-option { display: flex; align-items: center; gap: 1rem; width: 100%; padding: 1rem; border: 2px solid #e5e5e5; border-bottom-width: 4px; border-radius: 1rem; font-weight: 700; cursor: pointer; transition: background-color 0.2s, border-color 0.2s; }
-        .duolingo-option:hover { background-color: #f7f7f7; }
-        .duolingo-option.selected { background-color: #d7ffb8; border-color: #58cc02; }
-        .duolingo-option.correct { background-color: #d7ffb8; border-color: #58cc02; color: #58a700; }
-        .duolingo-option.incorrect { background-color: #ffdfe0; border-color: #ff4b4b; color: #ea2b2b; animation: shake 0.5s; }
-        .duolingo-continue-btn { width: 100%; margin-top: auto; padding: 1rem; background-color: #58cc02; color: white; font-weight: 700; text-transform: uppercase; border-radius: 1rem; border-bottom: 4px solid #58a700; cursor: pointer; opacity: 0.5; pointer-events: none; transition: opacity 0.2s; }
-        .duolingo-continue-btn.active { opacity: 1; pointer-events: auto; }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
-        
-        /* --- Tinder Swipe App Styles --- */
-        .tinder-body { display: flex; flex-direction: column; height: 100%; padding: 0; background-color: #f7f7f7; overflow: hidden; }
-        .tinder-header { background-color: #fff; padding: 10px; text-align: center; border-bottom: 1px solid #e8e8e8; flex-shrink: 0; }
-        .tinder-header img { height: 30px; }
-        .tinder-stack { flex-grow: 1; display: flex; align-items: center; justify-content: center; position: relative; }
-        .tinder-card { background-color: #fff; width: 85%; height: 80%; border-radius: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.12); position: absolute; display: flex; flex-direction: column; overflow: hidden; transition: transform 0.4s ease, opacity 0.4s ease; cursor: grab; }
-        .tinder-card.dragging { transition: none; }
-        .tinder-card-img { width: 100%; height: 70%; object-fit: cover; }
-        .tinder-card-info { padding: 15px; }
-        .tinder-card-info h3 { font-size: 1.5rem; font-weight: 700; color: #333; }
-        .tinder-card-info p { font-size: 1rem; color: #666; }
-        .tinder-controls { display: flex; justify-content: space-around; padding: 15px; flex-shrink: 0; }
-        .tinder-btn { background-color: #fff; border: 1px solid #e8e8e8; border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; font-size: 2rem; box-shadow: 0 2px 6px rgba(0,0,0,0.1); cursor: pointer; }
-        .tinder-btn.like { color: #4bde97; }
-        .tinder-btn.dislike { color: #fd5068; }
+        #pagination-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .pagination-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.3);
+            transition: background-color 0.3s ease, transform 0.2s;
+        }
+
+        .pagination-dot.active {
+            background-color: rgba(255, 255, 255, 0.9);
+            transform: scale(1.15);
+        }
+
+        .pagination-arrow {
+            color: white;
+            background: none;
+            border: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+            padding: 4px 8px;
+        }
+
+        .pagination-arrow:hover {
+            opacity: 1;
+        }
+
+        .pagination-arrow.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* ====== WINDOW SYSTEM ====== */
+        .window {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(30, 30, 30, 0.85);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            z-index: 500;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: scale(0.97);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            pointer-events: none;
+        }
+
+        .window.visible {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        .window.closing {
+            opacity: 0;
+            transform: scale(0.97);
+            pointer-events: none;
+        }
+
+        .window.minimizing {
+            opacity: 0;
+            transform: translateY(45vh) scale(0.15);
+            pointer-events: none;
+            transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.4, 0, 1, 1);
+        }
+
+        /* Desktop window overrides */
+        .lg\:window-desktop {
+            position: absolute !important;
+            width: 620px !important;
+            height: 72vh !important;
+            border-radius: 12px !important;
+            box-shadow:
+                0 24px 80px -12px rgba(0, 0, 0, 0.6),
+                0 8px 24px -8px rgba(0, 0, 0, 0.4),
+                inset 0 0.5px 0 rgba(255, 255, 255, 0.1) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            overflow: hidden !important;
+        }
+
+        .lg\:window-desktop.maximized {
+            top: 40px !important;
+            left: 12px !important;
+            width: calc(100vw - 24px) !important;
+            height: calc(100vh - 118px) !important;
+            transition: opacity 0.25s ease, transform 0.25s ease, width 0.25s ease, height 0.25s ease, top 0.25s ease, left 0.25s ease;
+        }
+
+        .window.focused {
+            box-shadow:
+                0 24px 80px -12px rgba(0, 0, 0, 0.6),
+                0 8px 24px -8px rgba(0, 0, 0, 0.4),
+                inset 0 0.5px 0 rgba(255, 255, 255, 0.1),
+                0 0 0 1px rgba(59, 130, 246, 0.3) !important;
+        }
+
+        .window-header {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            background-color: rgba(50, 50, 50, 0.85);
+            backdrop-filter: blur(10px);
+            cursor: default;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 13px;
+            font-weight: 500;
+            flex-shrink: 0;
+            position: relative;
+            letter-spacing: -0.01em;
+        }
+
+        .lg\:window-desktop .window-header {
+            cursor: move;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+
+        .traffic-lights {
+            display: flex;
+            gap: 8px;
+            margin-right: 10px;
+        }
+
+        .traffic-light {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: filter 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+            border: none;
+            padding: 0;
+        }
+
+        /* Larger tap target for mobile */
+        .traffic-light::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+        }
+
+        .traffic-light:hover {
+            filter: brightness(1.15);
+        }
+
+        .traffic-light:focus-visible {
+            outline: 2px solid #fff;
+            outline-offset: 2px;
+        }
+
+        .traffic-light svg {
+            opacity: 0;
+            width: 7px;
+            height: 7px;
+            transition: opacity 0.1s;
+        }
+
+        .traffic-lights:hover .traffic-light svg {
+            opacity: 1;
+        }
+
+        .close {
+            background-color: #ff5f57;
+        }
+
+        .close svg {
+            fill: #820005;
+        }
+
+        .minimize {
+            background-color: #febc2e;
+        }
+
+        .minimize svg {
+            fill: #9a6e02;
+        }
+
+        .maximize {
+            background-color: #28c840;
+        }
+
+        .maximize svg {
+            fill: #005f12;
+        }
+
+        .window-content {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .window-body {
+            padding: 24px;
+            color: #d4d4d8;
+            overflow-y: auto;
+            flex-grow: 1;
+            line-height: 1.65;
+        }
+
+        .window-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .window-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .window-body::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 3px;
+        }
+
+        .window-body::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        /* ====== PROJECT / CASE-STUDY WINDOW ====== */
+        .proj-body {
+            padding: 0;
+        }
+
+        .proj-hero {
+            padding: 1.75rem 1.5rem 1.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .proj-lens-badge {
+            display: inline-block;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            padding: 3px 10px;
+            border-radius: 999px;
+            margin-bottom: 0.6rem;
+        }
+
+        .proj-lens-badge.design {
+            color: #f0abfc;
+            background: rgba(217, 70, 239, 0.12);
+            border: 1px solid rgba(217, 70, 239, 0.25);
+        }
+
+        .proj-lens-badge.science {
+            color: #7dd3fc;
+            background: rgba(14, 165, 233, 0.12);
+            border: 1px solid rgba(14, 165, 233, 0.25);
+        }
+
+        .proj-lens-badge.both {
+            color: #a5b4fc;
+            background: rgba(129, 140, 248, 0.12);
+            border: 1px solid rgba(129, 140, 248, 0.25);
+        }
+
+        .proj-title {
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: -0.01em;
+        }
+
+        .proj-meta {
+            font-size: 0.8rem;
+            color: #818cf8;
+            font-weight: 500;
+            margin-top: 0.2rem;
+        }
+
+        .proj-oneliner {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 0.6rem;
+            line-height: 1.5;
+        }
+
+        .proj-section {
+            padding: 1.25rem 1.5rem;
+        }
+
+        .proj-section h3 {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #e2e8f0;
+            margin: 0 0 0.6rem;
+        }
+
+        .proj-desc {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.7;
+        }
+
+        .proj-gallery {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+        }
+
+        @media (max-width: 480px) {
+            .proj-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .proj-shot {
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .proj-shot img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .proj-shot figcaption {
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.55);
+            padding: 6px 10px;
+        }
+
+        .proj-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .proj-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 7px 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .proj-link:hover {
+            background: rgba(129, 140, 248, 0.18);
+        }
+
+        .proj-link i {
+            color: #818cf8;
+        }
+
+        /* ====== DUOLINGO STYLES ====== */
+        .duolingo-body {
+            background-color: #ffffff;
+            color: #4c4c4c;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        .duolingo-progress-bar {
+            width: 100%;
+            height: 16px;
+            background-color: #e5e5e5;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid #e5e5e5;
+        }
+
+        .duolingo-progress {
+            width: 60%;
+            height: 100%;
+            background-color: #58cc02;
+            border-radius: 6px;
+        }
+
+        .duolingo-mascot-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            width: 100%;
+        }
+
+        .duolingo-speech-bubble {
+            background-color: #ffffff;
+            border: 2px solid #e5e5e5;
+            border-radius: 1rem;
+            padding: 1rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+            position: relative;
+        }
+
+        .duolingo-speech-bubble::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 10px solid #e5e5e5;
+        }
+
+        .duolingo-options {
+            width: 100%;
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .duolingo-option {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e5e5e5;
+            border-bottom-width: 4px;
+            border-radius: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+            background: #fff;
+            font-family: inherit;
+            font-size: inherit;
+            color: inherit;
+            text-align: left;
+        }
+
+        .duolingo-option:hover {
+            background-color: #f7f7f7;
+        }
+
+        .duolingo-option.selected {
+            background-color: #d7ffb8;
+            border-color: #58cc02;
+        }
+
+        .duolingo-option.correct {
+            background-color: #d7ffb8;
+            border-color: #58cc02;
+            color: #58a700;
+        }
+
+        .duolingo-option.incorrect {
+            background-color: #ffdfe0;
+            border-color: #ff4b4b;
+            color: #ea2b2b;
+            animation: shake 0.5s;
+        }
+
+        .duolingo-continue-btn {
+            width: 100%;
+            margin-top: auto;
+            padding: 1rem;
+            background-color: #58cc02;
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 1rem;
+            border: none;
+            border-bottom: 4px solid #58a700;
+            cursor: pointer;
+            opacity: 0.5;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .duolingo-continue-btn.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            75% {
+                transform: translateX(5px);
+            }
+        }
+
+        /* ====== TINDER STYLES ====== */
+        .tinder-body {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 0;
+            background-color: #f7f7f7;
+            overflow: hidden;
+        }
+
+        .tinder-header {
+            background-color: #fff;
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #e8e8e8;
+            flex-shrink: 0;
+        }
+
+        .tinder-header img {
+            height: 30px;
+        }
+
+        .tinder-stack {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .tinder-card {
+            background-color: #fff;
+            width: 85%;
+            height: 80%;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+            cursor: grab;
+        }
+
+        .tinder-card.dragging {
+            transition: none;
+        }
+
+        .tinder-card-img {
+            width: 100%;
+            height: 70%;
+            object-fit: cover;
+        }
+
+        .tinder-card-info {
+            padding: 15px;
+        }
+
+        .tinder-card-info h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .tinder-card-info p {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 0;
+        }
+
+        .tinder-controls {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            flex-shrink: 0;
+        }
+
+        .tinder-btn {
+            background-color: #fff;
+            border: 1px solid #e8e8e8;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.15s;
+        }
+
+        .tinder-btn:hover {
+            transform: scale(1.08);
+        }
+
+        .tinder-btn.like {
+            color: #4bde97;
+        }
+
+        .tinder-btn.dislike {
+            color: #fd5068;
+        }
+
+        /* ====== LOCK SCREEN — CLASSIC iOS 6 ====== */
+        #lock-screen {
+            background: #000;
+            justify-content: flex-start;
+            align-items: stretch;
+            font-family: 'Helvetica Neue', Helvetica, 'Inter', Arial, sans-serif;
+        }
+
+        #lock-screen-bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('https://ik.imagekit.io/ex6ksvxsvk/d81839c1-024b-4f7a-b037-472795553a6a.JPG');
+            background-size: cover;
+            background-position: center top;
+            z-index: 0;
+        }
+
+        #lock-screen-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.05) 40%, rgba(0, 0, 0, 0.3) 100%);
+        }
+
+        /* Glossy iOS 6 status bar */
+        .ls6-statusbar {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 21px;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #fff;
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.6);
+            background: linear-gradient(180deg, #767a7e 0%, #4a4d51 48%, #2a2c2f 52%, #131415 100%);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+        }
+
+        .ls6-side {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            min-width: 84px;
+        }
+
+        .ls6-sigbars {
+            display: flex;
+            align-items: flex-end;
+            gap: 1.5px;
+        }
+
+        .ls6-sigbars span {
+            width: 3px;
+            background: #fff;
+            border-radius: 0.5px;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        /* Translucent time banner */
+        .ls6-timebanner {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            flex-shrink: 0;
+            text-align: center;
+            padding: 8px 0 18px;
+            background: linear-gradient(180deg, rgba(15, 16, 20, 0.55) 0%, rgba(15, 16, 20, 0.4) 60%, rgba(15, 16, 20, 0) 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        }
+
+        .ls6-time {
+            font-size: clamp(4.2rem, 19vw, 5.6rem);
+            font-weight: 200;
+            color: white;
+            letter-spacing: 0.03em;
+            line-height: 1.05;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.55);
+        }
+
+        .ls6-date {
+            font-size: clamp(1rem, 4.2vw, 1.25rem);
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.95);
+            margin-top: 2px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
+        }
+
+        .ls6-spacer {
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Dark glossy bottom bar */
+        .ls6-bottombar {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            flex-shrink: 0;
+            padding: 20px 14px calc(20px + env(safe-area-inset-bottom, 0px));
+            background: linear-gradient(180deg, rgba(22, 22, 26, 0.72) 0%, rgba(5, 5, 8, 0.9) 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.22);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        /* Recessed slide groove — rounded rect, not a pill */
+        .slide-track {
+            width: 100%;
+            max-width: 340px;
+            height: 56px;
+            margin: 0 auto;
+            background: linear-gradient(180deg, #0a0a0e 0%, #1d1d24 10%, #101016 55%, #080809 100%);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                inset 0 2px 8px rgba(0, 0, 0, 0.95),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.09),
+                0 1px 0 rgba(255, 255, 255, 0.14);
+        }
+
+        .slide-text {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-left: 72px;
+            font-size: 1.35rem;
+            font-weight: 400;
+            letter-spacing: 0.01em;
+            pointer-events: none;
+            background: linear-gradient(90deg,
+                    rgba(255, 255, 255, 0.3) 0%,
+                    rgba(255, 255, 255, 0.3) 35%,
+                    rgba(255, 255, 255, 0.95) 50%,
+                    rgba(255, 255, 255, 0.3) 65%,
+                    rgba(255, 255, 255, 0.3) 100%);
+            background-size: 250% 100%;
+            background-position: 100% 0;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: retroShimmer 2.4s ease-in-out infinite;
+        }
+
+        @keyframes retroShimmer {
+            0% {
+                background-position: 100% 0;
+            }
+
+            100% {
+                background-position: -100% 0;
+            }
+        }
+
+        /* Brushed-metal arrow button */
+        .slide-thumb {
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            width: 78px;
+            height: 46px;
+            border-radius: 9px;
+            background: linear-gradient(180deg, #ffffff 0%, #d8dade 45%, #b9bcc2 50%, #d4d6da 88%, #eceef0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            touch-action: none;
+            z-index: 2;
+            border: 1px solid rgba(0, 0, 0, 0.55);
+            box-shadow:
+                0 1px 2px rgba(0, 0, 0, 0.65),
+                inset 0 1px 0 rgba(255, 255, 255, 0.95),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+            transition: left 0.2s ease;
+        }
+
+        .slide-thumb:focus-visible {
+            outline: 2px solid #fff;
+            outline-offset: 3px;
+        }
+
+        .slide-thumb.dragging {
+            transition: none;
+            cursor: grabbing;
+        }
+
+        .slide-thumb i {
+            color: #6f7379;
+            font-size: 1.3rem;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+        }
+
+        .slide-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            pointer-events: none;
+            transition: width 0.2s ease;
+        }
+
+        .slide-fill.dragging {
+            transition: none;
+        }
+
+        /* ====== BEER GAME ====== */
+        .beer-body {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 0;
+            background: #1a1a2e;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .beer-canvas-wrap {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #beer-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .beer-instructions {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8rem;
+            font-weight: 500;
+            pointer-events: none;
+        }
+
+        .beer-reset-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 8px;
+            padding: 6px 14px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            backdrop-filter: blur(8px);
+            z-index: 5;
+        }
+
+        .beer-reset-btn:active {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        /* ====== ADOBE ACROBAT PDF VIEWER ====== */
+        .pdf-body {
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            background: #2a2a2e;
+            overflow: hidden;
+        }
+
+        /* Acrobat needs more room than a standard window */
+        #pdf-window.lg\:window-desktop {
+            width: min(1080px, calc(100vw - 48px)) !important;
+            height: min(86vh, 820px) !important;
+        }
+
+        .acro-tabbar {
+            display: flex;
+            align-items: stretch;
+            background: #1b1b1f;
+            border-bottom: 1px solid #0d0d0f;
+            flex-shrink: 0;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .acro-tabbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .acro-logo {
+            width: 24px;
+            height: 24px;
+            border-radius: 5px;
+            background: #FA0F00;
+            color: white;
+            font-weight: 800;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-self: center;
+            margin: 0 8px 0 10px;
+            flex-shrink: 0;
+            letter-spacing: -0.5px;
+        }
+
+        .acro-tab {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 500;
+            color: #a8a8ad;
+            background: transparent;
+            border: none;
+            border-top: 2px solid transparent;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .acro-tab:hover {
+            background: #232327;
+            color: #ddd;
+        }
+
+        .acro-tab.active {
+            background: #2a2a2e;
+            color: #fff;
+            border-top-color: #FA0F00;
+        }
+
+        .acro-tab i {
+            color: #FA0F00;
+            font-size: 12px;
+        }
+
+        .acro-tab:focus-visible {
+            outline: 2px solid #FA0F00;
+            outline-offset: -2px;
+        }
+
+        .acro-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: #323238;
+            padding: 5px 10px;
+            border-bottom: 1px solid #1a1a1d;
+            color: #ccc;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .acro-filename {
+            color: #e8e8ec;
+            font-weight: 500;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 45%;
+        }
+
+        .acro-toolbar .acro-spacer {
+            flex: 1;
+        }
+
+        .acro-hint {
+            color: #8b8b92;
+            font-size: 11px;
+            margin-right: 6px;
+            display: none;
+        }
+
+        @media (max-width: 1023px) {
+            .acro-hint {
+                display: inline;
+            }
+        }
+
+        .acro-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: transparent;
+            border: none;
+            color: #c9c9cf;
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 500;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .acro-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .acro-btn.primary {
+            background: #FA0F00;
+            color: #fff;
+        }
+
+        .acro-btn.primary:hover {
+            background: #d40d00;
+        }
+
+        .acro-btn:focus-visible {
+            outline: 2px solid #FA0F00;
+            outline-offset: 1px;
+        }
+
+        .acro-frame-wrap {
+            flex: 1;
+            position: relative;
+            background: #525659;
+        }
+
+        .acro-frame-wrap iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            background: #525659;
+        }
+
+        .acro-loading {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 13px;
+            pointer-events: none;
+            background: #525659;
+        }
+
+        .acro-spinner {
+            width: 26px;
+            height: 26px;
+            border: 3px solid rgba(255, 255, 255, 0.18);
+            border-top-color: #FA0F00;
+            border-radius: 50%;
+            animation: acroSpin 0.8s linear infinite;
+        }
+
+        @keyframes acroSpin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Canvas-rendered page stack (used on mobile) */
+        .acro-pages {
+            position: absolute;
+            inset: 0;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0 22px;
+        }
+
+        .acro-pages.on {
+            display: flex;
+        }
+
+        .acro-page {
+            background: #fff;
+            box-shadow: 0 3px 14px rgba(0, 0, 0, 0.5);
+            max-width: 100%;
+        }
+
+        .acro-page canvas {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        /* Shown only if rendering is impossible */
+        .acro-nopreview {
+            position: absolute;
+            inset: 0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            text-align: center;
+            padding: 24px;
+            background: #525659;
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 13px;
+        }
+
+        .acro-nopreview.on {
+            display: flex;
+        }
+
+        .acro-nopreview i {
+            font-size: 42px;
+            color: #FA0F00;
+        }
+
+        /* ====== REDUCED MOTION ====== */
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+            }
+        }
     </style>
 </head>
+
 <body class="bg-black">
 
-    <video id="video-bg" autoplay loop muted playsinline>
-        <source src="https://ik.imagekit.io/ex6ksvxsvk/website%20background%20vid.mp4?updatedAt=1752664266524" type="video/mp4">
-    </video>
+    <noscript>
+        <div style="color:white;font-family:sans-serif;padding:2rem;max-width:640px;margin:0 auto;">
+            <h1>Leonard Zirk, Creative Strategist &amp; Technologist</h1>
+            <p>This portfolio is interactive and needs JavaScript. In the meantime:</p>
+            <p><a style="color:#a5b4fc" href="https://www.linkedin.com/in/leonard-zirk-9687ba223/">LinkedIn</a> ·
+                <a style="color:#a5b4fc" href="https://github.com/leonardzirk">GitHub</a> ·
+                <a style="color:#a5b4fc" href="mailto:leonard.zirk@gmail.com">leonard.zirk@gmail.com</a></p>
+        </div>
+    </noscript>
 
-    <!-- Menu Bar -->
-    <div class="menu-bar px-4 py-1 text-sm hidden lg:flex">
-        <div class="flex justify-between items-center w-full">
-            <div class="flex items-center gap-4">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-apple" viewBox="0 0 16 16"><path d="M11.182.008C10.148-.03 9.923.023 8.857 1.18c-1.066 1.156-.902 2.482-.878 2.516s.579.09 1.672-.93c1.092-1.02 1.869-2.059 2.354-2.468C12.433.056 12.318 0 11.182.007Zm.622 1.422a3.48 3.48 0 0 0-2.233 2.233c.213.01.426.01.639.01.213 0 .426 0 .64-.01A3.48 3.48 0 0 0 11.804 1.43Z"/><path d="M8 1a2.5 2.5 0 0 1 2.5 2.5A2.5 2.5 0 0 1 8 6a2.5 2.5 0 0 1-2.5-2.5A2.5 2.5 0 0 1 8 1Zm0 9.5A2.5 2.5 0 0 1 5.5 13a2.5 2.5 0 0 1 2.5 2.5A2.5 2.5 0 0 1 8 13a2.5 2.5 0 0 1 2.5-2.5A2.5 2.5 0 0 1 8 10.5Z"/><path d="M4.176 5.633A6.5 6.5 0 0 0 8 15a6.5 6.5 0 0 0 3.824-9.367c.213.01.426.01.64.01.213 0 .426 0 .639-.01A6.5 6.5 0 0 0 16 8a6.5 6.5 0 0 0-6.5-6.5A6.5 6.5 0 0 0 3.176 8c0 .213.01.426.01.64 0 .213 0 .426-.01.639A6.5 6.5 0 0 0 4.176 5.633Z"/></svg>
-                <span class="font-bold hidden sm:inline">Finder</span>
-                <span class="hidden sm:inline">File</span>
-                <span class="hidden sm:inline">Edit</span>
-                <span class="hidden sm:inline">View</span>
-            </div>
-            <div id="time" class="font-medium"></div>
+    <!-- Boot Splash -->
+    <div id="boot-splash">
+        <svg viewBox="0 0 814 1000" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path
+                d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76.5 0-103.7 40.8-165.9 40.8-62.2 0-106.9-56.3-155.5-123.1C46.7 797.7 0 679.1 0 564.7c0-187.1 121.7-286.9 241.2-286.9 63.6 0 116.5 41.7 156.3 41.7 38 0 96.9-44.3 168.5-44.3 27.2 0 125 2.6 189.1 65.7zM554.1 159.4c31.2-36.9 53.7-88.1 53.7-139.4 0-7.1-.6-14.3-1.9-20.1-51.2 1.9-111.5 34.1-148.4 76.5-26 29.3-53.7 80.5-53.7 132.4 0 7.8.6 15.6 1.3 18.2 2.6.6 6.4.6 10.2.6 46.3.1 104-30.7 138.8-68.2z" />
+        </svg>
+        <div class="boot-progress-track">
+            <div class="boot-progress-fill"></div>
         </div>
     </div>
 
+    <!-- Lock Screen (Mobile Only) — Classic iOS 6 -->
+    <div id="lock-screen">
+        <div id="lock-screen-bg"></div>
+        <div class="ls6-statusbar">
+            <div class="ls6-side">
+                <div class="ls6-sigbars" aria-hidden="true">
+                    <span style="height:4px"></span><span style="height:6px"></span><span
+                        style="height:8px"></span><span style="height:10px"></span><span style="height:12px"></span>
+                </div>
+                <span>Zirk&nbsp;3G</span>
+            </div>
+            <span id="ls6-clock">6:55 PM</span>
+            <div class="ls6-side" style="justify-content:flex-end;">
+                <span>100%</span>
+                <i class="fas fa-battery-full" style="font-size:12px" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="ls6-timebanner">
+            <div class="ls6-time" id="lock-time">06:55</div>
+            <div class="ls6-date" id="lock-date">Monday, 19. March</div>
+        </div>
+        <div class="ls6-spacer"></div>
+        <div class="ls6-bottombar">
+            <div class="slide-track" id="slide-track">
+                <div class="slide-fill" id="slide-fill"></div>
+                <div class="slide-thumb" id="slide-thumb"><i class="fas fa-arrow-right" aria-hidden="true"></i></div>
+                <div class="slide-text">slide to unlock</div>
+            </div>
+        </div>
+    </div>
+    <audio id="unlock-sound" preload="auto"
+        src="https://ik.imagekit.io/b85jlqldz/Original%20slide%20to%20unlock%20Sound%20-%20Verboss%20(128k).mp3"></audio>
 
+    <!-- Video Background -->
+    <video id="video-bg" autoplay loop muted playsinline>
+        <source src="https://ik.imagekit.io/b85jlqldz/clipped.mov" type="video/mp4">
+    </video>
+    <div id="video-overlay"></div>
 
-    <!-- Mobile View Wrapper (Hidden on desktop) -->
-    <div id="mobile-view-wrapper" class="lg:hidden">
+    <!-- Menu Bar -->
+    <div class="menu-bar px-4 py-1 text-sm hidden lg:flex" id="menu-bar">
+        <div class="flex justify-between items-center w-full">
+            <div class="flex items-center gap-5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="17" fill="currentColor"
+                    viewBox="0 0 814 1000" class="opacity-90" aria-hidden="true">
+                    <path
+                        d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76.5 0-103.7 40.8-165.9 40.8-62.2 0-106.9-56.3-155.5-123.1C46.7 797.7 0 679.1 0 564.7c0-187.1 121.7-286.9 241.2-286.9 63.6 0 116.5 41.7 156.3 41.7 38 0 96.9-44.3 168.5-44.3 27.2 0 125 2.6 189.1 65.7zM554.1 159.4c31.2-36.9 53.7-88.1 53.7-139.4 0-7.1-.6-14.3-1.9-20.1-51.2 1.9-111.5 34.1-148.4 76.5-26 29.3-53.7 80.5-53.7 132.4 0 7.8.6 15.6 1.3 18.2 2.6.6 6.4.6 10.2.6 46.3.1 104-30.7 138.8-68.2z" />
+                </svg>
+                <span class="menu-bar-item bold">Finder</span>
+                <span class="menu-bar-item">File</span>
+                <span class="menu-bar-item">Edit</span>
+                <span class="menu-bar-item">View</span>
+                <span class="menu-bar-item">Go</span>
+                <span class="menu-bar-item">Window</span>
+                <span class="menu-bar-item">Help</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="menu-status-icons hidden md:flex">
+                    <i class="fas fa-wifi" style="font-size:12px" aria-hidden="true"></i>
+                    <i class="fas fa-volume-high" style="font-size:12px" aria-hidden="true"></i>
+                    <i class="fas fa-battery-three-quarters" style="font-size:13px" aria-hidden="true"></i>
+                </div>
+                <div id="time" class="font-medium text-[13px] tracking-tight opacity-90"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop Icons (Hidden on mobile) -->
+    <div id="desktop-icons-container" class="hidden">
+        <div id="koplin-icon-desktop" class="desktop-icon" tabindex="0" role="button"
+            aria-label="Open Dr. Koplin project">
+            <div class="icon-image"><i class="fas fa-folder" aria-hidden="true"></i></div>
+            <p>Dr. Koplin</p>
+        </div>
+        <div id="tinder-icon-desktop" class="desktop-icon" tabindex="0" role="button" aria-label="Open Tinder project">
+            <div class="icon-image"><i class="fas fa-folder" aria-hidden="true"></i></div>
+            <p>Tinder</p>
+        </div>
+        <div id="modulor-icon-desktop" class="desktop-icon" tabindex="0" role="button"
+            aria-label="Open Modulor project">
+            <div class="icon-image"><i class="fas fa-folder" aria-hidden="true"></i></div>
+            <p>Modulor</p>
+        </div>
+        <div id="duolingo-icon-desktop" class="desktop-icon" tabindex="0" role="button" aria-label="Open Duolingo">
+            <div class="icon-image"><img src="https://ik.imagekit.io/ex6ksvxsvk/duolingo.png?updatedAt=1753447361224"
+                    alt="Duolingo" loading="lazy"></div>
+            <p>Duolingo</p>
+        </div>
+        <div id="cv-pdf-icon-desktop" class="desktop-icon" tabindex="0" role="button"
+            aria-label="Open CV PDFs in Acrobat viewer">
+            <div class="icon-image"><img src="https://ik.imagekit.io/ex6ksvxsvk/pdfdownload.png?updatedAt=1753096977321"
+                    alt="CV PDF" loading="lazy"></div>
+            <p>CV Leonard Zirk</p>
+        </div>
+        <div data-url="https://www.linkedin.com/in/leonard-zirk-9687ba223/" class="desktop-icon link-icon" tabindex="0"
+            role="button" aria-label="Open LinkedIn">
+            <div class="icon-image"><img src="https://ik.imagekit.io/ex6ksvxsvk/linkedin.png?updatedAt=1752678709680"
+                    alt="LinkedIn" loading="lazy"></div>
+            <p>LinkedIn</p>
+        </div>
+        <div data-url="https://github.com/leonardzirk" class="desktop-icon link-icon" tabindex="0" role="button"
+            aria-label="Open GitHub">
+            <div class="icon-image"><img src="https://ik.imagekit.io/ex6ksvxsvk/github.png?updatedAt=1752679143531"
+                    alt="GitHub" style="border-radius:50%" loading="lazy"></div>
+            <p>GitHub</p>
+        </div>
+        <div data-url="https://www.instagram.com/leonardzirk_unoffical" class="desktop-icon link-icon" tabindex="0"
+            role="button" aria-label="Open Instagram">
+            <div class="icon-image"><img
+                    src="https://ik.imagekit.io/ex6ksvxsvk/instagramicon.webp?updatedAt=1752678971026" alt="Instagram"
+                    loading="lazy">
+            </div>
+            <p>Instagram</p>
+        </div>
+        <div data-url="https://www.tiktok.com/@leonardzirk" class="desktop-icon link-icon" tabindex="0" role="button"
+            aria-label="Open TikTok">
+            <div class="icon-image"><img
+                    src="https://ik.imagekit.io/ex6ksvxsvk/tik%20tok%20icon.png?updatedAt=1752678704069" alt="TikTok"
+                    loading="lazy">
+            </div>
+            <p>TikTok</p>
+        </div>
+        <div data-url="https://substack.com/@leonardzirk?utm_source=user-menu" class="desktop-icon link-icon"
+            tabindex="0" role="button" aria-label="Open Substack">
+            <div class="icon-image"><img src="https://ik.imagekit.io/ex6ksvxsvk/substack.png?updatedAt=1752679004979"
+                    alt="Substack" loading="lazy"></div>
+            <p>Substack</p>
+        </div>
+        <div data-url="https://klipp-linding.science/index.php/en/" class="desktop-icon link-icon" tabindex="0"
+            role="button" aria-label="Open Klipp Linding Lab">
+            <div class="icon-image"><img
+                    src="https://ik.imagekit.io/ex6ksvxsvk/klipplindinglab_256.png?updatedAt=1752678845945"
+                    alt="Klipp Linding Lab" loading="lazy"></div>
+            <p>Klipp Linding</p>
+        </div>
+        <div id="readme-desktop-icon" class="desktop-icon" tabindex="0" role="button" aria-label="Open read me file">
+            <div class="icon-image"><i class="fas fa-file-lines" aria-hidden="true"></i></div>
+            <p>read me.txt</p>
+        </div>
+    </div>
+
+    <!-- Mobile View Wrapper -->
+    <div id="mobile-view-wrapper">
         <div id="mobile-icons-container">
             <!-- Page 1 -->
             <div class="mobile-page">
-                <div id="koplin-icon-mobile" class="mobile-icon"><div class="icon-bg"><i class="fas fa-folder"></i></div><p>Dr. Koplin</p></div>
-                <div id="tinder-icon-mobile" class="mobile-icon"><div class="icon-bg"><i class="fas fa-folder"></i></div><p>Tinder</p></div>
-                <div id="modulor-icon-mobile" class="mobile-icon"><div class="icon-bg"><i class="fas fa-folder"></i></div><p>Modulor</p></div>
-                <div id="duolingo-icon-mobile" class="mobile-icon"><div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/duolingo.png?updatedAt=1753447361224" alt="Duolingo Icon"></div><p>Duolingo</p></div>
-                <div data-url="https://ik.imagekit.io/ex6ksvxsvk/CV%20Leonard%20Zirk%20Juli%202025.pdf?updatedAt=1753119910183" class="mobile-icon link-icon"><div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/pdfdownload.png?updatedAt=1753096977321" alt="CV Icon"></div><p>CV Leonard Zirk</p></div>
-                <div data-url="https://www.linkedin.com/in/leonard-zirk-9687ba223/" class="mobile-icon link-icon"><div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/linkedin.png?updatedAt=1752678709680" alt="LinkedIn Icon"></div><p>LinkedIn</p></div>
-                <div data-url="https://github.com/leonardzirk" class="mobile-icon link-icon"><div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/github.png?updatedAt=1752679143531" alt="GitHub Icon" class="rounded-full"></div><p>GitHub</p></div>
-                <div data-url="https://www.instagram.com/leonardzirk_unoffical" class="mobile-icon link-icon"><div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/instagramicon.webp?updatedAt=1752678971026" alt="Instagram Icon"></div><p>Instagram</p></div>
-                <div data-url="https://www.tiktok.com/@leonardzirk" class="mobile-icon link-icon"><div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/tik%20tok%20icon.png?updatedAt=1752678704069" alt="TikTok Icon"></div><p>TikTok</p></div>
+                <div id="koplin-icon-mobile" class="mobile-icon" tabindex="0" role="button"
+                    aria-label="Open Dr. Koplin project">
+                    <div class="icon-bg"><i class="fas fa-folder" aria-hidden="true"></i></div>
+                    <p>Dr. Koplin</p>
+                </div>
+                <div id="tinder-icon-mobile" class="mobile-icon" tabindex="0" role="button"
+                    aria-label="Open Tinder project">
+                    <div class="icon-bg"><i class="fas fa-folder" aria-hidden="true"></i></div>
+                    <p>Tinder</p>
+                </div>
+                <div id="modulor-icon-mobile" class="mobile-icon" tabindex="0" role="button"
+                    aria-label="Open Modulor project">
+                    <div class="icon-bg"><i class="fas fa-folder" aria-hidden="true"></i></div>
+                    <p>Modulor</p>
+                </div>
+                <div id="duolingo-icon-mobile" class="mobile-icon" tabindex="0" role="button"
+                    aria-label="Open Duolingo">
+                    <div class="icon-bg"><img
+                            src="https://ik.imagekit.io/ex6ksvxsvk/duolingo.png?updatedAt=1753447361224"
+                            alt="Duolingo Icon" loading="lazy"></div>
+                    <p>Duolingo</p>
+                </div>
+                <div id="beer-icon-mobile" class="mobile-icon" tabindex="0" role="button" aria-label="Open Beer Game">
+                    <div class="icon-bg" style="background:linear-gradient(135deg,#f59e0b,#d97706);"><i
+                            class="fas fa-beer-mug-empty" style="font-size:30px;color:white;" aria-hidden="true"></i>
+                    </div>
+                    <p>Beer Game</p>
+                </div>
+                <div id="cv-pdf-icon-mobile" class="mobile-icon" tabindex="0" role="button"
+                    aria-label="Open CV PDFs in Acrobat viewer">
+                    <div class="icon-bg"><img
+                            src="https://ik.imagekit.io/ex6ksvxsvk/pdfdownload.png?updatedAt=1753096977321"
+                            alt="CV Icon" loading="lazy"></div>
+                    <p>CV Leonard Zirk</p>
+                </div>
+                <div data-url="https://www.linkedin.com/in/leonard-zirk-9687ba223/" class="mobile-icon link-icon"
+                    tabindex="0" role="button" aria-label="Open LinkedIn">
+                    <div class="icon-bg"><img
+                            src="https://ik.imagekit.io/ex6ksvxsvk/linkedin.png?updatedAt=1752678709680"
+                            alt="LinkedIn Icon" loading="lazy"></div>
+                    <p>LinkedIn</p>
+                </div>
+                <div data-url="https://github.com/leonardzirk" class="mobile-icon link-icon" tabindex="0" role="button"
+                    aria-label="Open GitHub">
+                    <div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/github.png?updatedAt=1752679143531"
+                            alt="GitHub Icon" class="rounded-full" loading="lazy"></div>
+                    <p>GitHub</p>
+                </div>
+                <div data-url="https://www.instagram.com/leonardzirk_unoffical" class="mobile-icon link-icon"
+                    tabindex="0" role="button" aria-label="Open Instagram">
+                    <div class="icon-bg"><img
+                            src="https://ik.imagekit.io/ex6ksvxsvk/instagramicon.webp?updatedAt=1752678971026"
+                            alt="Instagram Icon" loading="lazy"></div>
+                    <p>Instagram</p>
+                </div>
+                <div data-url="https://www.tiktok.com/@leonardzirk" class="mobile-icon link-icon" tabindex="0"
+                    role="button" aria-label="Open TikTok">
+                    <div class="icon-bg"><img
+                            src="https://ik.imagekit.io/ex6ksvxsvk/tik%20tok%20icon.png?updatedAt=1752678704069"
+                            alt="TikTok Icon" loading="lazy"></div>
+                    <p>TikTok</p>
+                </div>
             </div>
             <!-- Page 2 -->
             <div class="mobile-page">
-                <div data-url="https://substack.com/@leonardzirk?utm_source=user-menu" class="mobile-icon link-icon"><div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/substack.png?updatedAt=1752679004979" class="rounded-md" alt="Substack Icon"></div><p>Substack</p></div>
-                <div data-url="https://klipp-linding.science/index.php/en/" class="mobile-icon link-icon"><div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/klipplindinglab_256.png?updatedAt=1752678845945" class="rounded-md" alt="Klipp Linding Lab Icon"></div><p>Klipp Linding Lab</p></div>
+                <div data-url="https://substack.com/@leonardzirk?utm_source=user-menu" class="mobile-icon link-icon"
+                    tabindex="0" role="button" aria-label="Open Substack">
+                    <div class="icon-bg"><img
+                            src="https://ik.imagekit.io/ex6ksvxsvk/substack.png?updatedAt=1752679004979"
+                            class="rounded-md" alt="Substack Icon" loading="lazy"></div>
+                    <p>Substack</p>
+                </div>
+                <div data-url="https://klipp-linding.science/index.php/en/" class="mobile-icon link-icon" tabindex="0"
+                    role="button" aria-label="Open Klipp Linding Lab">
+                    <div class="icon-bg"><img
+                            src="https://ik.imagekit.io/ex6ksvxsvk/klipplindinglab_256.png?updatedAt=1752678845945"
+                            class="rounded-md" alt="Klipp Linding Lab Icon" loading="lazy"></div>
+                    <p>Klipp Linding Lab</p>
+                </div>
             </div>
         </div>
         <div id="pagination-container">
-            <button id="prev-page" class="pagination-arrow hidden"><i class="fas fa-chevron-left"></i></button>
+            <button id="prev-page" class="pagination-arrow hidden" aria-label="Previous page"><i
+                    class="fas fa-chevron-left" aria-hidden="true"></i></button>
             <div id="pagination-dots"></div>
-            <button id="next-page" class="pagination-arrow"><i class="fas fa-chevron-right"></i></button>
+            <button id="next-page" class="pagination-arrow" aria-label="Next page"><i class="fas fa-chevron-right"
+                    aria-hidden="true"></i></button>
         </div>
     </div>
 
     <!-- Windows -->
-    <div id="cv-window" class="window hidden"><div class="window-content"></div></div>
-    <div id="contact-window" class="window hidden"><div class="window-content"></div></div>
-    <div id="koplin-window" class="window hidden"><div class="window-content"></div></div>
-    <div id="readme-window" class="window hidden"><div class="window-content"></div></div>
-    <div id="readme-desktop-window" class="window hidden"><div class="window-content"></div></div>
-    <div id="duolingo-window" class="window hidden"><div class="window-content"></div></div>
-    <div id="tinder-window" class="window hidden"><div class="window-content"></div></div>
-    <div id="modulor-window" class="window hidden"><div class="window-content"></div></div>
-    <div id="tinder-party-window" class="window hidden"><div class="window-content"></div></div>
-    <div id="tinder-swipe-window" class="window hidden"><div class="window-content"></div></div>
+    <div id="contact-window" class="window">
+        <div class="window-content"></div>
+    </div>
+    <div id="koplin-window" class="window">
+        <div class="window-content"></div>
+    </div>
+    <div id="readme-desktop-window" class="window">
+        <div class="window-content"></div>
+    </div>
+    <div id="duolingo-window" class="window">
+        <div class="window-content"></div>
+    </div>
+    <div id="tinder-window" class="window">
+        <div class="window-content"></div>
+    </div>
+    <div id="modulor-window" class="window">
+        <div class="window-content"></div>
+    </div>
+    <div id="tinder-party-window" class="window">
+        <div class="window-content"></div>
+    </div>
+    <div id="tinder-swipe-window" class="window">
+        <div class="window-content"></div>
+    </div>
+    <div id="beer-window" class="window">
+        <div class="window-content"></div>
+    </div>
+    <div id="pdf-window" class="window">
+        <div class="window-content"></div>
+    </div>
 
     <!-- Dock -->
-    <div class="dock">
-        <div id="cv-dock-icon" class="dock-item"><img src="https://ik.imagekit.io/ex6ksvxsvk/resume.png?updatedAt=1753120155625" alt="CV"></div>
-        <div id="contact-dock-icon" class="dock-item"><img src="https://ik.imagekit.io/ex6ksvxsvk/mailicon.png?updatedAt=1752667698506" alt="Mail"></div>
+    <div class="dock" id="main-dock">
+        <div class="dock-item-wrapper">
+            <span class="dock-tooltip">CV</span>
+            <div id="cv-dock-icon" class="dock-item" tabindex="0" role="button" aria-label="Open CV"><img
+                    src="https://ik.imagekit.io/ex6ksvxsvk/resume.png?updatedAt=1753120155625" alt="CV"></div>
+        </div>
+        <div class="dock-item-wrapper">
+            <span class="dock-tooltip">Contact</span>
+            <div id="contact-dock-icon" class="dock-item" tabindex="0" role="button" aria-label="Open Contact"><img
+                    src="https://ik.imagekit.io/ex6ksvxsvk/mailicon.png?updatedAt=1752667698506" alt="Mail"></div>
+        </div>
+        <div class="dock-separator"></div>
+        <div class="dock-item-wrapper">
+            <span class="dock-tooltip">LinkedIn</span>
+            <div data-url="https://www.linkedin.com/in/leonard-zirk-9687ba223/" class="dock-item dock-link" tabindex="0"
+                role="button" aria-label="Open LinkedIn"><img
+                    src="https://ik.imagekit.io/ex6ksvxsvk/linkedin.png?updatedAt=1752678709680" alt="LinkedIn"></div>
+        </div>
+        <div class="dock-item-wrapper">
+            <span class="dock-tooltip">GitHub</span>
+            <div data-url="https://github.com/leonardzirk" class="dock-item dock-link" tabindex="0" role="button"
+                aria-label="Open GitHub"><img src="https://ik.imagekit.io/ex6ksvxsvk/github.png?updatedAt=1752679143531"
+                    alt="GitHub" style="border-radius:50%"></div>
+        </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // ===== CORE STATE =====
             const timeEl = document.getElementById('time');
             let isDesktop = window.innerWidth >= 1024;
-            const dock = document.querySelector('.dock');
+            const dock = document.getElementById('main-dock');
+            const menuBar = document.getElementById('menu-bar');
+            const windows = document.querySelectorAll('.window');
+            let highestZ = 501;
 
+            // ===== POLYFILL: roundRect (older Safari / Firefox) =====
+            if (typeof CanvasRenderingContext2D !== 'undefined' && !CanvasRenderingContext2D.prototype.roundRect) {
+                CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+                    let radii = Array.isArray(r) ? r : [r, r, r, r];
+                    while (radii.length < 4) radii.push(radii[radii.length - 1]);
+                    const [tl, tr, br, bl] = radii.map(v => Math.max(0, Math.min(v, w / 2, h / 2)));
+                    this.moveTo(x + tl, y);
+                    this.lineTo(x + w - tr, y);
+                    this.arcTo(x + w, y, x + w, y + tr, tr);
+                    this.lineTo(x + w, y + h - br);
+                    this.arcTo(x + w, y + h, x + w - br, y + h, br);
+                    this.lineTo(x + bl, y + h);
+                    this.arcTo(x, y + h, x, y + h - bl, bl);
+                    this.lineTo(x, y + tl);
+                    this.arcTo(x, y, x + tl, y, tl);
+                    this.closePath();
+                    return this;
+                };
+            }
+
+            // ===== BOOT SEQUENCE =====
+            const bootSplash = document.getElementById('boot-splash');
+            const BOOT_DURATION = 3400;
+
+            setTimeout(() => {
+                bootSplash.classList.add('fade-out');
+                if (isDesktop) {
+                    revealDesktop();
+                } else {
+                    lockScreen.classList.add('visible');
+                }
+                setTimeout(() => {
+                    bootSplash.style.display = 'none';
+                }, 600);
+            }, BOOT_DURATION);
+
+            // ===== LOCK SCREEN CLOCK =====
+            const lockTimeEl = document.getElementById('lock-time');
+            const lockDateEl = document.getElementById('lock-date');
+            const ls6ClockEl = document.getElementById('ls6-clock');
+            function updateLockClock() {
+                const now = new Date();
+                const h = now.getHours().toString().padStart(2, '0');
+                const m = now.getMinutes().toString().padStart(2, '0');
+                lockTimeEl.textContent = `${h}:${m}`;
+                const wd = now.toLocaleDateString('en-US', { weekday: 'long' });
+                const mo = now.toLocaleDateString('en-US', { month: 'long' });
+                lockDateEl.textContent = `${wd}, ${now.getDate()}. ${mo}`;
+                if (ls6ClockEl) {
+                    let h12 = now.getHours();
+                    const ap = h12 >= 12 ? 'PM' : 'AM';
+                    h12 = h12 % 12 || 12;
+                    ls6ClockEl.textContent = `${h12}:${m} ${ap}`;
+                }
+            }
+            updateLockClock();
+            setInterval(updateLockClock, 1000);
+
+            // ===== SLIDE TO UNLOCK (drag + tap + keyboard) =====
+            const lockScreen = document.getElementById('lock-screen');
+            const slideTrack = document.getElementById('slide-track');
+            const slideThumb = document.getElementById('slide-thumb');
+            const slideFill = document.getElementById('slide-fill');
+            let isSliding = false, hasMovedFar = false;
+            let slideStartX = 0;
+            const UNLOCK_THRESHOLD = 0.8;
+
+            const SLIDE_PAD = 5;
+
+            function getMaxSlide() {
+                return slideTrack.offsetWidth - slideThumb.offsetWidth - SLIDE_PAD * 2;
+            }
+
+            function unlockAnimated() {
+                const max = getMaxSlide();
+                slideThumb.style.left = `${SLIDE_PAD + max}px`;
+                slideFill.style.width = `${max + slideThumb.offsetWidth + SLIDE_PAD}px`;
+                setTimeout(unlockScreen, 200);
+            }
+
+            function onSlideStart(e) {
+                isSliding = true; hasMovedFar = false;
+                slideStartX = (e.clientX || e.touches[0].clientX);
+                slideThumb.classList.add('dragging');
+                slideFill.classList.add('dragging');
+                e.preventDefault();
+            }
+
+            function onSlideMove(e) {
+                if (!isSliding) return;
+                const currentX = (e.clientX || e.touches[0].clientX);
+                const diff = currentX - slideStartX;
+                if (Math.abs(diff) > 8) hasMovedFar = true;
+                const max = getMaxSlide();
+                const clamped = Math.max(0, Math.min(diff, max));
+                slideThumb.style.left = `${SLIDE_PAD + clamped}px`;
+                slideFill.style.width = `${clamped + slideThumb.offsetWidth + SLIDE_PAD}px`;
+            }
+
+            function onSlideEnd() {
+                if (!isSliding) return;
+                isSliding = false;
+                slideThumb.classList.remove('dragging');
+                slideFill.classList.remove('dragging');
+                if (!hasMovedFar) { unlockAnimated(); return; }   // a tap unlocks too
+                const currentLeft = parseFloat(slideThumb.style.left) - SLIDE_PAD;
+                const max = getMaxSlide();
+                if (currentLeft / max >= UNLOCK_THRESHOLD) {
+                    unlockAnimated();
+                } else {
+                    slideThumb.style.left = `${SLIDE_PAD}px`;
+                    slideFill.style.width = '0px';
+                }
+            }
+
+            function unlockScreen() {
+                const unlockSound = document.getElementById('unlock-sound');
+                if (unlockSound) {
+                    unlockSound.currentTime = 0;
+                    unlockSound.play().catch(() => { });
+                }
+                lockScreen.classList.add('dismissing');
+                setTimeout(() => {
+                    lockScreen.style.display = 'none';
+                    revealDesktop();
+                }, 500);
+            }
+
+            slideThumb.setAttribute('tabindex', '0');
+            slideThumb.setAttribute('role', 'button');
+            slideThumb.setAttribute('aria-label', 'Slide or tap to unlock');
+            slideThumb.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); unlockAnimated(); }
+            });
+            slideThumb.addEventListener('mousedown', onSlideStart);
+            document.addEventListener('mousemove', onSlideMove);
+            document.addEventListener('mouseup', onSlideEnd);
+            slideThumb.addEventListener('touchstart', onSlideStart, { passive: false });
+            document.addEventListener('touchmove', onSlideMove, { passive: false });
+            document.addEventListener('touchend', onSlideEnd);
+
+            // ===== RANDOMIZE DESKTOP ICON POSITIONS =====
+            function randomizeDesktopIcons() {
+                const icons = document.querySelectorAll('#desktop-icons-container .desktop-icon');
+                const iconW = 95;
+                const iconH = 100;
+                const padding = 10;
+                const topMargin = 36;
+                const bottomMargin = 90;
+                const sideMargin = 16;
+
+                const screenW = window.innerWidth;
+                const screenH = window.innerHeight;
+                const safeW = screenW - sideMargin * 2 - iconW;
+                const safeH = screenH - topMargin - bottomMargin - iconH;
+
+                const placed = [];
+
+                icons.forEach(icon => {
+                    let x, y, attempts = 0;
+                    const maxAttempts = 80;
+
+                    do {
+                        x = sideMargin + Math.random() * safeW;
+                        y = topMargin + Math.random() * safeH;
+                        attempts++;
+                    } while (
+                        attempts < maxAttempts &&
+                        placed.some(p =>
+                            Math.abs(p.x - x) < (iconW + padding) &&
+                            Math.abs(p.y - y) < (iconH + padding)
+                        )
+                    );
+
+                    placed.push({ x, y });
+                    icon.style.left = `${Math.round(x)}px`;
+                    icon.style.top = `${Math.round(y)}px`;
+                });
+            }
+
+            function revealDesktop() {
+                if (menuBar) menuBar.classList.add('revealed');
+
+                setTimeout(() => {
+                    dock.classList.add('revealed');
+                }, 200);
+
+                if (isDesktop) {
+                    randomizeDesktopIcons();
+                    const icons = document.querySelectorAll('#desktop-icons-container .desktop-icon');
+                    icons.forEach((icon, i) => {
+                        setTimeout(() => icon.classList.add('revealed'), 100 + i * 60);
+                    });
+                }
+
+                if (!isDesktop) {
+                    const mobileWrapper = document.getElementById('mobile-view-wrapper');
+                    if (mobileWrapper) {
+                        setTimeout(() => mobileWrapper.classList.add('revealed'), 200);
+                    }
+                }
+
+                // Auto-open the Acrobat CV viewer once the desktop is revealed.
+                // Desktop only: mobile browsers render inline PDFs unreliably, so
+                // the home screen is a better landing state there.
+                if (isDesktop) {
+                    setTimeout(() => {
+                        const pdfWindow = document.getElementById('pdf-window');
+                        if (pdfWindow) openWindow(pdfWindow);
+                    }, 500);
+                }
+            }
+
+            // ===== CLOCK =====
             function updateTime() {
                 const now = new Date();
-                const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-                timeEl.textContent = now.toLocaleDateString('en-US', options).replace(',', '');
+                const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+                const formatted = now.toLocaleDateString('en-US', options).replace(',', '');
+                timeEl.textContent = formatted;
             }
             updateTime();
-            setInterval(updateTime, 1000 * 60);
+            setInterval(updateTime, 1000);
 
-            const windows = document.querySelectorAll('.window');
+            // ===== WINDOW SYSTEM =====
             function openWindow(windowEl) {
-                windows.forEach(w => w.style.zIndex = 500);
-                windowEl.classList.remove('hidden');
-                windowEl.style.zIndex = 501;
+                highestZ++;
+                windowEl.style.zIndex = highestZ;
+
+                windows.forEach(w => w.classList.remove('focused'));
+                windowEl.classList.add('focused');
+
+                windowEl.classList.remove('closing', 'minimizing');
+                windowEl.classList.add('visible');
+
                 if (isDesktop) {
                     windowEl.classList.add('lg:window-desktop');
+                    if (windowEl.id === 'pdf-window' && !windowEl.dataset.positioned) {
+                        // Acrobat is wide: centre it rather than cascading it off-screen
+                        requestAnimationFrame(() => {
+                            const r = windowEl.getBoundingClientRect();
+                            windowEl.style.left = `${Math.max(12, (window.innerWidth - r.width) / 2)}px`;
+                            windowEl.style.top = `${Math.max(44, (window.innerHeight - r.height) / 2)}px`;
+                        });
+                        windowEl.dataset.positioned = 'true';
+                    }
+                    if (!windowEl.dataset.positioned) {
+                        const openCount = Array.from(windows).filter(w => w.classList.contains('visible')).length;
+                        const baseTop = 60 + (openCount - 1) * 28;
+                        const baseLeft = 80 + (openCount - 1) * 28;
+                        windowEl.style.top = `${baseTop}px`;
+                        windowEl.style.left = `${baseLeft}px`;
+                        windowEl.dataset.positioned = 'true';
+                    }
                 } else {
                     windowEl.classList.remove('lg:window-desktop');
-                    if (dock) dock.classList.add('hidden');
+                    if (dock) dock.classList.add('hidden-mobile');
                 }
-            }
-            function closeWindow(windowEl) {
-                windowEl.classList.add('hidden');
-                const anyWindowOpen = Array.from(windows).some(w => !w.classList.contains('hidden'));
-                if (!isDesktop && !anyWindowOpen) {
-                    if (dock) dock.classList.remove('hidden');
+
+                const dockIcon = findDockIconForWindow(windowEl);
+                if (dockIcon) {
+                    dockIcon.classList.add('bouncing');
+                    setTimeout(() => dockIcon.classList.remove('bouncing'), 500);
                 }
             }
 
+            function closeWindow(windowEl) {
+                windowEl.classList.add('closing');
+                windowEl.classList.remove('visible', 'focused');
+                restoreDockIfNeeded(windowEl);
+            }
+
+            function minimizeWindow(windowEl) {
+                windowEl.classList.add('minimizing');
+                windowEl.classList.remove('focused');
+                setTimeout(() => {
+                    windowEl.classList.remove('visible', 'minimizing');
+                    restoreDockIfNeeded(windowEl);
+                }, 350);
+            }
+
+            function toggleMaximize(windowEl) {
+                if (!isDesktop) return;
+                windowEl.classList.toggle('maximized');
+            }
+
+            function restoreDockIfNeeded(windowEl) {
+                const anyWindowOpen = Array.from(windows).some(w => w !== windowEl && w.classList.contains('visible'));
+                if (!isDesktop && !anyWindowOpen) {
+                    if (dock) dock.classList.remove('hidden-mobile');
+                }
+            }
+
+            function findDockIconForWindow(windowEl) {
+                const id = windowEl.id;
+                const map = { 'pdf-window': 'cv-dock-icon', 'contact-window': 'contact-dock-icon' };
+                const dockId = map[id];
+                return dockId ? document.getElementById(dockId) : null;
+            }
+
+            // Close the top-most visible window with Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key !== 'Escape') return;
+                const visible = Array.from(windows).filter(w => w.classList.contains('visible'));
+                if (!visible.length) return;
+                visible.sort((a, b) => (parseInt(b.style.zIndex) || 0) - (parseInt(a.style.zIndex) || 0));
+                closeWindow(visible[0]);
+            });
+
+            // Focus window on click
+            windows.forEach(w => {
+                w.addEventListener('mousedown', () => {
+                    if (w.classList.contains('visible')) {
+                        highestZ++;
+                        w.style.zIndex = highestZ;
+                        windows.forEach(ww => ww.classList.remove('focused'));
+                        w.classList.add('focused');
+                    }
+                });
+            });
+
+            // ===== DRAGGING — WINDOWS =====
             function makeWindowDraggable(windowEl) {
                 const header = windowEl.querySelector('.window-header');
                 if (!header) return;
                 let isDragging = false, offsetX, offsetY;
-                const onMouseDown = (e) => {
-                    if (!isDesktop) return;
+
+                header.addEventListener('mousedown', (e) => {
+                    if (!isDesktop || e.target.closest('.traffic-light')) return;
+                    if (windowEl.classList.contains('maximized')) return;
                     isDragging = true;
                     const rect = windowEl.getBoundingClientRect();
                     offsetX = e.clientX - rect.left;
                     offsetY = e.clientY - rect.top;
                     header.style.cursor = 'grabbing';
-                    openWindow(windowEl);
-                };
-                const onMouseMove = (e) => {
+
+                    highestZ++;
+                    windowEl.style.zIndex = highestZ;
+                    windows.forEach(ww => ww.classList.remove('focused'));
+                    windowEl.classList.add('focused');
+                });
+
+                document.addEventListener('mousemove', (e) => {
                     if (!isDragging || !isDesktop) return;
                     windowEl.style.left = `${e.clientX - offsetX}px`;
                     windowEl.style.top = `${e.clientY - offsetY}px`;
-                };
-                const onMouseUp = () => {
-                    isDragging = false;
-                    if (header) header.style.cursor = 'move';
-                };
-                header.addEventListener('mousedown', onMouseDown);
-                document.addEventListener('mousemove', onMouseMove);
-                document.addEventListener('mouseup', onMouseUp);
+                });
+
+                document.addEventListener('mouseup', () => {
+                    if (isDragging) {
+                        isDragging = false;
+                        if (header) header.style.cursor = 'move';
+                    }
+                });
             }
 
+            // ===== DRAGGING — DESKTOP ICONS =====
             function makeIconDraggable(iconEl) {
                 let isDragging = false, hasDragged = false, offsetX, offsetY;
+                let origLeft, origTop;
+
                 iconEl.addEventListener('mousedown', (e) => {
                     if (!isDesktop) return;
-                    isDragging = true; hasDragged = false;
-                    offsetX = e.clientX - iconEl.getBoundingClientRect().left;
-                    offsetY = e.clientY - iconEl.getBoundingClientRect().top;
+                    isDragging = true;
+                    hasDragged = false;
+                    const rect = iconEl.getBoundingClientRect();
+                    offsetX = e.clientX - rect.left;
+                    offsetY = e.clientY - rect.top;
+                    origLeft = iconEl.style.left;
+                    origTop = iconEl.style.top;
                     iconEl.style.cursor = 'grabbing';
                     iconEl.style.zIndex = 101;
+                    iconEl.style.position = 'fixed';
+                    iconEl.style.left = `${rect.left}px`;
+                    iconEl.style.top = `${rect.top}px`;
                 });
+
                 document.addEventListener('mousemove', (e) => {
                     if (!isDragging || !isDesktop) return;
                     hasDragged = true;
                     iconEl.style.left = `${e.clientX - offsetX}px`;
                     iconEl.style.top = `${e.clientY - offsetY}px`;
                 });
+
                 document.addEventListener('mouseup', () => {
-                    if (!isDesktop) return;
+                    if (!isDragging) return;
                     isDragging = false;
                     iconEl.style.cursor = 'grab';
                     iconEl.style.zIndex = 100;
+                    iconEl.style.position = 'absolute';
+                    if (!hasDragged) {
+                        iconEl.style.left = origLeft;
+                        iconEl.style.top = origTop;
+                    }
                     setTimeout(() => { hasDragged = false; }, 0);
                 });
+
                 return () => hasDragged;
             }
 
+            // ===== DOCK MAGNIFICATION =====
+            function setupDockMagnification() {
+                const dockItems = dock.querySelectorAll('.dock-item');
+
+                dock.addEventListener('mousemove', (e) => {
+                    if (!isDesktop) return;
+
+                    dockItems.forEach(item => {
+                        const itemRect = item.getBoundingClientRect();
+                        const itemCenter = itemRect.left + itemRect.width / 2;
+                        const dist = Math.abs(e.clientX - itemCenter);
+                        const maxDist = 120;
+
+                        if (dist < maxDist) {
+                            const scale = 1 + (1 - dist / maxDist) * 0.38;
+                            item.style.transform = `scale(${scale})`;
+                            item.style.marginBottom = `${(scale - 1) * 20}px`;
+                        } else {
+                            item.style.transform = 'scale(1)';
+                            item.style.marginBottom = '0px';
+                        }
+                    });
+                });
+
+                dock.addEventListener('mouseleave', () => {
+                    dockItems.forEach(item => {
+                        item.style.transform = 'scale(1)';
+                        item.style.marginBottom = '0px';
+                    });
+                });
+            }
+            setupDockMagnification();
+
+            // ===== CONTENT INJECTION =====
             function injectContent() {
-                const windowHeaderHTML = (title) => `<div class="window-header"><div class="traffic-lights"><div class="traffic-light close"></div></div><span class="flex-grow text-center pr-8">${title}</span></div>`;
-                document.getElementById('cv-window').querySelector('.window-content').innerHTML = `${windowHeaderHTML('CV - Leonard Zirk')}<div class="window-body"><div class="text-center mb-6"><h1 class="text-3xl font-bold text-white">Leonard Zirk</h1><p class="text-xl text-gray-300">Creative Strategist & Technologist</p></div><div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center text-sm mb-6"><div><strong class="block text-gray-400">PHONE</strong>+491637150123</div><div><strong class="block text-gray-400">ADDRESS</strong>Transvaalstraße 6, 13351</div><div><strong class="block text-gray-400">EMAIL</strong>leonard.zirk@gmail.com</div></div><h2>About</h2><p class="italic">"I turn complex science into captivating stories. As a scientist, I'm trained in rigorous data analysis; as a creative marketer, I've built engaging social media campaigns for global brands. My passion is bridging the gap between the theoretical and the applicable, and I'm eager to bring my unique blend of analytical and creative skills to a dynamic team."</p><h2>Work Experience</h2><p><strong>Creative Strategist</strong> | Ozmoze Gmbh<br>Developed social media and event content strategies for clients including Telekom, Tinder, and Duolingo. Crafted pitch decks for potential clients like Funk, Huawei, and Spotify.</p><p><strong>Social Media Marketer</strong> | Modulor Gmbh<br>Successfully oversaw and enhanced the comprehensive management of the organization's social media channels.</p><p><strong>Researcher</strong> | Klipp Linding Science<br>Engineered a computational pipeline in Julia for system modeling in molecular science, integrating single-cell transcriptomic data with spatially-resolved validation from smFISH imaging.</p><h2>Education</h2><p><strong>Bachelor of Science - Biology</strong> (2020-2025)<br>Core coursework in molecular biology, genetics, and quantitative biophysics, with a focus on computational methods (R, Python).</p><p><strong>Bachelor of Science - Psychology</strong> (2020 - 2024)<br>Specialized in cognitive psychology and behavioral neuroscience, with an emphasis on quantitative research design and statistical analysis (SPSS, R).</p><p><strong>Thesis Project: Hybrid Model</strong><br>Developed a hybrid computational model integrating mechanistic differential equations with data-driven machine learning algorithms to predict cellular responses using Julia.</p><h2>Skills</h2><p>Adaptive, Communication, Teamwork, Responsibility, Creativity, Problem-solving</p><h2>Highlights</h2><p><strong>01</strong> Threw a Project X themed Party for 1500 People for Tinder.<br><strong>02</strong> Supported a Campaign reaching half of Germany.<br><strong>03</strong> Collaborated within 5 Research Groups.<br><strong>04</strong> Enjoyed the moment.</p></div>`;
-                document.getElementById('contact-window').querySelector('.window-content').innerHTML = `${windowHeaderHTML('Contact Me')}<div class="window-body"><form><div class="mb-4"><label class="block mb-2 text-ccc" for="name">Name</label><input class="w-full bg-black/30 border border-white/20 rounded-lg p-2 text-white" type="text" id="name" required></div><div class="mb-4"><label class="block mb-2 text-ccc" for="email">Your Email</label><input class="w-full bg-black/30 border border-white/20 rounded-lg p-2 text-white" type="email" id="email" required></div><div class="mb-4"><label class="block mb-2 text-ccc" for="message">Message</label><textarea class="w-full bg-black/30 border border-white/20 rounded-lg p-2 text-white" id="message" rows="4" required></textarea></div><button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg font-medium">Send</button></form></div>`;
-                document.getElementById('koplin-window').querySelector('.window-content').innerHTML = `${windowHeaderHTML('Dr. Koplin')}<div class="window-body p-4 flex gap-4 items-start"><div data-url="https://www.tiktok.com/@drkoplin" class="mobile-icon link-icon"><div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/tik%20tok%20icon.png?updatedAt=1752678704069" alt="TikTok Icon"></div><p>Dr. Koplin TikTok</p></div><div id="readme-file-icon" class="mobile-icon"><div class="icon-bg"><i class="fas fa-file-lines"></i></div><p>read me.txt</p></div></div>`;
-                document.getElementById('readme-window').querySelector('.window-content').innerHTML = `${windowHeaderHTML('read me.txt')}<div class="window-body"><p>This is the read me file for Dr. Koplin.</p></div>`;
-                document.getElementById('readme-desktop-window').querySelector('.window-content').innerHTML = `${windowHeaderHTML('read me.txt')}<div class="window-body"><h2>Welcome!</h2><p>This is an interactive portfolio. Drag the windows around on a desktop, or swipe through the icons on mobile.</p><p>Feel free to explore the different folders to learn more about my work and projects.</p></div>`;
-                document.getElementById('duolingo-window').querySelector('.window-content').innerHTML = `${windowHeaderHTML('Duolingo')}<div class="window-body duolingo-body"><div class="duolingo-progress-bar"><div class="duolingo-progress"></div></div><div class="duolingo-mascot-container"><img src="https://ik.imagekit.io/ex6ksvxsvk/duo%20app.png?updatedAt=1753448064337" alt="Duo the Owl" class="w-20 h-auto"><div class="duolingo-speech-bubble">What did Leo do for Duolingo?</div></div><div class="duolingo-options"><button class="duolingo-option" data-correct="false"><span>🧠</span><span>Spend time productively</span></button><button class="duolingo-option" data-correct="false"><span>🚀</span><span>Boost my career</span></button><button class="duolingo-option" data-correct="true"><span>💡</span><span>I supported the conceptualization of Social Media Content during my Time at Ozmoze.</span></button><button class="duolingo-option" data-correct="false"><span>🎓</span><span>Support my education</span></button></div><button class="duolingo-continue-btn">Continue</button></div>`;
-                document.getElementById('tinder-window').querySelector('.window-content').innerHTML = `${windowHeaderHTML('Tinder')}<div class="window-body p-4 flex flex-wrap gap-4 items-start"><div id="tinder-party-icon" class="mobile-icon"><div class="icon-bg"><i class="fas fa-folder"></i></div><p>Tinder Party</p></div><div id="tinder-swipe-icon" class="mobile-icon"><div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/tinder%20app.png?updatedAt=1753448867039" alt="Tinder App"></div><p>Tinder App</p></div></div>`;
-                document.getElementById('tinder-party-window').querySelector('.window-content').innerHTML = `${windowHeaderHTML('Tinder Party')}<div class="window-body p-4 flex gap-4 items-start"><div class="mobile-icon"><div class="icon-bg"><i class="fas fa-image"></i></div><p>placeholder.png</p></div></div>`;
-                document.getElementById('tinder-swipe-window').querySelector('.window-content').innerHTML = `${windowHeaderHTML('')}<div class="window-body tinder-body"><div class="tinder-header"><img src="https://ik.imagekit.io/ex6ksvxsvk/tinder%20app.png?updatedAt=1753448867039" alt="Tinder Logo"></div><div class="tinder-stack"><div class="tinder-card"><img class="tinder-card-img" src="https://ik.imagekit.io/ex6ksvxsvk/d81839c1-024b-4f7a-b037-472795553a6a.JPG" alt="Profile Picture"><div class="tinder-card-info"><h3>Leonard Zirk</h3><p>Creative Strategist & Scientist</p></div></div></div><div class="tinder-controls"><button class="tinder-btn dislike" id="dislike-btn"><i class="fas fa-times"></i></button><button class="tinder-btn like" id="like-btn"><i class="fas fa-heart"></i></button></div></div>`;
-                document.getElementById('modulor-window').querySelector('.window-content').innerHTML = `${windowHeaderHTML('Modulor')}<div class="window-body p-4 flex flex-wrap gap-4 items-start"><div data-url="https://www.instagram.com/modulorberlin" class="mobile-icon link-icon"><div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/instagramicon.webp?updatedAt=1752678971026" alt="Instagram Icon"></div><p>Instagram</p></div><div data-url="https://www.tiktok.com/@modulor_de" class="mobile-icon link-icon"><div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/tik%20tok%20icon.png?updatedAt=1752678704069" alt="TikTok Icon"></div><p>TikTok</p></div></div>`;
+                const windowHeaderHTML = (title) => `
+                <div class="window-header">
+                    <div class="traffic-lights">
+                        <button class="traffic-light close" aria-label="Close window">
+                            <svg viewBox="0 0 12 12"><path d="M3.17 1.75L6 4.58l2.83-2.83 1.42 1.42L7.42 6l2.83 2.83-1.42 1.42L6 7.42 3.17 10.25 1.75 8.83 4.58 6 1.75 3.17z"/></svg>
+                        </button>
+                        <button class="traffic-light minimize" aria-label="Minimize window">
+                            <svg viewBox="0 0 12 12"><rect x="1" y="5.25" width="10" height="1.5" rx="0.75"/></svg>
+                        </button>
+                        <button class="traffic-light maximize" aria-label="Maximize window">
+                            <svg viewBox="0 0 12 12"><path d="M2 2h3.5v1.5H3.5V5H2V2zm5.5 0H11v3H9.5V3.5H7.5V2zM2 7h1.5v1.5H5V10H2V7zm5.5 1.5H9.5V7H11v3H7.5V8.5z"/></svg>
+                        </button>
+                    </div>
+                    <span class="flex-grow text-center pr-[60px]">${title}</span>
+                </div>`;
+
+                // ---- PROJECT WINDOW BUILDER ----
+                // Edit the PROJECTS object below to update the case studies.
+                // lens: 'design' | 'science' | 'both'
+                const PROJECTS = {
+                    'koplin-window': {
+                        title: 'Dr. Koplin',
+                        lens: 'both',
+                        meta: 'Content Strategy & Production · Science Communication',
+                        oneliner: 'Turning medical expertise into short-form video people actually want to watch.',
+                        description: 'I developed the content strategy and format concepts behind Dr. Koplin\'s TikTok presence: translating complex medical and scientific topics into short-form videos with clear hooks, tight structure, and a consistent voice. From ideation to publishing rhythm, the goal was simple: make expertise entertaining without dumbing it down.',
+                        images: [
+                            // { src: 'https://ik.imagekit.io/...jpg', caption: 'Caption' },
+                        ],
+                        links: [
+                            { label: 'Dr. Koplin TikTok', url: 'https://www.tiktok.com/@drkoplin', icon: 'fa-brands fa-tiktok' },
+                        ]
+                    },
+                    'modulor-window': {
+                        title: 'Modulor',
+                        lens: 'design',
+                        meta: 'Social Media Marketer @ Modulor GmbH · Berlin',
+                        oneliner: 'Running the social channels of Berlin\'s iconic material store for architects, designers and makers.',
+                        description: 'At Modulor I was responsible for the end-to-end management of the company\'s social media presence: planning, producing and publishing content, growing the community, and translating a vast material universe into stories that designers actually want to watch.',
+                        images: [],
+                        links: [
+                            { label: 'Instagram', url: 'https://www.instagram.com/modulorberlin', icon: 'fa-brands fa-instagram' },
+                            { label: 'TikTok', url: 'https://www.tiktok.com/@modulor_de', icon: 'fa-brands fa-tiktok' },
+                        ]
+                    },
+                    'tinder-party-window': {
+                        title: 'Tinder: Project X Party',
+                        lens: 'design',
+                        meta: 'Creative Strategist @ Ozmoze GmbH · Client: Tinder',
+                        oneliner: 'A Project X themed party for 1,500 guests: concept, content, and controlled chaos.',
+                        description: 'For Tinder, we turned the "Project X" fantasy into a real event: a themed party for 1,500 people. As Creative Strategist at Ozmoze I supported the creative concept and the social-first content strategy around the event: building anticipation before, capturing the energy during, and extending the reach long after the last guest went home.',
+                        images: [],
+                        links: []
+                    }
+                };
+
+                function buildProjectWindow(id, p) {
+                    const lensLabel = p.lens === 'both' ? 'Design + Science'
+                        : p.lens === 'science' ? 'Science' : 'Design';
+                    const gallery = (p.images && p.images.length)
+                        ? `<div class="proj-section"><h3>Gallery</h3><div class="proj-gallery">${p.images.map(im => `<figure class="proj-shot"><img src="${im.src}" alt="${im.caption || p.title}" loading="lazy">${im.caption ? `<figcaption>${im.caption}</figcaption>` : ''}</figure>`).join('')
+                        }</div></div>`
+                        : '';
+                    const links = (p.links && p.links.length)
+                        ? `<div class="proj-section"><h3>Links</h3><div class="proj-links">${p.links.map(l => `<span class="proj-link link-icon" data-url="${l.url}"><i class="${l.icon || 'fas fa-link'}" aria-hidden="true"></i>${l.label}</span>`).join('')
+                        }</div></div>`
+                        : '';
+                    return `
+                    ${windowHeaderHTML(p.title)}
+                    <div class="window-body proj-body">
+                        <div class="proj-hero">
+                            <span class="proj-lens-badge ${p.lens}">${lensLabel}</span>
+                            <div class="proj-title">${p.title}</div>
+                            <div class="proj-meta">${p.meta || ''}</div>
+                            <div class="proj-oneliner">${p.oneliner || ''}</div>
+                        </div>
+                        <div class="proj-section">
+                            <h3>About this project</h3>
+                            <p class="proj-desc">${p.description || ''}</p>
+                        </div>
+                        ${gallery}
+                        ${links}
+                    </div>`;
+                }
+
+                // Contact Window
+                document.getElementById('contact-window').querySelector('.window-content').innerHTML = `
+                ${windowHeaderHTML('Contact Me')}
+                <div class="window-body">
+                    <div style="max-width:420px;margin:0 auto;">
+                        <h2 style="font-size:1.3rem;font-weight:700;color:white;margin-bottom:0.25rem;border:none;margin-top:0;">Get in Touch</h2>
+                        <p style="color:rgba(255,255,255,0.5);font-size:0.85rem;margin-bottom:1.5rem;">Send me a message and I'll get back to you.</p>
+                        <form id="contact-form-el">
+                            <div style="margin-bottom:1rem;">
+                                <label style="display:block;margin-bottom:6px;font-size:0.8rem;color:rgba(255,255,255,0.6);font-weight:500;" for="name">Name</label>
+                                <input style="width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 12px;color:white;outline:none;font-family:inherit;font-size:0.9rem;transition:border-color 0.2s;" type="text" id="name" required placeholder="Your name">
+                            </div>
+                            <div style="margin-bottom:1rem;">
+                                <label style="display:block;margin-bottom:6px;font-size:0.8rem;color:rgba(255,255,255,0.6);font-weight:500;" for="email">Email</label>
+                                <input style="width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 12px;color:white;outline:none;font-family:inherit;font-size:0.9rem;transition:border-color 0.2s;" type="email" id="email" required placeholder="you@email.com">
+                            </div>
+                            <div style="margin-bottom:1.25rem;">
+                                <label style="display:block;margin-bottom:6px;font-size:0.8rem;color:rgba(255,255,255,0.6);font-weight:500;" for="message">Message</label>
+                                <textarea style="width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 12px;color:white;outline:none;font-family:inherit;font-size:0.9rem;resize:vertical;min-height:100px;transition:border-color 0.2s;" id="message" rows="4" required placeholder="Write your message..."></textarea>
+                            </div>
+                            <button type="submit" style="width:100%;padding:10px;background:linear-gradient(135deg,#6366f1,#818cf8);color:white;border:none;border-radius:8px;font-weight:600;font-size:0.9rem;cursor:pointer;font-family:inherit;transition:opacity 0.2s;">Send message</button>
+                        </form>
+                    </div>
+                </div>`;
+
+                // Project windows (Koplin, Modulor, Tinder Party)
+                Object.entries(PROJECTS).forEach(([id, p]) => {
+                    const el = document.getElementById(id);
+                    if (el) el.querySelector('.window-content').innerHTML = buildProjectWindow(id, p);
+                });
+
+                // Readme Window
+                document.getElementById('readme-desktop-window').querySelector('.window-content').innerHTML = `
+                ${windowHeaderHTML('read me.txt')}
+                <div class="window-body">
+                    <h2 style="font-size:1.2rem;font-weight:600;color:white;margin-top:0;">Welcome! 👋</h2>
+                    <p>This is an interactive portfolio. Drag the windows around on a desktop, or swipe through the icons on mobile.</p>
+                    <p>Feel free to explore the different folders to learn more about my work and projects.</p>
+                </div>`;
+
+                // Duolingo Window
+                document.getElementById('duolingo-window').querySelector('.window-content').innerHTML = `
+                ${windowHeaderHTML('Duolingo')}
+                <div class="window-body duolingo-body">
+                    <div class="duolingo-progress-bar"><div class="duolingo-progress"></div></div>
+                    <div class="duolingo-mascot-container">
+                        <img src="https://ik.imagekit.io/ex6ksvxsvk/duo%20app.png?updatedAt=1753448064337" alt="Duo the Owl" class="w-20 h-auto">
+                        <div class="duolingo-speech-bubble">What did Leo do for Duolingo?</div>
+                    </div>
+                    <div class="duolingo-options">
+                        <button class="duolingo-option" data-correct="false"><span>🧠</span><span>Spend time productively</span></button>
+                        <button class="duolingo-option" data-correct="false"><span>🚀</span><span>Boost my career</span></button>
+                        <button class="duolingo-option" data-correct="true"><span>💡</span><span>I supported the conceptualization of Social Media Content during my Time at Ozmoze.</span></button>
+                        <button class="duolingo-option" data-correct="false"><span>🎓</span><span>Support my education</span></button>
+                    </div>
+                    <button class="duolingo-continue-btn">Continue</button>
+                </div>`;
+
+                // Tinder Window (folder)
+                document.getElementById('tinder-window').querySelector('.window-content').innerHTML = `
+                ${windowHeaderHTML('Tinder')}
+                <div class="window-body" style="padding:1.25rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:flex-start;">
+                    <div id="tinder-party-icon" class="mobile-icon" style="cursor:pointer;" tabindex="0" role="button" aria-label="Open Tinder Party project">
+                        <div class="icon-bg"><i class="fas fa-folder" aria-hidden="true"></i></div>
+                        <p>Tinder Party</p>
+                    </div>
+                    <div id="tinder-swipe-icon" class="mobile-icon" style="cursor:pointer;" tabindex="0" role="button" aria-label="Open Tinder swipe demo">
+                        <div class="icon-bg"><img src="https://ik.imagekit.io/ex6ksvxsvk/tinder%20app.png?updatedAt=1753448867039" alt="Tinder App"></div>
+                        <p>Tinder App</p>
+                    </div>
+                </div>`;
+
+                // Tinder Swipe Window
+                document.getElementById('tinder-swipe-window').querySelector('.window-content').innerHTML = `
+                ${windowHeaderHTML('')}
+                <div class="window-body tinder-body">
+                    <div class="tinder-header">
+                        <img src="https://ik.imagekit.io/ex6ksvxsvk/tinder%20app.png?updatedAt=1753448867039" alt="Tinder Logo">
+                    </div>
+                    <div class="tinder-stack">
+                        <div class="tinder-card">
+                            <img class="tinder-card-img" src="https://ik.imagekit.io/ex6ksvxsvk/d81839c1-024b-4f7a-b037-472795553a6a.JPG" alt="Profile Picture">
+                            <div class="tinder-card-info">
+                                <h3>Leonard Zirk</h3>
+                                <p>Creative Strategist & Scientist</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tinder-controls">
+                        <button class="tinder-btn dislike" id="dislike-btn" aria-label="Dislike"><i class="fas fa-times" aria-hidden="true"></i></button>
+                        <button class="tinder-btn like" id="like-btn" aria-label="Like"><i class="fas fa-heart" aria-hidden="true"></i></button>
+                    </div>
+                </div>`;
+
+                // Adobe Acrobat PDF viewer (two CV tabs)
+                document.getElementById('pdf-window').querySelector('.window-content').innerHTML = `
+                ${windowHeaderHTML('Adobe Acrobat')}
+                <div class="window-body pdf-body">
+                    <div class="acro-tabbar" role="tablist" aria-label="Open documents">
+                        <div class="acro-logo" aria-hidden="true">A</div>
+                        <button class="acro-tab active" role="tab" aria-selected="true"
+                            data-name="CV_Leonard_Zirk_2026.pdf"
+                            data-src="https://ik.imagekit.io/b85jlqldz/CV%20Leonard%20Zirk%20June%2008,%202026.pdf">
+                            <i class="fas fa-file-pdf" aria-hidden="true"></i>CV_Leonard_Zirk_2026.pdf
+                        </button>
+                        <button class="acro-tab" role="tab" aria-selected="false"
+                            data-name="Lebenslauf_Scientific_2026.pdf"
+                            data-src="https://ik.imagekit.io/b85jlqldz/Lebenslauf_scientific_5_2026_LeonardZirk.pdf">
+                            <i class="fas fa-file-pdf" aria-hidden="true"></i>Lebenslauf_Scientific_2026.pdf
+                        </button>
+                    </div>
+                    <div class="acro-toolbar">
+                        <span class="acro-filename" id="acro-filename">CV_Leonard_Zirk_2026.pdf</span>
+                        <span class="acro-spacer"></span>
+                        <span class="acro-hint">Preview not loading?</span>
+                        <button class="acro-btn" id="acro-external" title="Open in browser tab">
+                            <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>Open
+                        </button>
+                        <button class="acro-btn primary" id="acro-download" title="Download PDF">
+                            <i class="fas fa-download" aria-hidden="true"></i>Download
+                        </button>
+                    </div>
+                    <div class="acro-frame-wrap">
+                        <iframe id="acro-iframe" title="CV PDF preview"></iframe>
+                        <div class="acro-pages" id="acro-pages"></div>
+                        <div class="acro-nopreview" id="acro-nopreview">
+                            <i class="fas fa-file-pdf" aria-hidden="true"></i>
+                            <span>This browser can't preview PDFs inline.</span>
+                            <button class="acro-btn primary" id="acro-nopreview-open">Open the PDF</button>
+                        </div>
+                        <div class="acro-loading" id="acro-loading">
+                            <div class="acro-spinner"></div><span>Loading document…</span>
+                        </div>
+                    </div>
+                </div>`;
+
+                // Beer Window
+                document.getElementById('beer-window').querySelector('.window-content').innerHTML = `
+                ${windowHeaderHTML('🍺 Beer Game')}
+                <div class="beer-body">
+                    <div class="beer-canvas-wrap">
+                        <canvas id="beer-canvas"></canvas>
+                        <button class="beer-reset-btn" id="beer-reset">🔄 Refill</button>
+                        <div class="beer-instructions" id="beer-instructions">Tilt your phone to drink! 🍻<br><small>or tap &amp; hold</small></div>
+                    </div>
+                </div>`;
             }
 
+            // ===== ADOBE ACROBAT PDF VIEWER =====
+            // Desktop: let the browser's native PDF viewer fill the frame (it is dark
+            // themed and sits well inside the Acrobat chrome).
+            // Mobile: iOS Safari and most Android browsers refuse to render a PDF inside
+            // an iframe, so pages are rasterised to canvas with pdf.js instead.
+            const PDFJS_VER = '3.11.174';
+
+            function setupPdfViewer() {
+                const win = document.getElementById('pdf-window');
+                const q = (s) => win.querySelector(s);
+
+                const tabs = win.querySelectorAll('.acro-tab');
+                const frame = q('#acro-iframe');
+                const pagesEl = q('#acro-pages');
+                const noPreview = q('#acro-nopreview');
+                const loading = q('#acro-loading');
+                const nameEl = q('#acro-filename');
+
+                let currentSrc = tabs[0].dataset.src;
+                let currentMode = null;
+                let libPromise = null;
+                let renderToken = 0;
+
+                function showLoading(on) { loading.style.display = on ? 'flex' : 'none'; }
+
+                function ensurePdfJs() {
+                    if (window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
+                    if (libPromise) return libPromise;
+                    libPromise = new Promise((resolve, reject) => {
+                        const s = document.createElement('script');
+                        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/' + PDFJS_VER + '/pdf.min.js';
+                        s.onload = () => {
+                            if (!window.pdfjsLib) return reject(new Error('pdfjsLib missing'));
+                            window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+                                'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/' + PDFJS_VER + '/pdf.worker.min.js';
+                            resolve(window.pdfjsLib);
+                        };
+                        s.onerror = () => reject(new Error('pdf.js failed to load'));
+                        document.head.appendChild(s);
+                    });
+                    return libPromise;
+                }
+
+                // --- desktop: native viewer in the iframe ---
+                function renderWithIframe(src) {
+                    currentMode = 'iframe';
+                    pagesEl.classList.remove('on');
+                    pagesEl.innerHTML = '';
+                    noPreview.classList.remove('on');
+                    frame.style.display = 'block';
+                    showLoading(true);
+                    frame.addEventListener('load', () => showLoading(false), { once: true });
+                    frame.src = src;
+                    setTimeout(() => showLoading(false), 2500);
+                }
+
+                // --- mobile: rasterise pages to canvas ---
+                async function renderWithCanvas(src) {
+                    currentMode = 'canvas';
+                    const myToken = ++renderToken;
+                    frame.style.display = 'none';
+                    frame.removeAttribute('src');
+                    noPreview.classList.remove('on');
+                    pagesEl.classList.add('on');
+                    pagesEl.innerHTML = '';
+                    showLoading(true);
+
+                    try {
+                        const lib = await ensurePdfJs();
+                        const pdf = await lib.getDocument({ url: src }).promise;
+                        if (myToken !== renderToken) return;
+
+                        const avail = Math.max(240, pagesEl.clientWidth - 24);
+                        const ratio = Math.min(window.devicePixelRatio || 1, 2);
+
+                        for (let n = 1; n <= pdf.numPages; n++) {
+                            const page = await pdf.getPage(n);
+                            if (myToken !== renderToken) return;
+                            const base = page.getViewport({ scale: 1 });
+                            const vp = page.getViewport({ scale: avail / base.width });
+
+                            const holder = document.createElement('div');
+                            holder.className = 'acro-page';
+                            holder.style.width = Math.floor(vp.width) + 'px';
+                            const canvas = document.createElement('canvas');
+                            canvas.width = Math.floor(vp.width * ratio);
+                            canvas.height = Math.floor(vp.height * ratio);
+                            holder.appendChild(canvas);
+                            pagesEl.appendChild(holder);
+
+                            const ctx = canvas.getContext('2d');
+                            ctx.scale(ratio, ratio);
+                            await page.render({ canvasContext: ctx, viewport: vp }).promise;
+                            if (myToken !== renderToken) return;
+                            if (n === 1) showLoading(false);
+                        }
+                        showLoading(false);
+                    } catch (err) {
+                        console.warn('PDF canvas rendering failed:', err);
+                        if (myToken !== renderToken) return;
+                        pagesEl.classList.remove('on');
+                        showLoading(false);
+                        noPreview.classList.add('on');
+                    }
+                }
+
+                function load(src) {
+                    currentSrc = src;
+                    if (isDesktop) renderWithIframe(src);
+                    else renderWithCanvas(src);
+                }
+
+                function activate(tab) {
+                    tabs.forEach(t => {
+                        const on = t === tab;
+                        t.classList.toggle('active', on);
+                        t.setAttribute('aria-selected', on);
+                    });
+                    nameEl.textContent = tab.dataset.name;
+                    load(tab.dataset.src);
+                }
+
+                tabs.forEach(t => t.addEventListener('click', () => activate(t)));
+
+                const openCurrent = () => window.open(currentSrc, '_blank', 'noopener,noreferrer');
+                q('#acro-external').addEventListener('click', openCurrent);
+                q('#acro-nopreview-open').addEventListener('click', openCurrent);
+                // ImageKit: ik-attachment=true forces a download instead of an inline view
+                q('#acro-download').addEventListener('click', () => {
+                    const sep = currentSrc.includes('?') ? '&' : '?';
+                    window.open(currentSrc + sep + 'ik-attachment=true', '_blank', 'noopener,noreferrer');
+                });
+
+                // Load the document the first time the window is opened
+                let opened = false;
+                const obs = new MutationObserver(() => {
+                    if (win.classList.contains('visible') && !opened) {
+                        opened = true;
+                        requestAnimationFrame(() => activate(tabs[0]));
+                    }
+                });
+                obs.observe(win, { attributes: true, attributeFilter: ['class'] });
+
+                // Re-render on rotation, or if the viewport crosses the desktop breakpoint
+                let t;
+                window.addEventListener('resize', () => {
+                    if (!opened || !win.classList.contains('visible')) return;
+                    clearTimeout(t);
+                    t = setTimeout(() => {
+                        const wanted = isDesktop ? 'iframe' : 'canvas';
+                        if (wanted !== currentMode || currentMode === 'canvas') load(currentSrc);
+                    }, 300);
+                });
+            }
+
+            // ===== PAGINATION =====
             function setupPagination() {
                 const container = document.getElementById('mobile-icons-container');
                 const dotsContainer = document.getElementById('pagination-dots');
                 const prevBtn = document.getElementById('prev-page');
                 const nextBtn = document.getElementById('next-page');
                 const pages = container.querySelectorAll('.mobile-page');
+
                 if (pages.length <= 1) {
                     document.getElementById('pagination-container').style.display = 'none';
                     return;
                 }
+
                 dotsContainer.innerHTML = '';
-                pages.forEach(() => { dotsContainer.innerHTML += `<div class="pagination-dot"></div>`; });
+                pages.forEach(() => { dotsContainer.innerHTML += '<div class="pagination-dot"></div>'; });
                 const dots = dotsContainer.querySelectorAll('.pagination-dot');
+
                 const updatePaginationControls = () => {
                     const pageIndex = Math.round(container.scrollLeft / container.clientWidth);
                     dots.forEach((dot, index) => dot.classList.toggle('active', index === pageIndex));
-                    const scrollLeft = container.scrollLeft;
-                    const scrollWidth = container.scrollWidth;
-                    const clientWidth = container.clientWidth;
-                    prevBtn.classList.toggle('hidden', scrollLeft < 10);
-                    nextBtn.classList.toggle('hidden', scrollLeft + clientWidth >= scrollWidth - 10);
+                    prevBtn.classList.toggle('hidden', container.scrollLeft < 10);
+                    nextBtn.classList.toggle('hidden', container.scrollLeft + container.clientWidth >= container.scrollWidth - 10);
                 };
+
                 container.addEventListener('scroll', updatePaginationControls, { passive: true });
-                prevBtn.addEventListener('click', () => { container.scrollBy({ left: -container.clientWidth }); });
-                nextBtn.addEventListener('click', () => { container.scrollBy({ left: container.clientWidth }); });
+                prevBtn.addEventListener('click', () => container.scrollBy({ left: -container.clientWidth }));
+                nextBtn.addEventListener('click', () => container.scrollBy({ left: container.clientWidth }));
                 updatePaginationControls();
             }
 
+            // ===== EVENT LISTENERS =====
             function setupEventListeners() {
+                // Traffic lights: close / minimize / maximize (event delegation)
                 windows.forEach(w => {
-                    w.querySelectorAll('.close').forEach(btn => btn.addEventListener('click', () => closeWindow(w)));
+                    w.addEventListener('click', (e) => {
+                        if (e.target.closest('.traffic-light.close')) {
+                            e.stopPropagation();
+                            closeWindow(w);
+                        } else if (e.target.closest('.traffic-light.minimize')) {
+                            e.stopPropagation();
+                            minimizeWindow(w);
+                        } else if (e.target.closest('.traffic-light.maximize')) {
+                            e.stopPropagation();
+                            toggleMaximize(w);
+                        }
+                    });
+                    // Double-click header to maximize, like macOS
+                    const header = w.querySelector('.window-header');
+                    if (header) {
+                        header.addEventListener('dblclick', (e) => {
+                            if (e.target.closest('.traffic-light')) return;
+                            toggleMaximize(w);
+                        });
+                    }
                 });
-                document.querySelectorAll('.link-icon').forEach(icon => {
-                    const wasDragged = isDesktop && icon.classList.contains('desktop-icon') ? makeIconDraggable(icon) : () => false;
+
+                // Link icons (desktop, mobile, inside windows, project links)
+                document.addEventListener('click', (e) => {
+                    const linkIcon = e.target.closest('.link-icon');
+                    if (linkIcon && linkIcon.dataset.url) {
+                        window.open(linkIcon.dataset.url, '_blank', 'noopener,noreferrer');
+                    }
+                });
+
+                // Dock link icons
+                document.querySelectorAll('.dock-link').forEach(icon => {
                     icon.addEventListener('click', () => {
-                        if (!wasDragged()) { window.open(icon.dataset.url, '_blank'); }
+                        if (icon.dataset.url) window.open(icon.dataset.url, '_blank', 'noopener,noreferrer');
                     });
                 });
+
+                // Keyboard activation (Enter / Space) for any role=button element
+                document.addEventListener('keydown', (e) => {
+                    if (e.key !== 'Enter' && e.key !== ' ') return;
+                    const target = e.target.closest('[role="button"]');
+                    if (!target) return;
+                    if (target.classList.contains('slide-thumb')) return; // handled separately
+                    e.preventDefault();
+                    target.click();
+                });
+
+                // Icon → Window mapping
                 const iconWindowMap = {
-                    'cv-dock-icon': 'cv-window', 'contact-dock-icon': 'contact-window',
-                    'koplin-icon-desktop': 'koplin-window', 'koplin-icon-mobile': 'koplin-window',
+                    'cv-dock-icon': 'pdf-window',
+                    'cv-pdf-icon-desktop': 'pdf-window',
+                    'cv-pdf-icon-mobile': 'pdf-window',
+                    'contact-dock-icon': 'contact-window',
+                    'koplin-icon-desktop': 'koplin-window',
+                    'koplin-icon-mobile': 'koplin-window',
                     'readme-desktop-icon': 'readme-desktop-window',
-                    'duolingo-icon-desktop': 'duolingo-window', 'duolingo-icon-mobile': 'duolingo-window',
-                    'tinder-icon-desktop': 'tinder-window', 'tinder-icon-mobile': 'tinder-window',
-                    'modulor-icon-desktop': 'modulor-window', 'modulor-icon-mobile': 'modulor-window'
+                    'duolingo-icon-desktop': 'duolingo-window',
+                    'duolingo-icon-mobile': 'duolingo-window',
+                    'tinder-icon-desktop': 'tinder-window',
+                    'tinder-icon-mobile': 'tinder-window',
+                    'modulor-icon-desktop': 'modulor-window',
+                    'modulor-icon-mobile': 'modulor-window',
+                    'beer-icon-mobile': 'beer-window'
                 };
+
                 for (const [iconId, windowId] of Object.entries(iconWindowMap)) {
                     const iconEl = document.getElementById(iconId);
                     const windowEl = document.getElementById(windowId);
-                    if (iconEl && windowEl) {
-                        if (isDesktop && iconEl.classList.contains('desktop-icon')) {
-                            const wasDragged = makeIconDraggable(iconEl);
-                            iconEl.addEventListener('click', () => { if (!wasDragged()) openWindow(windowEl); });
-                        } else {
-                            iconEl.addEventListener('click', () => openWindow(windowEl));
-                        }
+                    if (!iconEl || !windowEl) continue;
+
+                    if (isDesktop && iconEl.classList.contains('desktop-icon')) {
+                        const wasDragged = makeIconDraggable(iconEl);
+                        iconEl.addEventListener('click', () => {
+                            if (!wasDragged()) {
+                                openWindow(windowEl);
+                            }
+                        });
+                    } else {
+                        iconEl.addEventListener('click', () => openWindow(windowEl));
                     }
                 }
-                const readmeWindow = document.getElementById('readme-window');
-                document.getElementById('koplin-window').querySelector('#readme-file-icon')?.addEventListener('click', () => openWindow(readmeWindow));
-                
-                const tinderPartyWindow = document.getElementById('tinder-party-window');
-                document.getElementById('tinder-window').querySelector('#tinder-party-icon')?.addEventListener('click', () => openWindow(tinderPartyWindow));
-                
-                const tinderSwipeWindow = document.getElementById('tinder-swipe-window');
-                document.getElementById('tinder-window').querySelector('#tinder-swipe-icon')?.addEventListener('click', () => openWindow(tinderSwipeWindow));
 
-                if (isDesktop) { windows.forEach(makeWindowDraggable); }
-                const contactForm = document.getElementById('contact-window').querySelector('form');
-                contactForm.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    const name = contactForm.querySelector('#name').value;
-                    const email = contactForm.querySelector('#email').value;
-                    const message = contactForm.querySelector('#message').value;
-                    const mailtoLink = `mailto:leonard.zirk@gmail.com?subject=${encodeURIComponent(`Message from ${name}`)}&body=${encodeURIComponent(`From: ${name} <${email}>\n\n${message}`)}`;
-                    window.open(mailtoLink);
-                });
-                
-                const duoWindow = document.getElementById('duolingo-window');
-                const duoOptions = duoWindow.querySelectorAll('.duolingo-option');
-                const duoContinueBtn = duoWindow.querySelector('.duolingo-continue-btn');
-                let selectedOption = null;
-                duoOptions.forEach(option => {
-                    option.addEventListener('click', () => {
-                        duoOptions.forEach(opt => opt.classList.remove('selected', 'correct', 'incorrect'));
-                        option.classList.add('selected');
-                        selectedOption = option;
-                        duoContinueBtn.classList.add('active');
+                // Sub-window icons
+                setTimeout(() => {
+                    const tinderPartyWindow = document.getElementById('tinder-party-window');
+                    document.getElementById('tinder-window')
+                        .querySelector('#tinder-party-icon')
+                        ?.addEventListener('click', () => openWindow(tinderPartyWindow));
+
+                    const tinderSwipeWindow = document.getElementById('tinder-swipe-window');
+                    document.getElementById('tinder-window')
+                        .querySelector('#tinder-swipe-icon')
+                        ?.addEventListener('click', () => openWindow(tinderSwipeWindow));
+                }, 50);
+
+                // Make windows draggable on desktop
+                if (isDesktop) {
+                    windows.forEach(makeWindowDraggable);
+                }
+
+                // Contact form
+                setTimeout(() => {
+                    const contactForm = document.getElementById('contact-form-el');
+                    if (contactForm) {
+                        contactForm.addEventListener('submit', (e) => {
+                            e.preventDefault();
+                            const name = contactForm.querySelector('#name').value;
+                            const email = contactForm.querySelector('#email').value;
+                            const message = contactForm.querySelector('#message').value;
+                            const mailtoLink = `mailto:leonard.zirk@gmail.com?subject=${encodeURIComponent(`Message from ${name}`)}&body=${encodeURIComponent(`From: ${name} <${email}>\n\n${message}`)}`;
+                            window.open(mailtoLink);
+                        });
+                    }
+                }, 50);
+
+                // Duolingo quiz logic
+                setTimeout(() => {
+                    const duoWindow = document.getElementById('duolingo-window');
+                    const duoOptions = duoWindow.querySelectorAll('.duolingo-option');
+                    const duoContinueBtn = duoWindow.querySelector('.duolingo-continue-btn');
+                    let selectedOption = null;
+
+                    duoOptions.forEach(option => {
+                        option.addEventListener('click', () => {
+                            duoOptions.forEach(opt => opt.classList.remove('selected', 'correct', 'incorrect'));
+                            option.classList.add('selected');
+                            selectedOption = option;
+                            duoContinueBtn.classList.add('active');
+                        });
                     });
-                });
-                duoContinueBtn.addEventListener('click', () => {
-                    if (!selectedOption) return;
-                    const isCorrect = selectedOption.dataset.correct === 'true';
-                    if (isCorrect) { selectedOption.classList.add('correct'); } 
-                    else {
-                        selectedOption.classList.add('incorrect');
-                        setTimeout(() => { selectedOption.classList.remove('incorrect'); }, 500);
-                    }
-                    duoContinueBtn.classList.remove('active');
-                });
 
-                // Tinder Swipe Logic
-                const tinderCard = document.querySelector('.tinder-card');
-                const likeBtn = document.getElementById('like-btn');
-                const dislikeBtn = document.getElementById('dislike-btn');
-                let isTinderDragging = false, startX, tinderOffsetX = 0;
+                    duoContinueBtn.addEventListener('click', () => {
+                        if (!selectedOption) return;
+                        const isCorrect = selectedOption.dataset.correct === 'true';
+                        if (isCorrect) {
+                            selectedOption.classList.add('correct');
+                        } else {
+                            selectedOption.classList.add('incorrect');
+                            setTimeout(() => selectedOption.classList.remove('incorrect'), 500);
+                        }
+                        duoContinueBtn.classList.remove('active');
+                    });
+                }, 50);
 
-                const onTinderPointerDown = (e) => {
-                    isTinderDragging = true;
-                    startX = e.clientX || e.touches[0].clientX;
-                    tinderCard.classList.add('dragging');
-                };
+                // Tinder swipe logic
+                setTimeout(() => {
+                    const tinderCard = document.querySelector('.tinder-card');
+                    const likeBtn = document.getElementById('like-btn');
+                    const dislikeBtn = document.getElementById('dislike-btn');
+                    if (!tinderCard || !likeBtn || !dislikeBtn) return;
 
-                const onTinderPointerMove = (e) => {
-                    if (!isTinderDragging) return;
-                    const currentX = e.clientX || e.touches[0].clientX;
-                    tinderOffsetX = currentX - startX;
-                    const rotation = tinderOffsetX / 20;
-                    tinderCard.style.transform = `translateX(${tinderOffsetX}px) rotate(${rotation}deg)`;
-                };
+                    let isTinderDragging = false, startX, tinderOffsetX = 0;
 
-                const onTinderPointerUp = (e) => {
-                    isTinderDragging = false;
-                    tinderCard.classList.remove('dragging');
-                    if (Math.abs(tinderOffsetX) > 100) {
-                        const direction = tinderOffsetX > 0 ? 1 : -1;
-                        swipe(direction);
-                    } else {
-                        tinderCard.style.transform = '';
-                    }
-                    tinderOffsetX = 0;
-                };
+                    const onTinderPointerDown = (e) => {
+                        isTinderDragging = true;
+                        startX = e.clientX || (e.touches && e.touches[0].clientX);
+                        tinderCard.classList.add('dragging');
+                    };
+                    const onTinderPointerMove = (e) => {
+                        if (!isTinderDragging) return;
+                        const currentX = e.clientX || (e.touches && e.touches[0].clientX);
+                        tinderOffsetX = currentX - startX;
+                        const rotation = tinderOffsetX / 20;
+                        tinderCard.style.transform = `translateX(${tinderOffsetX}px) rotate(${rotation}deg)`;
+                    };
+                    const onTinderPointerUp = () => {
+                        isTinderDragging = false;
+                        tinderCard.classList.remove('dragging');
+                        if (Math.abs(tinderOffsetX) > 100) {
+                            swipe(tinderOffsetX > 0 ? 1 : -1);
+                        } else {
+                            tinderCard.style.transform = '';
+                        }
+                        tinderOffsetX = 0;
+                    };
 
-                tinderCard.addEventListener('mousedown', onTinderPointerDown);
-                document.addEventListener('mousemove', onTinderPointerMove);
-                document.addEventListener('mouseup', onTinderPointerUp);
-                tinderCard.addEventListener('touchstart', onTinderPointerDown, { passive: true });
-                document.addEventListener('touchmove', onTinderPointerMove, { passive: true });
-                document.addEventListener('touchend', onTinderPointerUp);
+                    tinderCard.addEventListener('mousedown', onTinderPointerDown);
+                    document.addEventListener('mousemove', onTinderPointerMove);
+                    document.addEventListener('mouseup', onTinderPointerUp);
+                    tinderCard.addEventListener('touchstart', onTinderPointerDown, { passive: true });
+                    document.addEventListener('touchmove', onTinderPointerMove, { passive: true });
+                    document.addEventListener('touchend', onTinderPointerUp);
 
-                const swipe = (direction) => {
-                    const flyOutX = direction * window.innerWidth;
-                    tinderCard.style.transform = `translateX(${flyOutX}px) rotate(${direction * 30}deg)`;
-                    tinderCard.style.opacity = '0';
-                    if (direction === 1) { // Swiped right
+                    const swipe = (direction) => {
+                        tinderCard.style.transform = `translateX(${direction * window.innerWidth}px) rotate(${direction * 30}deg)`;
+                        tinderCard.style.opacity = '0';
+                        if (direction === 1) {
+                            setTimeout(() => openWindow(document.getElementById('pdf-window')), 300);
+                        }
                         setTimeout(() => {
-                           openWindow(document.getElementById('contact-window'));
-                        }, 300);
-                    }
-                     setTimeout(() => {
-                        tinderCard.style.transform = '';
-                        tinderCard.style.opacity = '1';
-                    }, 500);
-                };
+                            tinderCard.style.transform = '';
+                            tinderCard.style.opacity = '1';
+                        }, 500);
+                    };
 
-                likeBtn.addEventListener('click', () => swipe(1));
-                dislikeBtn.addEventListener('click', () => swipe(-1));
+                    likeBtn.addEventListener('click', () => swipe(1));
+                    dislikeBtn.addEventListener('click', () => swipe(-1));
+                }, 50);
             }
 
+            // ===== RESIZE HANDLER =====
             function handleResize() {
                 isDesktop = window.innerWidth >= 1024;
                 const desktopIconContainer = document.getElementById('desktop-icons-container');
                 const mobileViewWrapper = document.getElementById('mobile-view-wrapper');
-                if (isDesktop) {
-                    desktopIconContainer.classList.remove('hidden');
-                    mobileViewWrapper.classList.add('lg:hidden');
-                } else {
-                    desktopIconContainer.classList.add('hidden');
-                    mobileViewWrapper.classList.remove('lg:hidden');
+
+                if (desktopIconContainer) {
+                    if (isDesktop) {
+                        desktopIconContainer.classList.remove('hidden');
+                        desktopIconContainer.style.display = 'block';
+                    } else {
+                        desktopIconContainer.classList.add('hidden');
+                        desktopIconContainer.style.display = 'none';
+                    }
                 }
+                if (mobileViewWrapper) {
+                    if (isDesktop) {
+                        mobileViewWrapper.classList.add('hidden');
+                        mobileViewWrapper.style.display = 'none';
+                    } else {
+                        mobileViewWrapper.classList.remove('hidden');
+                        mobileViewWrapper.style.display = 'flex';
+                    }
+                }
+
                 windows.forEach(w => {
-                    if (!w.classList.contains('hidden')) {
-                        if (isDesktop) { w.classList.add('lg:window-desktop'); } 
-                        else { w.classList.remove('lg:window-desktop'); }
+                    if (w.classList.contains('visible')) {
+                        if (isDesktop) {
+                            w.classList.add('lg:window-desktop');
+                        } else {
+                            w.classList.remove('lg:window-desktop', 'maximized');
+                        }
                     }
                 });
             }
 
+            // ===== INITIALIZATION =====
             injectContent();
+            setupPdfViewer();
             setupEventListeners();
             setupPagination();
             window.addEventListener('resize', handleResize);
             handleResize();
+
+            // ===== BEER GAME =====
+            setTimeout(() => {
+                const beerCanvas = document.getElementById('beer-canvas');
+                const beerReset = document.getElementById('beer-reset');
+                const beerInstructions = document.getElementById('beer-instructions');
+                if (!beerCanvas) return;
+
+                const ctx = beerCanvas.getContext('2d');
+                let beerLevel = 1.0;
+                let isDrinking = false;
+                let bubbles = [];
+                let animFrame;
+                let hasGyro = false;
+
+                function resizeCanvas() {
+                    const wrap = beerCanvas.parentElement;
+                    beerCanvas.width = wrap.clientWidth;
+                    beerCanvas.height = wrap.clientHeight;
+                }
+
+                const beerWindow = document.getElementById('beer-window');
+                const observer = new MutationObserver(() => {
+                    if (beerWindow.classList.contains('visible')) {
+                        resizeCanvas();
+                        if (!animFrame) startAnimation();
+                    }
+                });
+                observer.observe(beerWindow, { attributes: true, attributeFilter: ['class'] });
+
+                window.addEventListener('resize', () => {
+                    if (beerWindow.classList.contains('visible')) resizeCanvas();
+                });
+
+                function drawBeer() {
+                    const W = beerCanvas.width;
+                    const H = beerCanvas.height;
+                    ctx.clearRect(0, 0, W, H);
+
+                    ctx.fillStyle = '#0d0d1a';
+                    ctx.fillRect(0, 0, W, H);
+
+                    const glassX = W * 0.12;
+                    const glassW = W * 0.76;
+                    const glassTop = H * 0.08;
+                    const glassH = H * 0.82;
+                    const glassBottom = glassTop + glassH;
+                    const cornerR = 16;
+
+                    ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.roundRect(glassX, glassTop, glassW, glassH, [cornerR, cornerR, cornerR + 8, cornerR + 8]);
+                    ctx.stroke();
+
+                    const beerH = glassH * beerLevel;
+                    const beerTop = glassBottom - beerH;
+
+                    if (beerLevel > 0.01) {
+                        const beerGrad = ctx.createLinearGradient(0, beerTop, 0, glassBottom);
+                        beerGrad.addColorStop(0, '#f59e0b');
+                        beerGrad.addColorStop(0.4, '#d97706');
+                        beerGrad.addColorStop(1, '#b45309');
+                        ctx.fillStyle = beerGrad;
+
+                        ctx.beginPath();
+                        const topR = 4;
+                        const botR = cornerR + 8;
+                        ctx.roundRect(glassX + 2, beerTop, glassW - 4, glassBottom - beerTop - 2, [topR, topR, botR, botR]);
+                        ctx.fill();
+
+                        const foamH = Math.min(beerLevel * 40, 35);
+                        const foamGrad = ctx.createLinearGradient(0, beerTop - foamH, 0, beerTop + 8);
+                        foamGrad.addColorStop(0, 'rgba(255,253,240,0.95)');
+                        foamGrad.addColorStop(0.5, 'rgba(255,248,220,0.9)');
+                        foamGrad.addColorStop(1, 'rgba(245,158,11,0.7)');
+                        ctx.fillStyle = foamGrad;
+
+                        ctx.beginPath();
+                        const foamY = beerTop;
+                        for (let x = glassX + 4; x < glassX + glassW - 4; x += 12) {
+                            const bx = x + Math.sin(x * 0.3 + Date.now() * 0.001) * 4;
+                            const by = foamY - foamH * 0.5 + Math.sin(x * 0.15 + Date.now() * 0.002) * (foamH * 0.4);
+                            ctx.arc(bx, by, 10 + Math.sin(x * 0.5) * 3, 0, Math.PI * 2);
+                        }
+                        ctx.fill();
+                        ctx.fillRect(glassX + 4, foamY - 4, glassW - 8, 12);
+
+                        bubbles.forEach(b => {
+                            ctx.beginPath();
+                            ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+                            ctx.fillStyle = `rgba(255,255,255,${b.alpha})`;
+                            ctx.fill();
+                        });
+                    }
+
+                    if (beerLevel <= 0.01) {
+                        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+                        ctx.font = `bold ${W * 0.07}px Inter, sans-serif`;
+                        ctx.textAlign = 'center';
+                        ctx.fillText('🍺 CHEERS!', W / 2, H / 2 - 10);
+                        ctx.font = `${W * 0.04}px Inter, sans-serif`;
+                        ctx.fillText('Tap Refill for another round', W / 2, H / 2 + 20);
+                    }
+
+                    ctx.fillStyle = 'rgba(255,255,255,0.4)';
+                    ctx.font = `600 ${W * 0.035}px Inter, sans-serif`;
+                    ctx.textAlign = 'right';
+                    ctx.fillText(`${Math.round(beerLevel * 100)}%`, glassX + glassW - 8, glassTop - 8);
+                }
+
+                function updateBubbles() {
+                    const W = beerCanvas.width;
+                    const H = beerCanvas.height;
+                    const glassX = W * 0.12;
+                    const glassW = W * 0.76;
+                    const glassBottom = H * 0.08 + H * 0.82;
+                    const beerH = H * 0.82 * beerLevel;
+                    const beerTop = glassBottom - beerH;
+
+                    if (beerLevel > 0.05 && Math.random() < (isDrinking ? 0.6 : 0.15)) {
+                        bubbles.push({
+                            x: glassX + 20 + Math.random() * (glassW - 40),
+                            y: glassBottom - 10,
+                            r: 1.5 + Math.random() * 3,
+                            speed: 0.8 + Math.random() * 1.5,
+                            alpha: 0.15 + Math.random() * 0.2
+                        });
+                    }
+
+                    bubbles = bubbles.filter(b => {
+                        b.y -= b.speed;
+                        b.x += Math.sin(b.y * 0.05) * 0.3;
+                        return b.y > beerTop && b.alpha > 0;
+                    });
+                }
+
+                function drink(rate) {
+                    if (beerLevel > 0) {
+                        beerLevel = Math.max(0, beerLevel - rate);
+                    }
+                }
+
+                function startAnimation() {
+                    function loop() {
+                        if (isDrinking) drink(0.004);
+                        updateBubbles();
+                        drawBeer();
+                        animFrame = requestAnimationFrame(loop);
+                    }
+                    loop();
+                }
+
+                function handleOrientation(e) {
+                    const beta = e.beta;
+                    if (beta !== null && beta > 50) {
+                        isDrinking = true;
+                        hasGyro = true;
+                        const drinkRate = Math.min((beta - 50) / 300, 0.012);
+                        drink(drinkRate);
+                    } else {
+                        isDrinking = false;
+                    }
+                }
+
+                if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                    beerCanvas.addEventListener('click', () => {
+                        DeviceOrientationEvent.requestPermission().then(perm => {
+                            if (perm === 'granted') {
+                                window.addEventListener('deviceorientation', handleOrientation);
+                                if (beerInstructions) beerInstructions.textContent = 'Tilt your phone forward to drink! 🍻';
+                            }
+                        }).catch(console.error);
+                    }, { once: true });
+                } else if (typeof DeviceOrientationEvent !== 'undefined') {
+                    window.addEventListener('deviceorientation', handleOrientation);
+                }
+
+                beerCanvas.addEventListener('mousedown', () => { isDrinking = true; });
+                beerCanvas.addEventListener('mouseup', () => { isDrinking = false; });
+                beerCanvas.addEventListener('mouseleave', () => { isDrinking = false; });
+                beerCanvas.addEventListener('touchstart', (e) => {
+                    if (!hasGyro) { isDrinking = true; e.preventDefault(); }
+                }, { passive: false });
+                beerCanvas.addEventListener('touchend', () => {
+                    if (!hasGyro) isDrinking = false;
+                });
+
+                beerReset.addEventListener('click', () => {
+                    beerLevel = 1.0;
+                    bubbles = [];
+                });
+            }, 100);
         });
     </script>
 
 </body>
+
 </html>
