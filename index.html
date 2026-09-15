@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -1383,6 +1382,93 @@
             transition: none;
         }
 
+        /* ====== GREEN HUB (embedded page) ====== */
+        .gh-body {
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            background: #0d0d0f;
+            overflow: hidden;
+        }
+
+        .gh-bar {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            padding: 6px 10px;
+            background: rgba(40, 40, 44, 0.85);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            flex-shrink: 0;
+        }
+
+        .gh-url {
+            margin-right: auto;
+            font-size: 11.5px;
+            color: rgba(255, 255, 255, 0.45);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding-left: 4px;
+        }
+
+        .gh-popout {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+            font-size: 11.5px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 6px;
+            padding: 5px 11px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .gh-popout:hover {
+            background: rgba(52, 211, 153, 0.22);
+        }
+
+        .gh-popout:focus-visible {
+            outline: 2px solid #34d399;
+            outline-offset: 1px;
+        }
+
+        .gh-popout i {
+            color: #34d399;
+            font-size: 11px;
+        }
+
+        .gh-frame-wrap {
+            flex: 1;
+            position: relative;
+            background: #fff;
+        }
+
+        .gh-frame-wrap iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            background: #fff;
+        }
+
+        .gh-loading {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(0, 0, 0, 0.4);
+            font-size: 13px;
+            pointer-events: none;
+            background: #fff;
+        }
+
         /* ====== BEER GAME ====== */
         .beer-body {
             display: flex;
@@ -1870,6 +1956,10 @@
                     alt="Klipp Linding Lab" loading="lazy"></div>
             <p>Klipp Linding</p>
         </div>
+        <div id="greenhub-icon-desktop" class="desktop-icon" tabindex="0" role="button" aria-label="Open Green Hub">
+            <div class="icon-image"><img src="green-hub-icon.png" alt="Green Hub" loading="lazy"></div>
+            <p>Green Hub</p>
+        </div>
         <div id="readme-desktop-icon" class="desktop-icon" tabindex="0" role="button" aria-label="Open read me file">
             <div class="icon-image"><i class="fas fa-file-lines" aria-hidden="true"></i></div>
             <p>read me.txt</p>
@@ -1902,6 +1992,10 @@
                             src="https://ik.imagekit.io/ex6ksvxsvk/duolingo.png?updatedAt=1753447361224"
                             alt="Duolingo Icon" loading="lazy"></div>
                     <p>Duolingo</p>
+                </div>
+                <div id="greenhub-icon-mobile" class="mobile-icon" tabindex="0" role="button" aria-label="Open Green Hub">
+                    <div class="icon-bg"><img src="green-hub-icon.png" alt="Green Hub"></div>
+                    <p>Green Hub</p>
                 </div>
                 <div id="beer-icon-mobile" class="mobile-icon" tabindex="0" role="button" aria-label="Open Beer Game">
                     <div class="icon-bg" style="background:linear-gradient(135deg,#f59e0b,#d97706);"><i
@@ -1994,6 +2088,9 @@
         <div class="window-content"></div>
     </div>
     <div id="tinder-swipe-window" class="window">
+        <div class="window-content"></div>
+    </div>
+    <div id="greenhub-window" class="window">
         <div class="window-content"></div>
     </div>
     <div id="beer-window" class="window">
@@ -2695,6 +2792,22 @@
                     </div>
                 </div>`;
 
+                // Green Hub (embedded standalone page)
+                document.getElementById('greenhub-window').querySelector('.window-content').innerHTML = `
+                ${windowHeaderHTML('Green Hub')}
+                <div class="window-body gh-body">
+                    <div class="gh-bar">
+                        <span class="gh-url">green-hub-start-here.html</span>
+                        <button class="gh-popout" id="gh-popout" title="Open in a new tab">
+                            <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>Open in new tab
+                        </button>
+                    </div>
+                    <div class="gh-frame-wrap">
+                        <div class="gh-loading" id="gh-loading">Loading…</div>
+                        <iframe id="gh-iframe" title="Green Hub" loading="lazy"></iframe>
+                    </div>
+                </div>`;
+
                 // Beer Window
                 document.getElementById('beer-window').querySelector('.window-content').innerHTML = `
                 ${windowHeaderHTML('🍺 Beer Game')}
@@ -2713,6 +2826,39 @@
             // Mobile: iOS Safari and most Android browsers refuse to render a PDF inside
             // an iframe, so pages are rasterised to canvas with pdf.js instead.
             const PDFJS_VER = '3.11.174';
+
+            // ===== GREEN HUB (embedded page) =====
+            function setupGreenHub() {
+                const win = document.getElementById('greenhub-window');
+                const frame = win.querySelector('#gh-iframe');
+                const loading = win.querySelector('#gh-loading');
+                const popout = win.querySelector('#gh-popout');
+                const URL_PATH = 'green-hub-start-here.html';
+
+                popout.addEventListener('click', () =>
+                    window.open(URL_PATH, '_blank', 'noopener,noreferrer'));
+
+                frame.addEventListener('load', () => {
+                    if (frame.getAttribute('src')) loading.style.display = 'none';
+                });
+
+                // Lazy-load the page only when the window is first opened
+                let loaded = false;
+                const obs = new MutationObserver(() => {
+                    if (win.classList.contains('visible') && !loaded) {
+                        loaded = true;
+                        loading.style.display = 'flex';
+                        frame.src = URL_PATH;
+                        // if it refuses to embed (X-Frame-Options), nudge toward the pop-out
+                        setTimeout(() => {
+                            if (loading.style.display !== 'none') {
+                                loading.textContent = 'If nothing appears, use “Open in new tab”.';
+                            }
+                        }, 3500);
+                    }
+                });
+                obs.observe(win, { attributes: true, attributeFilter: ['class'] });
+            }
 
             function setupPdfViewer() {
                 const win = document.getElementById('pdf-window');
@@ -2952,6 +3098,8 @@
                     'koplin-icon-desktop': 'koplin-window',
                     'koplin-icon-mobile': 'koplin-window',
                     'readme-desktop-icon': 'readme-desktop-window',
+                    'greenhub-icon-desktop': 'greenhub-window',
+                    'greenhub-icon-mobile': 'greenhub-window',
                     'duolingo-icon-desktop': 'duolingo-window',
                     'duolingo-icon-mobile': 'duolingo-window',
                     'tinder-icon-desktop': 'tinder-window',
@@ -3135,6 +3283,7 @@
             // ===== INITIALIZATION =====
             injectContent();
             setupPdfViewer();
+            setupGreenHub();
             setupEventListeners();
             setupPagination();
             window.addEventListener('resize', handleResize);

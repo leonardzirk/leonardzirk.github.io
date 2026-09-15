@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Green Hub Onboarding</title>
+<meta name="description" content="A newcomer's guide to the TRR 175 Green Hub consortium — styled as an early-2000s movie portal.">
+<style>
+  :root{
+    color-scheme: light;
+    --band:   #55701f;   /* dark olive header/footer  */
+    --band2:  #6d8a2c;   /* nav olive                 */
+    --nav:    #3c5015;   /* darkest olive subnav      */
+    --gold:   #e7b52a;   /* gold title bars           */
+    --gold2:  #f2d873;
+    --goldbody:#f6ecb6;  /* gold panel body           */
+    --tan:    #c7bb8e;   /* page background           */
+    --tanline:#a89c6f;
+    --panel:  #efe6bd;   /* cream panel body          */
+    --panel2: #f7f0cf;
+    --red:    #bd3419;   /* tomato red                */
+    --red2:   #d8492a;
+    --ink:    #322f1c;   /* body text                 */
+    --sub:    #6a6238;
+    --link:   #2c530f;   /* link green                */
+    --linkred:#a5341a;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; }
+  body{
+    background: var(--tan);
+    color: var(--ink);
+    font-family: Verdana, Geneva, Tahoma, Arial, sans-serif;
+    font-size: 11px; line-height: 1.5;
+    padding: 12px;
+  }
+  img{ max-width:100%; }
+  a{ color: var(--link); text-decoration: underline; }
+  a:hover{ color: var(--red); }
+
+  .site{
+    max-width: 800px; margin: 0 auto; background: var(--panel);
+    border: 1px solid var(--nav);
+    box-shadow: 0 3px 14px rgba(0,0,0,.35);
+  }
+
+  /* ---------- Masthead ---------- */
+  .masthead{
+    background: linear-gradient(var(--band2), var(--band));
+    padding: 10px 12px 8px; position: relative;
+    border-bottom: 3px solid var(--gold);
+  }
+  .top-links{
+    text-align: right; font-size: 10px; color: #e9efcf; margin-bottom: 8px;
+  }
+  .top-links a{ color: #fbe9a8; }
+  .brand-row{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .brand{
+    background: var(--panel2); border-radius: 8px; padding: 4px 12px 6px;
+    border: 2px solid #2f3f10; line-height: 1;
+  }
+  .brand .b1{ font-size: 26px; font-weight: 900; letter-spacing:-.5px; }
+  .brand .b1 .g{ color: var(--band); }
+  .brand .b1 .h{ color: var(--red); }
+  .brand .b2{ font-size: 9px; color: var(--sub); letter-spacing:.5px; text-transform: uppercase; }
+  .brand .leaf{ color: var(--band2); }
+  .tagline{ color:#f4f0d6; font-size: 12px; font-style: italic; font-weight:bold; }
+  .tagline small{ display:block; font-weight:normal; font-style:normal; font-size:10px; color:#d6e0af; }
+
+  /* ---------- Tabs ---------- */
+  .tabs{ background: var(--band); padding: 0 8px; display:flex; gap:4px; flex-wrap:wrap; }
+  .tab{
+    display:block; text-decoration:none; color:#fff; font-weight:bold; font-size:11px;
+    text-transform: uppercase; padding: 6px 14px; margin-top:5px;
+    background: linear-gradient(var(--red2), var(--red));
+    border-radius: 7px 7px 0 0; border:1px solid #7a1d0c; border-bottom:none;
+  }
+  .tab:hover{ background: linear-gradient(#e6613f, var(--red2)); color:#fff; }
+  .tab.active{ background: var(--panel); color: var(--red); border-color:var(--nav); }
+
+  /* ---------- Subnav ---------- */
+  .subnav{
+    background: var(--nav); padding: 5px 12px; display:flex; gap:10px; flex-wrap:wrap;
+    align-items:center;
+  }
+  .subnav a{ color:#f3e08a; text-decoration:none; font-weight:bold; font-size:10px; text-transform:uppercase; }
+  .subnav a:hover{ color:#fff; text-decoration:underline; }
+  .subnav .sep{ color:#7c8f4e; }
+  .subnav .help{ margin-left:auto; color:#f3e08a; }
+
+  /* ---------- Curtain / spotlight bar ---------- */
+  .curtain{
+    height: 16px;
+    background:
+      radial-gradient(circle at 10px -2px, var(--red) 9px, transparent 10px) 0 0/20px 16px repeat-x,
+      linear-gradient(var(--red), #7c1e0d);
+    border-bottom: 2px solid #5c1608;
+  }
+
+  /* ---------- Search row ---------- */
+  .searchrow{
+    background: linear-gradient(var(--gold2), var(--gold));
+    padding: 7px 12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;
+    border-bottom: 1px solid var(--tanline);
+  }
+  .searchrow label{ font-weight:bold; color:#5c4a12; font-size:10px; text-transform:uppercase; }
+  .searchrow select{
+    font-family: inherit; font-size: 11px; padding: 2px; border:1px solid #8a7420;
+    background:#fffef4;
+  }
+  .searchrow .kw{ margin-left:auto; font-size:10px; color:#5c4a12; }
+  .searchrow .kw b{ color: var(--red); }
+
+  /* ---------- Columns ---------- */
+  .cols{
+    display:grid; grid-template-columns: 178px 1fr 206px; gap:10px;
+    padding: 12px; align-items:start;
+  }
+  @media (max-width: 720px){ .cols{ grid-template-columns: 1fr; } }
+
+  /* ---------- Boxes ---------- */
+  .box{ border:1px solid var(--tanline); background: var(--panel2); margin-bottom: 12px; }
+  .box > .bar{
+    font-weight:bold; text-transform: uppercase; font-size:11px; padding: 4px 8px;
+    letter-spacing:.3px;
+  }
+  .box.green > .bar{ background: linear-gradient(var(--band2), var(--band)); color:#fff; }
+  .box.gold  > .bar{ background: linear-gradient(var(--gold2), var(--gold)); color:#5c4a12; border-bottom:1px solid #caa322; }
+  .box .in{ padding: 8px; }
+
+  /* link lists (sidebar) */
+  .llist{ list-style:none; margin:0; padding:0; }
+  .llist li{ padding: 3px 0 3px 15px; position:relative; border-bottom:1px dotted var(--tanline); }
+  .llist li:last-child{ border-bottom:none; }
+  .llist li::before{ content:"●"; position:absolute; left:0; top:2px; color:var(--red); font-size:8px; }
+  .llist li.fresh::before{ content:"★"; color: var(--band2); font-size:10px; top:1px; }
+  .llist a{ font-weight:bold; }
+  .more{ display:block; text-align:right; font-style:italic; color:var(--linkred); font-weight:bold; margin-top:5px; }
+
+  .joinbox{ text-align:center; background: var(--panel2); border:1px solid var(--tanline); padding:10px; margin-bottom:12px; }
+  .joinbox .jbtn{
+    display:inline-block; background: linear-gradient(var(--red2), var(--red)); color:#fff;
+    font-weight:bold; text-transform:uppercase; text-decoration:none; padding:6px 16px;
+    border-radius:5px; border:1px solid #7a1d0c; font-size:11px;
+  }
+  .joinbox .jbtn:hover{ color:#fff; background:var(--red2); }
+  .joinbox .kw{ font-size:10px; color:var(--sub); margin-top:7px; }
+  .joinbox .kw b{ color:var(--band); }
+
+  /* ---------- Center column ---------- */
+  .csec{ margin-bottom: 16px; }
+  .csec > h2{
+    font-size: 15px; color: var(--band); margin: 0 0 6px; text-transform:uppercase;
+    border-bottom: 2px solid var(--band2); padding-bottom: 3px; letter-spacing:.3px;
+  }
+  .csec > h2 .leaf{ color: var(--red); }
+  #spotlight h2{ color: var(--red); border-color: var(--red); font-size: 20px; letter-spacing:-.3px; }
+
+  .spot{ display:flex; gap:12px; align-items:flex-start; }
+  .poster{
+    flex:0 0 150px; border:2px solid var(--band); background: linear-gradient(160deg,#7fa53a,#3f5c16);
+    color:#f4f7e2; padding:10px; text-align:center; border-radius:3px;
+  }
+  @media (max-width:420px){ .spot{ flex-direction:column; } .poster{ flex-basis:auto; width:100%; } }
+  .poster .em{ font-size:40px; line-height:1; }
+  .poster .pt{ font-weight:900; text-transform:uppercase; font-size:12px; margin-top:6px; }
+  .poster .ps{ font-size:9px; color:#d5e6ac; margin-top:2px; }
+  .poster .loop{ margin-top:8px; border-top:1px dashed #a9c574; padding-top:6px; font-size:10px; text-align:left; }
+  .poster .loop b{ color:#fff; }
+  .spot p{ margin:0 0 6px; }
+  .spot .lead b{ color: var(--red); }
+
+  .roles{ list-style:none; margin:6px 0 0; padding:0; }
+  .roles li{ padding:4px 0 4px 16px; position:relative; border-bottom:1px dotted var(--tanline); }
+  .roles li::before{ content:"»"; position:absolute; left:2px; color:var(--band2); font-weight:bold; }
+  .roles b{ color: var(--band); }
+
+  /* reading path list */
+  .plist{ list-style:none; margin:0; padding:0; }
+  .plist li{ padding: 6px 0; border-bottom:1px dotted var(--tanline); }
+  .plist .star{ color: var(--red); font-weight:bold; }
+  .ptag{
+    display:inline-block; font-size:9px; font-weight:bold; color:#fff; background:var(--band2);
+    padding:1px 5px; border-radius:3px; margin-right:5px; vertical-align:1px; text-transform:uppercase;
+  }
+  .ptag.a{ background:#5a7a1e; } .ptag.b{ background:#b57e15; }
+  .ptag.c{ background:#7a4b96; } .ptag.d{ background:#2c6e8f; }
+  .plist .ttl{ font-weight:bold; }
+  .plist .au{ color: var(--sub); font-size:10px; }
+  .plist .why{ margin:2px 0; }
+  .plist .doi a{ font-size:10px; color: var(--linkred); }
+
+  /* poll */
+  .poll{ background: var(--panel); border:1px solid var(--tanline); padding:8px; }
+  .poll p{ margin:0 0 6px; font-style:italic; font-weight:bold; }
+  .poll label{ display:block; padding:2px 0; cursor:pointer; }
+  .poll .vote{
+    margin-top:6px; background:linear-gradient(var(--red2),var(--red)); color:#fff; border:1px solid #7a1d0c;
+    font-family:inherit; font-weight:bold; padding:3px 12px; border-radius:4px; cursor:pointer; text-transform:uppercase; font-size:10px;
+  }
+
+  /* right column area panels */
+  .box.gold .atitle{ font-weight:bold; color: var(--band); font-size:12px; }
+  .box.gold .adesc{ margin:3px 0 5px; }
+  .box.gold .aq{ list-style:none; margin:0 0 5px; padding:0; }
+  .box.gold .aq li{ padding-left:12px; position:relative; }
+  .box.gold .aq li::before{ content:"›"; position:absolute; left:0; color:var(--red); font-weight:bold; }
+  .box.gold .pap{ border-top:1px dotted var(--tanline); padding-top:5px; font-size:10px; color:var(--sub); }
+  .box.gold .pap b{ color:var(--ink); }
+
+  /* ---------- Glossary strip ---------- */
+  .glossary{ padding: 0 12px 14px; }
+  .glossary h2{
+    font-size: 13px; color: var(--band); text-transform:uppercase; border-bottom:2px solid var(--band2);
+    padding-bottom:3px; margin:0 0 8px;
+  }
+  .gterms{ display:grid; grid-template-columns: 1fr 1fr; gap:4px 20px; }
+  @media (max-width:560px){ .gterms{ grid-template-columns:1fr; } }
+  .gterms dt{ font-weight:bold; color:var(--ink); }
+  .gterms dd{ margin:0 0 6px; color:var(--sub); }
+
+  /* ---------- Footer ---------- */
+  .footnav{
+    background: linear-gradient(var(--band2), var(--band)); color:#fff; text-align:center;
+    padding: 8px 10px; font-weight:bold; text-transform:uppercase; font-size:10px;
+  }
+  .footnav a{ color:#fbe9a8; text-decoration:none; }
+  .footnav a:hover{ text-decoration:underline; color:#fff; }
+  .footnav .sep{ color:#96a862; }
+  .foot-links{ background: var(--nav); color:#cdd7a4; text-align:center; padding:8px 12px; font-size:10px; }
+  .foot-links a{ color:#e7dE9f; }
+  .copyright{ background:#2c3a10; color:#9aa877; text-align:center; padding:8px 12px; font-size:9px; line-height:1.5; }
+  .copyright b{ color:#c3cf99; }
+</style>
+
+<div class="site">
+
+  <!-- MASTHEAD -->
+  <div class="masthead">
+    <div class="top-links">
+      <a href="https://doi.org/10.1111/tpj.15144" target="_blank" rel="noopener">What is the Green Hub?</a> ::
+      <a href="https://www.bio.lmu.de/de/forschung/verbundprojekte/sonderforschungsbereich-trr-175/publikationen/" target="_blank" rel="noopener">Publications</a> ::
+      <a href="https://gepris.dfg.de/gepris/projekt/270050988?language=en" target="_blank" rel="noopener">DFG Record</a> ::
+      <a href="https://www.bio.lmu.de/de/forschung/verbundprojekte/sonderforschungsbereich-trr-175/" target="_blank" rel="noopener">Join Now!</a> <b style="color:#fbe9a8">It's Green!</b>
+    </div>
+    <div class="brand-row">
+      <div class="brand">
+        <div class="b1"><span class="leaf">🌿</span> <span class="g">Green</span><span class="h">Hub</span></div>
+        <div class="b2">tr175&nbsp;.com</div>
+      </div>
+      <div class="tagline">Central Coordinator of Acclimation in Plants
+        <small>DFG Transregio 175 &middot; Munich &middot; Kaiserslautern &middot; Berlin/Golm &middot; Bielefeld</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <nav class="tabs">
+    <a class="tab active" href="#spotlight">Home</a>
+    <a class="tab" href="#idea">The Idea</a>
+    <a class="tab" href="#areas">Areas</a>
+    <a class="tab" href="#reading">Reading</a>
+    <a class="tab" href="#glossary">Glossary</a>
+    <a class="tab" href="https://www.bio.lmu.de/de/forschung/verbundprojekte/sonderforschungsbereich-trr-175/" target="_blank" rel="noopener">Join</a>
+  </nav>
+
+  <!-- SUBNAV -->
+  <div class="subnav">
+    <a href="#area-a">Area A</a><span class="sep">|</span>
+    <a href="#area-b">Area B</a><span class="sep">|</span>
+    <a href="#area-c">Area C</a><span class="sep">|</span>
+    <a href="#area-d">Area D</a><span class="sep">|</span>
+    <a href="#area-z">Service Z</a>
+    <a class="help" href="#glossary">Help?</a>
+  </div>
+
+  <div class="curtain" aria-hidden="true"></div>
+
+  <!-- SEARCH ROW -->
+  <div class="searchrow">
+    <label for="jump">Jump to Section:</label>
+    <select id="jump" aria-label="Jump to a section">
+      <option value="">&gt; Go to Section</option>
+      <option value="#spotlight">Spotlight — The Big Idea</option>
+      <option value="#idea">Why a chloroplast is a hub</option>
+      <option value="#reading">The Reading Path</option>
+      <option value="#areas">The Four Research Areas</option>
+      <option value="#glossary">Glossary</option>
+    </select>
+    <span class="kw">Keyword: <b>TRR 175</b></span>
+  </div>
+
+  <!-- 3 COLUMNS -->
+  <div class="cols">
+
+    <!-- LEFT -->
+    <div class="col-left">
+      <div class="box green">
+        <div class="bar">Read First</div>
+        <div class="in">
+          <ul class="llist">
+            <li class="fresh"><a href="https://doi.org/10.1111/tpj.15144" target="_blank" rel="noopener">The Green Hub Consortium</a><br><span style="color:var(--sub)">Kleine et al. 2021</span></li>
+            <li class="fresh"><a href="https://doi.org/10.1016/j.tplants.2021.12.004" target="_blank" rel="noopener">Chloroplasts vs. Light &amp; Heat</a><br><span style="color:var(--sub)">Schwenkert et al. 2022</span></li>
+          </ul>
+          <a class="more" href="#reading">more...</a>
+        </div>
+      </div>
+
+      <div class="box green">
+        <div class="bar">By Area</div>
+        <div class="in">
+          <ul class="llist">
+            <li><a href="#area-a">A &middot; Gene expression</a></li>
+            <li><a href="#area-b">B &middot; Metabolism</a></li>
+            <li><a href="#area-c">C &middot; Signalling</a></li>
+            <li><a href="#area-d">D &middot; Data &amp; models</a></li>
+            <li><a href="#area-z">Z &middot; Shared core</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="box green">
+        <div class="bar">Model Organisms</div>
+        <div class="in">
+          <ul class="llist">
+            <li><i>Arabidopsis</i></li>
+            <li>Tobacco</li>
+            <li><i>Chlamydomonas</i></li>
+            <li>Camelina</li>
+            <li>Chlorella</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="box green">
+        <div class="bar">Top Terms</div>
+        <div class="in">
+          <ul class="llist">
+            <li><a href="#glossary">Acclimation</a></li>
+            <li><a href="#glossary">Retrograde signalling</a></li>
+            <li><a href="#glossary">Tetrapyrrole</a></li>
+            <li><a href="#glossary">Proteostasis</a></li>
+            <li><a href="#glossary">GUN pathway</a></li>
+          </ul>
+          <a class="more" href="#glossary">more...</a>
+        </div>
+      </div>
+
+      <div class="joinbox">
+        <a class="jbtn" href="https://www.bio.lmu.de/de/forschung/verbundprojekte/sonderforschungsbereich-trr-175/" target="_blank" rel="noopener">Join Now!</a>
+        <div class="kw">DFG Keyword:<br><b>Transregio 175</b></div>
+      </div>
+    </div>
+
+    <!-- CENTER -->
+    <div class="col-center">
+
+      <div class="csec" id="spotlight">
+        <h2><span class="leaf">🌿</span> Spotlight</h2>
+        <div class="spot">
+          <div class="poster">
+            <div class="em">🌿</div>
+            <div class="pt">The Chloroplast</div>
+            <div class="ps">now showing in every green cell</div>
+            <div class="loop">
+              <b>Light &amp; Temp</b> ↓<br>
+              <b>Chloroplast</b> (senses &amp; is changed) ↓<br>
+              Genes · Metabolism · Signals<br>
+              <span style="color:#d5e6ac">sensor ⟳ target</span>
+            </div>
+          </div>
+          <div class="spot-text">
+            <p class="lead"><b>Acclimation in Plants.</b> The Green Hub is a research consortium built on one idea: the <b>chloroplast</b> is the cell's central coordinator for <i>acclimation</i> — how a plant adjusts to shifting light and temperature within its own lifetime.</p>
+            <p>It's both the <b>sensor</b> and the <b>target</b>. This page is your ticket in — no need to sit through all 250 papers.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="csec" id="idea">
+        <h2><span class="leaf">🌿</span> Feature :: Why It's a "Hub"</h2>
+        <p>Acclimation is <i>reversible</i> retuning — not evolution over generations, but a plant adjusting over minutes to days. The chloroplast plays three roles at once:</p>
+        <ul class="roles">
+          <li><b>Sensor —</b> photosynthesis is so light/temperature-sensitive that stress often registers here first (redox, ions, metabolites).</li>
+          <li><b>Target —</b> to keep working under cold, heat or excess light, it rebuilds its own machinery — proteins, membranes, pigments, transporters.</li>
+          <li><b>Coordinator —</b> it signals the nucleus (<i>retrograde signalling</i>) to change which genes the whole cell switches on.</li>
+        </ul>
+      </div>
+
+      <div class="csec" id="reading">
+        <h2><span class="leaf">🌿</span> News :: The Reading Path</h2>
+        <p><b>Start with the two ★ papers. Then read one review from your area.</b> That's a real week-one plan.</p>
+        <ul class="plist">
+          <li>
+            <span class="star">★</span> <span class="ttl">Acclimation in plants — the Green Hub consortium</span>
+            <div class="au">Kleine, Nägele, Neuhaus, … Leister (2021) · Plant J 106: 23–40</div>
+            <div class="why">The single best entry point — the consortium describing itself.</div>
+            <div class="doi"><a href="https://doi.org/10.1111/tpj.15144" target="_blank" rel="noopener">doi:10.1111/tpj.15144</a> &middot; <a href="https://epub.ub.uni-muenchen.de/99591/1/The_Plant_Journal_-_2020_-_Kleine_-_Acclimation_in_plants_the_Green_Hub_consortium.pdf" target="_blank" rel="noopener">free PDF</a></div>
+          </li>
+          <li>
+            <span class="star">★</span> <span class="ttl">Chloroplasts are key players to cope with light and temperature stress</span>
+            <div class="au">Schwenkert, Fernie, Geigenberger, … Neuhaus (2022) · Trends Plant Sci 27: 577–587</div>
+            <div class="why">The best plain-English companion to the consortium paper.</div>
+            <div class="doi"><a href="https://doi.org/10.1016/j.tplants.2021.12.004" target="_blank" rel="noopener">doi:10.1016/j.tplants.2021.12.004</a></div>
+          </li>
+          <li>
+            <span class="ptag a">Area A</span><span class="ttl">Plant Organellar RNA Maturation</span>
+            <div class="au">Small, Melonek, Bohne, Nickelsen, Schmitz-Linneweber (2023) · Plant Cell 35: 1727–1751</div>
+            <div class="doi"><a href="https://doi.org/10.1093/plcell/koad049" target="_blank" rel="noopener">doi:10.1093/plcell/koad049</a></div>
+          </li>
+          <li>
+            <span class="ptag b">Area B</span><span class="ttl">Chloroplast ion homeostasis — what do we know and where should we go?</span>
+            <div class="au">Kunz, Armbruster, Mühlbauer, de Vries, Davis (2024) · New Phytol 243: 543–559</div>
+            <div class="why">Lays out the open questions worth working on — great for choosing a direction.</div>
+            <div class="doi"><a href="https://doi.org/10.1111/nph.19661" target="_blank" rel="noopener">doi:10.1111/nph.19661</a> &middot; <a href="https://doi.org/10.1016/j.tplants.2020.12.005" target="_blank" rel="noopener">pigments: Wang &amp; Grimm 2021</a></div>
+          </li>
+          <li>
+            <span class="ptag c">Area C</span><span class="ttl">Retrograde signalling in plants: the GUN pathway and beyond</span>
+            <div class="au">Richter, Nägele, Grimm, Kaufmann, Schroda, Leister, Kleine (2023) · Plant Commun 4: 100511</div>
+            <div class="doi"><a href="https://doi.org/10.1016/j.xplc.2022.100511" target="_blank" rel="noopener">doi:10.1016/j.xplc.2022.100511</a></div>
+          </li>
+          <li>
+            <span class="ptag d">Area D</span><span class="ttl">PLANTdataHUB: a collaborative platform for FAIR data sharing</span>
+            <div class="au">Weil, Schneider, … Mühlhaus (2023) · Plant J</div>
+            <div class="why">Read this if you'll touch data — it's the infrastructure the consortium shares.</div>
+            <div class="doi"><a href="https://doi.org/10.1111/tpj.16474" target="_blank" rel="noopener">doi:10.1111/tpj.16474</a> &middot; <a href="https://doi.org/10.3389/fpls.2021.717958" target="_blank" rel="noopener">background: Krantz 2021</a></div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="csec">
+        <h2><span class="leaf">🌿</span> Quick Poll</h2>
+        <div class="poll">
+          <p>Which area fits you best?</p>
+          <label><input type="radio" name="poll"> A — Genes &amp; gene expression</label>
+          <label><input type="radio" name="poll"> B — Metabolism &amp; transport</label>
+          <label><input type="radio" name="poll"> C — Signalling</label>
+          <label><input type="radio" name="poll"> D — Data &amp; modelling</label>
+          <button class="vote" type="button" onclick="document.getElementById('areas').scrollIntoView()">See the areas →</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="col-right" id="areas">
+
+      <div class="box gold" id="area-a">
+        <div class="bar">Area A</div>
+        <div class="in">
+          <div class="atitle">Genetic Modulators</div>
+          <div class="adesc">Chloroplast gene expression — which of its own genes are read &amp; translated under stress.</div>
+          <ul class="aq">
+            <li>How is translation tuned to stress?</li>
+            <li>How are RNAs processed &amp; edited?</li>
+            <li>How are ribosomes built?</li>
+          </ul>
+          <div class="pap"><b>In the papers:</b> translation &amp; ribosome profiling, PPR/RNA-binding proteins, RNA editing, ribosome biogenesis.</div>
+        </div>
+      </div>
+
+      <div class="box gold" id="area-b">
+        <div class="bar">Area B</div>
+        <div class="in">
+          <div class="atitle">Metabolic Modulators</div>
+          <div class="adesc">Chloroplast metabolism &amp; transport — what it makes and what crosses its membranes.</div>
+          <ul class="aq">
+            <li>How do ions &amp; sugars cross the envelope?</li>
+            <li>How is chlorophyll synthesis controlled?</li>
+            <li>How does redox keep it in tune?</li>
+          </ul>
+          <div class="pap"><b>In the papers:</b> ion homeostasis, sugar/nucleotide transporters, tetrapyrrole biosynthesis, thioredoxins.</div>
+        </div>
+      </div>
+
+      <div class="box gold" id="area-c">
+        <div class="bar">Area C</div>
+        <div class="in">
+          <div class="atitle">Signal Transduction</div>
+          <div class="adesc">How the chloroplast's status is communicated — to the nucleus and across the cell.</div>
+          <ul class="aq">
+            <li>How does the plastid signal the nucleus?</li>
+            <li>How do redox, ROS &amp; ions carry info?</li>
+            <li>How is high-light defence triggered?</li>
+          </ul>
+          <div class="pap"><b>In the papers:</b> retrograde/GUN signalling, redox &amp; ROS, Ca²⁺ &amp; jasmonate, anthocyanins.</div>
+        </div>
+      </div>
+
+      <div class="box gold" id="area-d">
+        <div class="bar">Area D</div>
+        <div class="in">
+          <div class="atitle">Data Mining &amp; Modelling</div>
+          <div class="adesc">The computational backbone — turning many datasets into shared, reusable models.</div>
+          <ul class="aq">
+            <li>How do we share data (FAIR)?</li>
+            <li>Can we model acclimation?</li>
+            <li>What makes analysis reproducible?</li>
+          </ul>
+          <div class="pap"><b>In the papers:</b> PLANTdataHUB, kinetic &amp; metabolic models, proteomics tools.</div>
+        </div>
+      </div>
+
+      <div class="box gold" id="area-z">
+        <div class="bar">Service Z</div>
+        <div class="in">
+          <div class="atitle">The Shared Core</div>
+          <div class="adesc">Central proteomics &amp; metabolomics (Z1) for every group — the shared instrument behind Areas A–D.</div>
+          <div class="pap"><b>Provides:</b> absolute protein quantification, subcellular fractionation, systems-level measurement.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- GLOSSARY -->
+  <div class="glossary" id="glossary">
+    <h2>Glossary :: Words You'll Hear On Day One</h2>
+    <dl class="gterms">
+      <dt>Acclimation</dt><dd>Adjusting to change (cold, heat, light) within a lifetime — reversible, not genetic evolution.</dd>
+      <dt>Chloroplast</dt><dd>The green organelle where photosynthesis happens; the "hub" of it all.</dd>
+      <dt>Retrograde signalling</dt><dd>Messages sent from the chloroplast to the nucleus to change which genes switch on.</dd>
+      <dt>Tetrapyrrole biosynthesis</dt><dd>The pathway that builds chlorophyll — tightly controlled, easily damaged.</dd>
+      <dt>Thylakoid</dt><dd>The internal membranes inside the chloroplast where the light reactions run.</dd>
+      <dt>Proteostasis</dt><dd>Keeping proteins made, folded and disposed of — the job of chaperones and proteases.</dd>
+      <dt>Ionome</dt><dd>The full set of ions (K⁺, Ca²⁺, Fe…) in a compartment; their balance shapes acclimation.</dd>
+      <dt>FAIR data</dt><dd>Findable, Accessible, Interoperable, Reusable — the standard behind Area D.</dd>
+      <dt>Arabidopsis / Chlamydomonas</dt><dd>The main models: a small flowering plant and a single-celled green alga.</dd>
+      <dt>GUN pathway</dt><dd>"Genomes uncoupled" — the best-studied retrograde route from plastid to nucleus.</dd>
+    </dl>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footnav">
+    <a href="#reading">reading</a> <span class="sep">|</span>
+    <a href="#areas">areas</a> <span class="sep">|</span>
+    <a href="#area-b">area picker</a> <span class="sep">|</span>
+    <a href="#glossary">glossary</a> <span class="sep">|</span>
+    <a href="https://www.bio.lmu.de/de/forschung/verbundprojekte/sonderforschungsbereich-trr-175/" target="_blank" rel="noopener">join</a>
+  </div>
+  <div class="foot-links">
+    <a href="https://doi.org/10.1111/tpj.15144" target="_blank" rel="noopener">About</a> |
+    <a href="https://www.bio.lmu.de/de/forschung/verbundprojekte/sonderforschungsbereich-trr-175/publikationen/" target="_blank" rel="noopener">Publications</a> |
+    <a href="https://gepris.dfg.de/gepris/projekt/270050988?language=en" target="_blank" rel="noopener">DFG Record</a> |
+    <a href="https://www.bio.lmu.de/de/forschung/verbundprojekte/sonderforschungsbereich-trr-175/" target="_blank" rel="noopener">Contact</a>
+  </div>
+  <div class="copyright">
+    &copy;2016&ndash;2026 by <b>The Green Hub</b><sup>TRR&nbsp;175</sup>. Unofficial newcomer's guide.
+    Research areas &amp; facts drawn from the official TRR&nbsp;175 site and Kleine et&nbsp;al. (2021).
+    Reading list selected from the consortium's own publications. Verify any DOI before citing. (v2.0 · retro)
+  </div>
+</div>
+
+<script>
+  document.getElementById('jump').addEventListener('change', function(){
+    if(!this.value) return;
+    var t = document.querySelector(this.value);
+    if(t) t.scrollIntoView({behavior:'smooth'});
+  });
+</script>
+</html>
