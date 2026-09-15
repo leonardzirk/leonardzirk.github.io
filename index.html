@@ -1956,6 +1956,10 @@
                     alt="Klipp Linding Lab" loading="lazy"></div>
             <p>Klipp Linding</p>
         </div>
+        <div id="colony-icon-desktop" class="desktop-icon" tabindex="0" role="button" aria-label="Open Colony 3D">
+            <div class="icon-image"><img src="colony-icon.png" alt="Colony 3D" loading="lazy"></div>
+            <p>Colony 3D</p>
+        </div>
         <div id="greenhub-icon-desktop" class="desktop-icon" tabindex="0" role="button" aria-label="Open Green Hub">
             <div class="icon-image"><img src="green-hub-icon.png" alt="Green Hub" loading="lazy"></div>
             <p>Green Hub</p>
@@ -1992,6 +1996,10 @@
                             src="https://ik.imagekit.io/ex6ksvxsvk/duolingo.png?updatedAt=1753447361224"
                             alt="Duolingo Icon" loading="lazy"></div>
                     <p>Duolingo</p>
+                </div>
+                <div id="colony-icon-mobile" class="mobile-icon" tabindex="0" role="button" aria-label="Open Colony 3D">
+                    <div class="icon-bg"><img src="colony-icon.png" alt="Colony 3D"></div>
+                    <p>Colony 3D</p>
                 </div>
                 <div id="greenhub-icon-mobile" class="mobile-icon" tabindex="0" role="button" aria-label="Open Green Hub">
                     <div class="icon-bg"><img src="green-hub-icon.png" alt="Green Hub"></div>
@@ -2088,6 +2096,9 @@
         <div class="window-content"></div>
     </div>
     <div id="tinder-swipe-window" class="window">
+        <div class="window-content"></div>
+    </div>
+    <div id="colony-window" class="window">
         <div class="window-content"></div>
     </div>
     <div id="greenhub-window" class="window">
@@ -2792,6 +2803,22 @@
                     </div>
                 </div>`;
 
+                // Colony 3D (embedded standalone page)
+                document.getElementById('colony-window').querySelector('.window-content').innerHTML = `
+                ${windowHeaderHTML('Colony 3D')}
+                <div class="window-body gh-body">
+                    <div class="gh-bar">
+                        <span class="gh-url">colony-3d.html</span>
+                        <button class="gh-popout" id="colony-popout" title="Open in a new tab">
+                            <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>Open in new tab
+                        </button>
+                    </div>
+                    <div class="gh-frame-wrap">
+                        <div class="gh-loading" id="colony-loading">Loading…</div>
+                        <iframe id="colony-iframe" title="Colony 3D" loading="lazy"></iframe>
+                    </div>
+                </div>`;
+
                 // Green Hub (embedded standalone page)
                 document.getElementById('greenhub-window').querySelector('.window-content').innerHTML = `
                 ${windowHeaderHTML('Green Hub')}
@@ -2827,29 +2854,26 @@
             // an iframe, so pages are rasterised to canvas with pdf.js instead.
             const PDFJS_VER = '3.11.174';
 
-            // ===== GREEN HUB (embedded page) =====
-            function setupGreenHub() {
-                const win = document.getElementById('greenhub-window');
-                const frame = win.querySelector('#gh-iframe');
-                const loading = win.querySelector('#gh-loading');
-                const popout = win.querySelector('#gh-popout');
-                const URL_PATH = 'green-hub-start-here.html';
+            // ===== EMBEDDED PAGE WINDOWS (Green Hub, Colony 3D) =====
+            function setupEmbeddedPage(winId, iframeId, loadingId, popoutId, urlPath) {
+                const win = document.getElementById(winId);
+                const frame = win.querySelector('#' + iframeId);
+                const loading = win.querySelector('#' + loadingId);
+                const popout = win.querySelector('#' + popoutId);
 
                 popout.addEventListener('click', () =>
-                    window.open(URL_PATH, '_blank', 'noopener,noreferrer'));
+                    window.open(urlPath, '_blank', 'noopener,noreferrer'));
 
                 frame.addEventListener('load', () => {
                     if (frame.getAttribute('src')) loading.style.display = 'none';
                 });
 
-                // Lazy-load the page only when the window is first opened
                 let loaded = false;
                 const obs = new MutationObserver(() => {
                     if (win.classList.contains('visible') && !loaded) {
                         loaded = true;
                         loading.style.display = 'flex';
-                        frame.src = URL_PATH;
-                        // if it refuses to embed (X-Frame-Options), nudge toward the pop-out
+                        frame.src = urlPath;
                         setTimeout(() => {
                             if (loading.style.display !== 'none') {
                                 loading.textContent = 'If nothing appears, use “Open in new tab”.';
@@ -3098,6 +3122,8 @@
                     'koplin-icon-desktop': 'koplin-window',
                     'koplin-icon-mobile': 'koplin-window',
                     'readme-desktop-icon': 'readme-desktop-window',
+                    'colony-icon-desktop': 'colony-window',
+                    'colony-icon-mobile': 'colony-window',
                     'greenhub-icon-desktop': 'greenhub-window',
                     'greenhub-icon-mobile': 'greenhub-window',
                     'duolingo-icon-desktop': 'duolingo-window',
@@ -3283,7 +3309,8 @@
             // ===== INITIALIZATION =====
             injectContent();
             setupPdfViewer();
-            setupGreenHub();
+            setupEmbeddedPage('greenhub-window','gh-iframe','gh-loading','gh-popout','green-hub-start-here.html');
+            setupEmbeddedPage('colony-window','colony-iframe','colony-loading','colony-popout','colony-3d.html');
             setupEventListeners();
             setupPagination();
             window.addEventListener('resize', handleResize);
