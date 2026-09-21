@@ -21,11 +21,12 @@
     background: var(--w95-teal);
     color: #000;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     padding: 16px;
-    min-height: 100%;
+    min-height: 100vh;
   }
+  @media (max-width: 640px) { body { padding: 8px; } }
   /* raised / sunken bevels */
   .raised {
     border-top: 2px solid var(--w95-light);
@@ -45,7 +46,10 @@
   .win {
     width: 100%;
     max-width: 720px;
-    height: min(92vh, 900px);
+    height: 92vh;              /* fallback */
+    height: 92dvh;            /* dynamic viewport, correct on mobile + iframe */
+    max-height: 900px;
+    min-height: 480px;        /* never collapse in an iframe with no height ctx */
     background: var(--w95-face);
     display: flex;
     flex-direction: column;
