@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instagram.exe — Seibert collection x Leo's Birthday</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --w95-face: #c0c0c0;
+    --w95-shadow: #808080;
+    --w95-dark: #000;
+    --w95-light: #fff;
+    --w95-blue: #000080;
+    --w95-teal: #008080;
+  }
+  html, body { height: 100%; }
+  body {
+    font-family: "MS Sans Serif", "Pixelated MS Sans Serif", Tahoma, Geneva, sans-serif;
+    font-size: 13px;
+    background: var(--w95-teal);
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    min-height: 100%;
+  }
+  /* raised / sunken bevels */
+  .raised {
+    border-top: 2px solid var(--w95-light);
+    border-left: 2px solid var(--w95-light);
+    border-right: 2px solid var(--w95-dark);
+    border-bottom: 2px solid var(--w95-dark);
+    box-shadow: inset 1px 1px 0 #dfdfdf, inset -1px -1px 0 var(--w95-shadow);
+  }
+  .sunken {
+    border-top: 2px solid var(--w95-dark);
+    border-left: 2px solid var(--w95-dark);
+    border-right: 2px solid var(--w95-light);
+    border-bottom: 2px solid var(--w95-light);
+    box-shadow: inset 1px 1px 0 var(--w95-shadow), inset -1px -1px 0 #dfdfdf;
+  }
+
+  .win {
+    width: 100%;
+    max-width: 720px;
+    height: min(92vh, 900px);
+    background: var(--w95-face);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Title bar */
+  .titlebar {
+    background: linear-gradient(90deg, #000080, #1084d0);
+    color: #fff;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 4px;
+    margin: 2px;
+    flex-shrink: 0;
+  }
+  .titlebar .ico { width: 16px; height: 16px; image-rendering: pixelated; border-radius: 3px; }
+  .titlebar .tt { flex: 1; font-size: 13px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .tb-btns { display: flex; gap: 2px; }
+  .tb-btn {
+    width: 18px; height: 16px;
+    background: var(--w95-face);
+    font-size: 11px; line-height: 12px;
+    font-weight: 700; color: #000;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-family: monospace;
+  }
+
+  /* Menu bar */
+  .menubar {
+    display: flex; gap: 2px;
+    padding: 2px 4px;
+    background: var(--w95-face);
+    border-bottom: 1px solid var(--w95-shadow);
+    flex-shrink: 0;
+  }
+  .menubar span { padding: 2px 8px; cursor: default; }
+  .menubar span:hover { background: var(--w95-blue); color: #fff; }
+  .menubar u { text-decoration: underline; }
+
+  /* Profile header */
+  .profile {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    padding: 14px 16px 10px;
+    flex-shrink: 0;
+  }
+  .avatar {
+    width: 78px; height: 78px; border-radius: 50%;
+    object-fit: cover; flex-shrink: 0;
+    image-rendering: auto;
+  }
+  .pf-right { flex: 1; }
+  .pf-handle { font-weight: 700; font-size: 15px; text-align: center; margin-bottom: 8px; }
+  .stats { display: flex; justify-content: space-around; text-align: center; margin-bottom: 8px; }
+  .stats b { display: block; font-size: 15px; }
+  .stats span { font-size: 12px; }
+  .followbtn {
+    width: 100%; padding: 6px; background: var(--w95-face);
+    font-weight: 700; cursor: pointer; text-align: center;
+    font-family: inherit; font-size: 13px;
+  }
+  .bio { padding: 0 16px 8px; flex-shrink: 0; }
+  .bio .co { font-weight: 700; }
+  .bio a { color: #0000ee; }
+
+  /* tab strip */
+  .tabs {
+    display: flex; gap: 4px; padding: 6px 8px; flex-shrink: 0;
+    border-top: 1px solid var(--w95-light);
+  }
+  .tab { flex: 1; text-align: center; padding: 5px; background: var(--w95-face); cursor: pointer; }
+
+  /* Grid */
+  .gridwrap {
+    flex: 1; min-height: 0;
+    margin: 0 6px 6px;
+    background: #fff;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+    padding: 3px;
+  }
+  @media (min-width: 560px) { .grid { grid-template-columns: repeat(4, 1fr); } }
+  .cell {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    background: #ddd;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  .cell img, .cell video {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .cell .play {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 26px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+    pointer-events: none;
+  }
+  .cell:hover img, .cell:hover video { opacity: 0.85; }
+
+  /* status bar */
+  .statusbar {
+    display: flex; gap: 6px; padding: 2px 4px; margin: 0 2px 2px;
+    font-size: 11px; flex-shrink: 0;
+  }
+  .statusbar .seg { padding: 2px 6px; flex: 1; }
+  .statusbar .seg:last-child { flex: 0 0 auto; }
+
+  /* Lightbox window */
+  .lb-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center; justify-content: center;
+    z-index: 100; padding: 16px;
+  }
+  .lb-overlay.open { display: flex; }
+  .lb-win {
+    background: var(--w95-face);
+    max-width: 94vw; max-height: 92vh;
+    display: flex; flex-direction: column;
+  }
+  .lb-body {
+    margin: 3px; background: #000;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .lb-body img, .lb-body video {
+    max-width: 88vw; max-height: 78vh; display: block;
+  }
+  .lb-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 4px 6px; gap: 8px; flex-shrink: 0;
+  }
+  .lb-nav button {
+    background: var(--w95-face); font-family: inherit; font-size: 12px;
+    padding: 3px 12px; cursor: pointer;
+  }
+  .lb-count { font-size: 12px; }
+  .raised, .sunken, .followbtn, .tab, .tb-btn, .lb-nav button {
+    /* apply bevel to interactive chrome */
+  }
+</style>
+</head>
+<body>
+  <div class="win raised">
+    <div class="titlebar">
+      <img class="ico" src="seibert-icon.png" alt="">
+      <span class="tt">Instagram.exe</span>
+      <span class="tb-btns">
+        <span class="tb-btn raised">_</span>
+        <span class="tb-btn raised">&#9633;</span>
+        <span class="tb-btn raised" onclick="history.length>1?history.back():window.close()">&#10005;</span>
+      </span>
+    </div>
+    <div class="menubar">
+      <span><u>F</u>ile</span><span><u>E</u>dit</span><span><u>V</u>iew</span>
+      <span><u>O</u>ptions</span><span><u>H</u>elp</span>
+    </div>
+
+    <div class="profile">
+      <img class="avatar sunken" src="seibert-icon.png" alt="Seibert collection">
+      <div class="pf-right">
+        <div class="stats">
+          <div><b id="postcount">0</b><span>posts</span></div>
+          <div><b>1</b><span>collection</span></div>
+          <div><b>&#8734;</b><span>memories</span></div>
+        </div>
+        <div class="followbtn raised">+ Follow</div>
+      </div>
+    </div>
+    <div class="bio">
+      <div class="co">Seibert collection x Leo&#39;s Birthday</div>
+      <div>A gift, archived. &#127874;</div>
+      <a href="https://leonardzirk.github.io/" target="_top">leonardzirk.github.io</a>
+    </div>
+
+    <div class="tabs">
+      <div class="tab sunken">&#9638;&#9638;&#9638;</div>
+      <div class="tab raised">&#9776;</div>
+      <div class="tab raised">&#9673;</div>
+    </div>
+
+    <div class="gridwrap sunken">
+      <div class="grid" id="grid"></div>
+    </div>
+
+    <div class="statusbar">
+      <span class="seg sunken" id="status">Ready</span>
+      <span class="seg sunken" id="statuscount"></span>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lb-overlay" id="lightbox">
+    <div class="lb-win raised">
+      <div class="titlebar">
+        <img class="ico" src="seibert-icon.png" alt="">
+        <span class="tt" id="lb-title">image</span>
+        <span class="tb-btns">
+          <span class="tb-btn raised" id="lb-close">&#10005;</span>
+        </span>
+      </div>
+      <div class="lb-body sunken" id="lb-body"></div>
+      <div class="lb-nav">
+        <button class="raised" id="lb-prev">&#8592; Back</button>
+        <span class="lb-count" id="lb-count"></span>
+        <button class="raised" id="lb-next">Next &#8594;</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const ASSETS = [{"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.32%20(3).jpeg?updatedAt=1789986266433", "name": "WhatsApp Image 2026-09-20 at 13.04.32 (3).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.44.jpeg?updatedAt=1789986266390", "name": "WhatsApp Image 2026-09-20 at 13.04.44.jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.49%20(1).jpeg?updatedAt=1789986266421", "name": "WhatsApp Image 2026-09-20 at 13.04.49 (1).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.48.jpeg?updatedAt=1789986266341", "name": "WhatsApp Image 2026-09-20 at 13.04.48.jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.49.jpeg?updatedAt=1789986266330", "name": "WhatsApp Image 2026-09-20 at 13.04.49.jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.49%20(2).jpeg?updatedAt=1789986266270", "name": "WhatsApp Image 2026-09-20 at 13.04.49 (2).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.49%20(5).jpeg?updatedAt=1789986266346", "name": "WhatsApp Image 2026-09-20 at 13.04.49 (5).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.49%20(4).jpeg?updatedAt=1789986266323", "name": "WhatsApp Image 2026-09-20 at 13.04.49 (4).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.46.jpeg?updatedAt=1789986266331", "name": "WhatsApp Image 2026-09-20 at 13.04.46.jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.46%20(1).jpeg?updatedAt=1789986266430", "name": "WhatsApp Image 2026-09-20 at 13.04.46 (1).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.33%20(2).jpeg?updatedAt=1789986266313", "name": "WhatsApp Image 2026-09-20 at 13.04.33 (2).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.44%20(1).jpeg?updatedAt=1789986266306", "name": "WhatsApp Image 2026-09-20 at 13.04.44 (1).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.32%20(1).jpeg?updatedAt=1789986266355", "name": "WhatsApp Image 2026-09-20 at 13.04.32 (1).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.31%20(1).jpeg?updatedAt=1789986266337", "name": "WhatsApp Image 2026-09-20 at 13.04.31 (1).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.31.jpeg?updatedAt=1789986266343", "name": "WhatsApp Image 2026-09-20 at 13.04.31.jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.39%20(1).jpeg?updatedAt=1789986266331", "name": "WhatsApp Image 2026-09-20 at 13.04.39 (1).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.26%20(1).jpeg?updatedAt=1789986265865", "name": "WhatsApp Image 2026-09-20 at 13.04.26 (1).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.26.jpeg?updatedAt=1789986265868", "name": "WhatsApp Image 2026-09-20 at 13.04.26.jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.33.jpeg?updatedAt=1789986265828", "name": "WhatsApp Image 2026-09-20 at 13.04.33.jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.49%20(3).jpeg?updatedAt=1789986265845", "name": "WhatsApp Image 2026-09-20 at 13.04.49 (3).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.32%20(4).jpeg?updatedAt=1789986265772", "name": "WhatsApp Image 2026-09-20 at 13.04.32 (4).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.39.jpeg?updatedAt=1789986265448", "name": "WhatsApp Image 2026-09-20 at 13.04.39.jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.32.jpeg?updatedAt=1789986265178", "name": "WhatsApp Image 2026-09-20 at 13.04.32.jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.33%20(1).jpeg?updatedAt=1789986265145", "name": "WhatsApp Image 2026-09-20 at 13.04.33 (1).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2010.36.46%20(2).jpeg?updatedAt=1789986265069", "name": "WhatsApp Image 2026-09-20 at 10.36.46 (2).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2013.04.32%20(2).jpeg?updatedAt=1789986265102", "name": "WhatsApp Image 2026-09-20 at 13.04.32 (2).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2010.36.47%20(2).jpeg?updatedAt=1789986265054", "name": "WhatsApp Image 2026-09-20 at 10.36.47 (2).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2010.36.47%20(3).jpeg?updatedAt=1789986264991", "name": "WhatsApp Image 2026-09-20 at 10.36.47 (3).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2010.36.45.jpeg?updatedAt=1789986264901", "name": "WhatsApp Image 2026-09-20 at 10.36.45.jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2010.36.46%20(3).jpeg?updatedAt=1789986264948", "name": "WhatsApp Image 2026-09-20 at 10.36.46 (3).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2010.36.46%20(1).jpeg?updatedAt=1789986264936", "name": "WhatsApp Image 2026-09-20 at 10.36.46 (1).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2010.36.47.jpeg?updatedAt=1789986264725", "name": "WhatsApp Image 2026-09-20 at 10.36.47.jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2010.36.47%20(4).jpeg?updatedAt=1789986264773", "name": "WhatsApp Image 2026-09-20 at 10.36.47 (4).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2010.36.46.jpeg?updatedAt=1789986264707", "name": "WhatsApp Image 2026-09-20 at 10.36.46.jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2010.36.47%20(1).jpeg?updatedAt=1789986264536", "name": "WhatsApp Image 2026-09-20 at 10.36.47 (1).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Image%202026-09-20%20at%2010.36.46%20(4).jpeg?updatedAt=1789986263711", "name": "WhatsApp Image 2026-09-20 at 10.36.46 (4).jpeg", "type": "image"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Video%202026-09-20%20at%2013.04.50.mp4?updatedAt=1789986266709", "name": "WhatsApp Video 2026-09-20 at 13.04.50.mp4", "type": "video"}, {"url": "https://ik.imagekit.io/b85jlqldz/Seibert%20collection%20x%20Leo's%20Birthday/WhatsApp%20Video%202026-09-20%20at%2013.04.51.mp4?updatedAt=1789986266490", "name": "WhatsApp Video 2026-09-20 at 13.04.51.mp4", "type": "video"}];
+  const grid = document.getElementById('grid');
+  const postcount = document.getElementById('postcount');
+  const statuscount = document.getElementById('statuscount');
+  postcount.textContent = ASSETS.length;
+  statuscount.textContent = ASSETS.length + ' item(s)';
+
+  ASSETS.forEach((a, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.tabIndex = 0;
+    cell.setAttribute('role', 'button');
+    cell.setAttribute('aria-label', 'Open ' + (a.name || ('item ' + (i+1))));
+    if (a.type === 'video') {
+      const v = document.createElement('video');
+      v.src = a.url + '#t=0.1';
+      v.muted = true; v.playsInline = true; v.preload = 'metadata';
+      cell.appendChild(v);
+      const play = document.createElement('div');
+      play.className = 'play'; play.textContent = '\u25B6';
+      cell.appendChild(play);
+    } else {
+      const img = document.createElement('img');
+      img.loading = 'lazy';
+      img.src = a.url;
+      img.alt = a.name || '';
+      cell.appendChild(img);
+    }
+    cell.addEventListener('click', () => openLightbox(i));
+    cell.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(i); }
+    });
+    grid.appendChild(cell);
+  });
+
+  // Lightbox
+  const lb = document.getElementById('lightbox');
+  const lbBody = document.getElementById('lb-body');
+  const lbTitle = document.getElementById('lb-title');
+  const lbCount = document.getElementById('lb-count');
+  let cur = 0;
+
+  function render() {
+    const a = ASSETS[cur];
+    lbBody.innerHTML = '';
+    if (a.type === 'video') {
+      const v = document.createElement('video');
+      v.src = a.url; v.controls = true; v.autoplay = true; v.playsInline = true;
+      lbBody.appendChild(v);
+    } else {
+      const img = document.createElement('img');
+      img.src = a.url; img.alt = a.name || '';
+      lbBody.appendChild(img);
+    }
+    lbTitle.textContent = a.name || ('item ' + (cur + 1));
+    lbCount.textContent = (cur + 1) + ' / ' + ASSETS.length;
+  }
+  function openLightbox(i) { cur = i; render(); lb.classList.add('open'); }
+  function closeLightbox() { lb.classList.remove('open'); lbBody.innerHTML = ''; }
+  function step(d) { cur = (cur + d + ASSETS.length) % ASSETS.length; render(); }
+
+  document.getElementById('lb-close').addEventListener('click', closeLightbox);
+  document.getElementById('lb-prev').addEventListener('click', () => step(-1));
+  document.getElementById('lb-next').addEventListener('click', () => step(1));
+  lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') step(-1);
+    if (e.key === 'ArrowRight') step(1);
+  });
+</script>
+</body>
+</html>

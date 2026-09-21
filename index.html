@@ -1956,6 +1956,10 @@
                     alt="Klipp Linding Lab" loading="lazy"></div>
             <p>Klipp Linding</p>
         </div>
+        <div id="seibert-icon-desktop" class="desktop-icon" tabindex="0" role="button" aria-label="Open Seibert gallery">
+            <div class="icon-image"><img src="seibert-icon.png" alt="Seibert gallery" loading="lazy"></div>
+            <p>Seibert</p>
+        </div>
         <div id="colony-icon-desktop" class="desktop-icon" tabindex="0" role="button" aria-label="Open Colony 3D">
             <div class="icon-image"><img src="colony-icon.png" alt="Colony 3D" loading="lazy"></div>
             <p>Colony 3D</p>
@@ -1996,6 +2000,10 @@
                             src="https://ik.imagekit.io/ex6ksvxsvk/duolingo.png?updatedAt=1753447361224"
                             alt="Duolingo Icon" loading="lazy"></div>
                     <p>Duolingo</p>
+                </div>
+                <div id="seibert-icon-mobile" class="mobile-icon" tabindex="0" role="button" aria-label="Open Seibert gallery">
+                    <div class="icon-bg"><img src="seibert-icon.png" alt="Seibert gallery"></div>
+                    <p>Seibert</p>
                 </div>
                 <div id="colony-icon-mobile" class="mobile-icon" tabindex="0" role="button" aria-label="Open Colony 3D">
                     <div class="icon-bg"><img src="colony-icon.png" alt="Colony 3D"></div>
@@ -2096,6 +2104,9 @@
         <div class="window-content"></div>
     </div>
     <div id="tinder-swipe-window" class="window">
+        <div class="window-content"></div>
+    </div>
+    <div id="seibert-window" class="window">
         <div class="window-content"></div>
     </div>
     <div id="colony-window" class="window">
@@ -2803,6 +2814,22 @@
                     </div>
                 </div>`;
 
+                // Seibert gallery (embedded standalone page)
+                document.getElementById('seibert-window').querySelector('.window-content').innerHTML = `
+                ${windowHeaderHTML('Seibert')}
+                <div class="window-body gh-body">
+                    <div class="gh-bar">
+                        <span class="gh-url">seibert.html</span>
+                        <button class="gh-popout" id="seibert-popout" title="Open in a new tab">
+                            <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>Open in new tab
+                        </button>
+                    </div>
+                    <div class="gh-frame-wrap">
+                        <div class="gh-loading" id="seibert-loading">Loading…</div>
+                        <iframe id="seibert-iframe" title="Seibert gallery" loading="lazy"></iframe>
+                    </div>
+                </div>`;
+
                 // Colony 3D (embedded standalone page)
                 document.getElementById('colony-window').querySelector('.window-content').innerHTML = `
                 ${windowHeaderHTML('Colony 3D')}
@@ -3122,6 +3149,8 @@
                     'koplin-icon-desktop': 'koplin-window',
                     'koplin-icon-mobile': 'koplin-window',
                     'readme-desktop-icon': 'readme-desktop-window',
+                    'seibert-icon-desktop': 'seibert-window',
+                    'seibert-icon-mobile': 'seibert-window',
                     'colony-icon-desktop': 'colony-window',
                     'colony-icon-mobile': 'colony-window',
                     'greenhub-icon-desktop': 'greenhub-window',
@@ -3311,6 +3340,7 @@
             setupPdfViewer();
             setupEmbeddedPage('greenhub-window','gh-iframe','gh-loading','gh-popout','green-hub-start-here.html');
             setupEmbeddedPage('colony-window','colony-iframe','colony-loading','colony-popout','colony-3d.html');
+            setupEmbeddedPage('seibert-window','seibert-iframe','seibert-loading','seibert-popout','seibert.html');
             setupEventListeners();
             setupPagination();
             window.addEventListener('resize', handleResize);
